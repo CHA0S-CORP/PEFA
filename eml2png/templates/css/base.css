@@ -263,6 +263,49 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); font-si
 .gemini-list { margin: 6px 0 12px 20px; padding: 0; }
 .gemini-list li { margin-bottom: 4px; color: var(--text); }
 
+/* Gemini verdict banner */
+.gemini-verdict-banner {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; border-radius: 6px;
+    border: 1px solid; margin-bottom: 16px;
+}
+.gemini-verdict-icon { font-size: 20px; }
+.gemini-verdict-text { font-family: var(--mono); font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.gemini-confidence {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 4px; margin-left: auto;
+    letter-spacing: 0.5px;
+}
+
+/* Gemini executive summary */
+.gemini-summary {
+    background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 6px; padding: 16px 18px; margin-bottom: 16px;
+}
+.gemini-summary-label {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 2px; color: #a78bfa; margin-bottom: 8px;
+}
+.gemini-summary p { font-size: 14px; line-height: 1.75; }
+
+/* Gemini section cards */
+.gemini-section {
+    border: 1px solid var(--border); border-radius: 6px;
+    margin-bottom: 12px; overflow: hidden;
+}
+.gemini-section-header {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 1.5px; color: #a78bfa;
+    padding: 10px 16px; background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px;
+}
+.gemini-section-icon { font-size: 12px; }
+.gemini-section-body { padding: 14px 16px; }
+
+/* Gemini IOC items */
+.gemini-ioc-item { font-family: var(--mono); font-size: 12px; background: rgba(30,41,59,0.6); padding: 2px 6px; border-radius: 3px; }
+
 /* Scanline */
 body::before { content:''; position:fixed; top:0;left:0;right:0;bottom:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); pointer-events:none; z-index:5; }
 

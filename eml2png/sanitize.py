@@ -24,8 +24,6 @@ ALLOWED_TAGS = {
     "a", "img",
     # Legacy formatting (common in emails)
     "font", "center",
-    # Style (scoped inside iframe)
-    "style",
 }
 
 # Attributes allowed per-tag (or "*" for all tags)

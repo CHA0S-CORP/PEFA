@@ -208,16 +208,14 @@ class PageRenderer:
     {sender_html}
     <div>
         {auth_html}
+        {language_html}
     </div>
 </div>
 
 {links_html}
 {urgency_html}
 
-<div class="row-2">
-    {language_html}
-    {domain_html}
-</div>
+{domain_html}
 
 {att_html}
 {ip_html}

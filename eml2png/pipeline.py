@@ -1,0 +1,257 @@
+"""Analysis pipeline orchestrator and PNG rendering."""
+
+import os
+import tempfile
+from pathlib import Path
+
+from .analyzers import (
+    LinkAnalyzer,
+    SenderAnalyzer,
+    UrgencyAnalyzer,
+    AttachmentAnalyzer,
+    LanguageAnalyzer,
+)
+from .api import IPLookupClient, URLScanClient, MXToolboxClient, GeminiClient, WhoisClient
+from .constants import PRIVATE_IP_RE
+from .deps import require_playwright, sync_playwright
+from .highlighting import highlight_body
+from .parser import parse_eml
+from .renderers.page import PageRenderer
+from .scoring import calculate_threat_score
+
+
+def _safe_analyze(analyzer, parsed, label, default):
+    """Run an analyzer with error handling, returning default on failure."""
+    try:
+        return analyzer.analyze(parsed)
+    except Exception as e:
+        print(f"  \u26a0 {label} failed: {e}")
+        return default
+
+
+def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
+                 gemini_model: str = "gemini-2.5-flash") -> dict:
+    """Run all analysis modules and API lookups."""
+    print("  Analyzing links...")
+    links = _safe_analyze(LinkAnalyzer(), parsed, "Link analysis",
+                          {"links": [], "findings": []})
+
+    print("  Analyzing sender...")
+    sender = _safe_analyze(SenderAnalyzer(), parsed, "Sender analysis",
+                           {"from_display": "", "from_email": "", "from_domain": "",
+                            "return_path": "", "rp_domain": "", "reply_to": "",
+                            "flags": [], "findings": []})
+
+    print("  Scanning urgency patterns...")
+    urgency = _safe_analyze(UrgencyAnalyzer(), parsed, "Urgency analysis",
+                            {"matches": [], "positions": [], "unique_count": 0,
+                             "total_count": 0, "density": 0, "generic_greeting": False,
+                             "counter": {}})
+
+    print("  Checking attachments...")
+    att = _safe_analyze(AttachmentAnalyzer(), parsed, "Attachment analysis",
+                        {"attachments": []})
+
+    print("  Analyzing language...")
+    lang = _safe_analyze(LanguageAnalyzer(), parsed, "Language analysis",
+                         {"score": None, "findings": [], "issues": 0})
+
+    # IP
+    ips = IPLookupClient.extract_ips(parsed["received"])
+    source_ip = ips[0] if ips else ""
+    ip_data = None
+    if source_ip and do_api:
+        print(f"  Looking up IP: {source_ip}")
+        ip_data = IPLookupClient.lookup(source_ip)
+    elif source_ip:
+        ip_data = {"error": "API calls skipped"}
+
+    # Domain age
+    domain_age = {}
+    from_domain = sender.get("from_domain", "")
+    if from_domain and do_api:
+        print(f"  Checking domain age: {from_domain}")
+        domain_age = WhoisClient.lookup(from_domain)
+
+    domain_age_days = domain_age.get("age_days") if "error" not in domain_age else None
+
+    # urlscan.io
+    urlscan = {}
+    suspicious_links = [l for l in links.get("links", []) if l.get("flags")]
+    if suspicious_links and do_api and os.environ.get("URLSCAN_API_KEY"):
+        first_sus = suspicious_links[0]["href"]
+        print(f"  Querying urlscan.io: {first_sus[:60]}...")
+        urlscan = URLScanClient.lookup(first_sus)
+
+    # MXToolbox
+    mx_data = {}
+    if from_domain and do_api and os.environ.get("MXTOOLBOX_API_KEY"):
+        print(f"  Querying MXToolbox (SPF/DKIM/DMARC): {from_domain}")
+        mx_data = MXToolboxClient.lookup(from_domain)
+
+        if "error" not in mx_data:
+            auth = parsed["auth"]
+            for proto in ("spf", "dkim", "dmarc"):
+                mx_check = mx_data.get(proto, {})
+                if "error" in mx_check:
+                    continue
+                mx_status = mx_check.get("status", "")
+                if not auth.get(proto) and mx_status:
+                    auth[proto] = mx_status
+                if mx_status == "fail" and auth.get(proto, "").lower() == "pass":
+                    sender["findings"].append(
+                        f"MXToolbox {proto.upper()} check failed despite header claiming pass"
+                    )
+                    sender["flags"].append((f"MXTOOLBOX {proto.upper()} FAIL", "warning"))
+
+    # Hops
+    hops = IPLookupClient.parse_hops(parsed["received"])
+
+    # Geo-lookup all unique public hop IPs
+    ip_geo_map = {}
+    if do_api:
+        hop_ips = set()
+        for h in hops:
+            hip = h.get("ip", "")
+            if hip and not PRIVATE_IP_RE.match(hip):
+                hop_ips.add(hip)
+        for hip in hop_ips:
+            if hip == source_ip and ip_data and "error" not in ip_data:
+                ip_geo_map[hip] = ip_data
+            else:
+                print(f"  Looking up hop IP: {hip}")
+                ip_geo_map[hip] = IPLookupClient.lookup(hip)
+
+    # Threat score
+    print("  Calculating threat score...")
+    threat = calculate_threat_score(
+        parsed["auth"], sender, links, urgency, att, lang, ip_data, domain_age_days
+    )
+
+    # Highlighted body
+    print("  Highlighting body...")
+    highlighted = highlight_body(parsed["html_body"], urgency.get("positions", []), links)
+
+    # Gemini AI assessment
+    gemini_result = {}
+    if do_gemini:
+        print(f"  Querying Gemini ({gemini_model})...")
+        context = GeminiClient.build_context(parsed, {
+            "sender": sender, "links": links, "urgency": urgency,
+            "attachments": att, "language": lang, "threat": threat,
+            "ip_data": ip_data, "source_ip": source_ip, "domain_age": domain_age,
+        })
+        gemini_result = GeminiClient.query(context, model=gemini_model)
+        if "error" in gemini_result:
+            print(f"  \u26a0 Gemini error: {gemini_result['error']}")
+        else:
+            print("  \u2713 Gemini assessment received")
+            verdict = GeminiClient.parse_verdict(gemini_result)
+            if verdict == "phishing":
+                bump = 50
+                threat["score"] = min(100, threat["score"] + bump)
+                threat["factors"].append(("Gemini AI verdict: PHISHING", bump))
+                s = threat["score"]
+                if s >= 70: threat["level"] = "CRITICAL"
+                elif s >= 45: threat["level"] = "HIGH"
+                elif s >= 25: threat["level"] = "MEDIUM"
+                elif s >= 10: threat["level"] = "LOW"
+                else: threat["level"] = "CLEAN"
+                print(f"  \u26a0 Gemini says PHISHING \u2014 threat score bumped by +{bump} to {threat['score']}")
+            elif verdict == "suspicious":
+                bump = 25
+                threat["score"] = min(100, threat["score"] + bump)
+                threat["factors"].append(("Gemini AI verdict: SUSPICIOUS", bump))
+                s = threat["score"]
+                if s >= 70: threat["level"] = "CRITICAL"
+                elif s >= 45: threat["level"] = "HIGH"
+                elif s >= 25: threat["level"] = "MEDIUM"
+                elif s >= 10: threat["level"] = "LOW"
+                else: threat["level"] = "CLEAN"
+                print(f"  \u26a0 Gemini says SUSPICIOUS \u2014 threat score bumped by +{bump} to {threat['score']}")
+
+    return {
+        "links": links,
+        "sender": sender,
+        "urgency": urgency,
+        "attachments": att,
+        "language": lang,
+        "ip_data": ip_data,
+        "source_ip": source_ip,
+        "domain_age": domain_age,
+        "urlscan": urlscan,
+        "mxtoolbox": mx_data,
+        "hops": hops,
+        "ip_geo_map": ip_geo_map,
+        "threat": threat,
+        "highlighted_body": highlighted,
+        "gemini": gemini_result,
+    }
+
+
+def eml_to_png(
+    eml_path: str,
+    output_path: str = None,
+    width: int = 1000,
+    scale: float = 1.5,
+    do_api: bool = True,
+    emit_html: bool = False,
+    do_gemini: bool = False,
+    gemini_model: str = "gemini-2.5-flash",
+    playwright_ctx=None,
+):
+    require_playwright()
+
+    eml_path = Path(eml_path)
+    output_path = Path(output_path) if output_path else eml_path.with_suffix(".png")
+
+    print(f"\n{'='*60}")
+    print(f"  FILE: {eml_path.name}")
+    print(f"{'='*60}")
+
+    print("  Parsing email...")
+    parsed = parse_eml(str(eml_path))
+
+    analysis = run_analysis(parsed, do_api=do_api, do_gemini=do_gemini, gemini_model=gemini_model)
+
+    renderer = PageRenderer()
+
+    print("  Building infographic...")
+    html_static = renderer.build(parsed, analysis, interactive=False)
+
+    if emit_html:
+        html_interactive = renderer.build(parsed, analysis, interactive=True)
+        html_out = output_path.with_suffix(".html")
+        with open(html_out, "w", encoding="utf-8") as f:
+            f.write(html_interactive)
+        print(f"  \u2713 HTML: {html_out}")
+
+    with tempfile.NamedTemporaryFile(suffix=".html", delete=False, mode="w", encoding="utf-8") as tmp:
+        tmp.write(html_static)
+        tmp_path = tmp.name
+
+    try:
+        owns_browser = playwright_ctx is None
+        if owns_browser:
+            pw = sync_playwright().start()
+            browser = pw.chromium.launch()
+        else:
+            pw, browser = playwright_ctx
+
+        page = browser.new_page(viewport={"width": width, "height": 800}, device_scale_factor=scale)
+        page.goto(f"file://{tmp_path}", wait_until="networkidle")
+        page.screenshot(path=str(output_path), full_page=True)
+        page.close()
+
+        if owns_browser:
+            browser.close()
+            pw.stop()
+    finally:
+        Path(tmp_path).unlink(missing_ok=True)
+
+    score = analysis['threat']['score']
+    level = analysis['threat']['level']
+    print(f"  \u2713 PNG: {output_path}")
+    print(f"  \u2b21 THREAT SCORE: {score}/100 [{level}]")
+
+    return str(output_path)

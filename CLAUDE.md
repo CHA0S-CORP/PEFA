@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What This Is
 
-**eml2png** — a single-file Python CLI tool (`convert.py`) that converts `.eml` files into cyber-infographic PNGs and interactive HTML reports. It performs forensic analysis of phishing indicators including link analysis, sender spoofing detection, urgency language scanning, attachment threat assessment, authentication checks, delivery path tracing, domain age lookup, and an overall phishing threat score (0–100).
+**eml2png** — a Python CLI tool that converts `.eml` files into cyber-infographic PNGs and interactive HTML reports. It performs forensic analysis of phishing indicators including link analysis, sender spoofing detection, urgency language scanning, attachment threat assessment, authentication checks, delivery path tracing, domain age lookup, and an overall phishing threat score (0–100).
 
 ## Setup
 
@@ -16,13 +16,13 @@ playwright install chromium
 ## Usage
 
 ```bash
-python3 convert.py input.eml                          # PNG output
-python3 convert.py input.eml --html                    # also emit interactive HTML
-python3 convert.py input.eml --gemini                  # include Gemini AI assessment
-python3 convert.py input.eml --gemini-model gemini-2.5-pro
-python3 convert.py input.eml --no-api                  # skip all API calls
-python3 convert.py ./emails/ -o ./reports/             # batch mode
-python3 convert.py input.eml --width 1100 --scale 2   # custom viewport
+python3 -m eml2png input.eml                          # PNG output
+python3 -m eml2png input.eml --html                    # also emit interactive HTML
+python3 -m eml2png input.eml --gemini                  # include Gemini AI assessment
+python3 -m eml2png input.eml --gemini-model gemini-2.5-pro
+python3 -m eml2png input.eml --no-api                  # skip all API calls
+python3 -m eml2png ./emails/ -o ./reports/             # batch mode
+python3 -m eml2png input.eml --width 1100 --scale 2   # custom viewport
 ```
 
 ## Optional API Keys (env vars)
@@ -33,36 +33,41 @@ python3 convert.py input.eml --width 1100 --scale 2   # custom viewport
 
 ## Architecture
 
-The entire tool is in `convert.py` (~2180 lines), organized into these sections:
+The tool is organized as the `eml2png/` package with four subsystems:
 
-1. **Constants** (lines ~70–160): Suspicious TLDs, URL shorteners, dangerous extensions, urgency regex patterns, generic greetings, homoglyph mappings, known brand names for lookalike detection.
+### Data Flow
 
-2. **Email Parsing** (`parse_eml`, ~167): Parses `.eml` via Python's `email` module. Extracts headers, auth results (SPF/DKIM/DMARC), HTML/text body, inline images (CID replacement), and attachments with hashes.
+```
+.eml file → parser.py → pipeline.run_analysis() → PageRenderer.build() → Playwright → .png
+```
 
-3. **Analysis Modules** (~250–600):
-   - `analyze_links` — Extracts URLs from HTML, flags mismatches (display text vs href), URL shorteners, IP-based URLs, suspicious TLDs, brand lookalikes, punycode, javascript/data URIs.
-   - `analyze_sender` — Detects display name spoofing, return-path mismatches, reply-to mismatches, domain impersonation.
-   - `analyze_urgency` — Regex-based scan for social engineering language (28 patterns) and generic greetings.
-   - `analyze_attachments` — Flags dangerous extensions, macro-enabled files, double extensions, archives.
-   - `analyze_language` — Heuristic language quality scoring (mixed charsets, spacing, capitalization).
-   - `calculate_threat_score` — Weighted composite score (0–100) from all analysis modules.
+`pipeline.py` is the orchestrator. It calls all analyzers, API clients, scoring, and highlighting, then hands the result dict to `PageRenderer` which assembles HTML from widgets + CSS/JS templates, and Playwright screenshots it to PNG.
 
-4. **API Integrations** (~607–915): IP geolocation (ip-api.com), urlscan.io search, MXToolbox SPF/DKIM/DMARC validation, Gemini AI phishing assessment, WHOIS domain age lookup, delivery path hop parsing.
+### Analyzers (`analyzers/`)
 
-5. **IOC Linking** (~920–995): Generates VirusTotal and urlscan.io lookup links for URLs, domains, IPs, and email addresses.
+All extend `BaseAnalyzer` (ABC) with a single `analyze(parsed: dict) -> dict` method. Five implementations: `LinkAnalyzer`, `SenderAnalyzer`, `UrgencyAnalyzer`, `AttachmentAnalyzer`, `LanguageAnalyzer`. Each returns a plain dict (not dataclasses) for backwards compatibility with the rendering layer.
 
-6. **Body Highlighting** (`highlight_body`, ~1001): Injects CSS/JS into the email HTML body to visually highlight urgency keywords and flag suspicious links with interactive popups.
+### API Clients (`api/`)
 
-7. **HTML Template** (~1150–1895): Widget-based infographic renderer. Each analysis section has a dedicated `*_html()` function that returns an HTML widget. `build_full_html()` assembles all widgets into a complete dark-themed page with CSS variables, gauge animations, and grid layout.
+Four extend `BaseAPIClient` (ABC) which provides static `_get()`/`_post()` HTTP helpers: `IPLookupClient`, `URLScanClient`, `MXToolboxClient`, `GeminiClient`. `WhoisClient` is standalone (uses `python-whois` library, not `requests`). All clients check for their dependency/API key and return `{"error": ...}` on failure.
 
-8. **Render Pipeline** (~1900–2120): `run_analysis()` orchestrates all analysis modules and API calls. `eml_to_png()` builds HTML and uses Playwright to screenshot it as PNG. Batch mode reuses a single browser instance.
+### Renderers (`renderers/`)
 
-9. **CLI** (`main`, ~2127): argparse-based entry point with single-file and directory batch modes.
+12 widget classes extend `Widget` (ABC) with `nav_id`/`nav_label`/`nav_group` attributes and `render(analysis, parsed) -> str`. `PageRenderer` owns the widget list, loads CSS/JS via `importlib.resources` from `templates/`, and assembles the full HTML page. Interactive mode adds collapse/expand, gauge animations, copy-to-clipboard, tooltips, and section navigation.
 
-## Key Design Patterns
+### Key Modules
 
-- All optional dependencies (`requests`, `beautifulsoup4`, `python-whois`) are guarded by try/except imports with graceful fallbacks.
-- Playwright is the only hard dependency beyond stdlib (used for HTML-to-PNG rendering).
-- API calls are controlled by `--no-api` flag; each API integration checks for its own env var.
-- Threat score is a weighted composite: auth (max 20) + sender (max 20) + links (max 25) + urgency (max 15) + attachments (max 10) + language (max 5) + domain age (max 10). Gemini can bump by +25 or +50.
-- The HTML output uses CSS custom properties (`--bg`, `--accent`, etc.) for consistent theming.
+- **`deps.py`** — Centralized `try/except` imports for optional dependencies (`requests`, `beautifulsoup4`, `python-whois`). All other modules import from here.
+- **`constants.py`** — Suspicious TLDs, URL shorteners, dangerous extensions, urgency regex patterns, homoglyph map, known brand names, private IP regex.
+- **`scoring.py`** — Weighted composite threat score: auth (max 20) + sender (max 20) + links (max 25) + urgency (max 15) + attachments (max 10) + language (max 5) + domain age (max 10). Gemini can bump +25/+50.
+- **`highlighting.py`** — Injects CSS/JS into the email HTML body to highlight urgency keywords and flag suspicious links with interactive popups.
+- **`templates/`** — CSS and JS extracted as real files, loaded via `importlib.resources`. `base.css` has core dark theme; `interactive.css` adds nav/tooltips/responsive; `interactive.js` handles widget interactivity; `navigation.js` handles scroll-spy.
+
+### Design Decisions
+
+- All optional dependencies guarded in `deps.py` with graceful fallbacks (e.g., BeautifulSoup → regex fallback for HTML parsing).
+- Playwright is the only hard dependency beyond stdlib.
+- API calls controlled by `--no-api` flag; each integration checks its own env var.
+- `parse_eml()`, `calculate_threat_score()`, `highlight_body()` are free functions (stateless, no polymorphism benefit).
+- Batch mode reuses a single Playwright browser instance via `playwright_ctx` parameter.
+- `models.py` defines typed dataclasses but the pipeline currently uses plain dicts for widget compatibility.

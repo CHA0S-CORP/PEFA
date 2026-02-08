@@ -159,6 +159,7 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); font-si
 .hop-arrow { color:var(--accent); margin:0 6px; font-family:var(--mono); }
 .hop-to { color:var(--text); font-weight:500; }
 .hop-ip { font-family:var(--mono); font-size:11px; color:var(--amber); margin-left:6px; }
+.hop-resolved { font-family:var(--mono); font-size:10px; color:var(--text-dim); margin-left:4px; }
 .hop-date { font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:2px; }
 
 /* Country flags */
@@ -173,25 +174,33 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); font-si
 .env-val { font-size:13px; color:var(--text); word-break:break-word; }
 
 /* Email body */
-.body-label { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:2px; color:var(--text-muted); padding:10px 0 8px; }
+.body-widget { overflow:visible; }
 .body-section {
     background: linear-gradient(168deg, #1a1f2e 0%, #151a27 40%, #121620 100%);
-    border: 1px solid var(--border-bright);
-    border-radius: 10px;
     padding: 8px;
     color: #c9d1d9;
     font-size: 14px;
     line-height: 1.7;
     overflow: hidden;
     position: relative;
-    box-shadow: inset 0 1px 0 rgba(255,255,255,0.03), 0 4px 24px rgba(0,0,0,0.3);
 }
-.body-section::before {
-    content: '';
-    position: absolute;
-    top: 0; left: 0; right: 0;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(34,211,238,0.2), transparent);
+.body-highlight-summary {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding: 8px 18px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.4);
+}
+.body-hl-badge {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 1px; padding: 3px 10px; border-radius: 4px;
+}
+.body-hl-amber {
+    background: rgba(251,191,36,0.12); color: #fbbf24;
+    border: 1px solid rgba(251,191,36,0.25);
+}
+.body-hl-red {
+    background: rgba(248,113,113,0.15); color: #f87171;
+    border: 1px solid rgba(248,113,113,0.3);
 }
 .body-section iframe { width:100%; min-height:200px; border:none; display:block; background:transparent; }
 /* Fallback styles for non-iframe body (e.g. plain text) */

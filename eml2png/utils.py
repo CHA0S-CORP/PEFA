@@ -75,13 +75,26 @@ def convert_to_sender_timezone(date_header: str, timezone_name: str):
 
 
 def resolve_hostname(hostname: str) -> str:
-    """Resolve a hostname to its first IPv4 address via DNS. Returns '' on failure."""
+    """Resolve a hostname to an IP address via DNS (tries IPv4, then IPv6). Returns '' on failure."""
     import socket
     import re
-    if not hostname or re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", hostname):
+    if not hostname:
         return ""
+    # Already an IP address
+    if re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", hostname):
+        return ""
+    if re.match(r"^[0-9a-fA-F:]+$", hostname) and ":" in hostname:
+        return ""
+    # Try IPv4 first
     try:
         results = socket.getaddrinfo(hostname, None, socket.AF_INET, socket.SOCK_STREAM)
+        if results:
+            return results[0][4][0]
+    except (socket.gaierror, OSError, IndexError):
+        pass
+    # Fall back to IPv6
+    try:
+        results = socket.getaddrinfo(hostname, None, socket.AF_INET6, socket.SOCK_STREAM)
         if results:
             return results[0][4][0]
     except (socket.gaierror, OSError, IndexError):

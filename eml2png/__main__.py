@@ -1,4 +1,4 @@
-"""Entry point for `python -m eml2png`."""
+"""Entry point for `python -m pefa`."""
 
 from .cli import main
 

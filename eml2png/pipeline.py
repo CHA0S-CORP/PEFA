@@ -164,27 +164,34 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
                 ip_geo_map[hip] = IPLookupClient.lookup(hip)
 
         # DNS-resolve hop hostnames and geo-locate for country flags
+        host_ip_map = {}
         resolved_cache = {}
         for h in hops:
+            hop_ip = h.get("ip", "")
             for field in ("from", "by"):
                 hostname = h.get(field, "")
                 if not hostname or hostname == "—" or hostname in host_geo_map:
                     continue
+                # Try DNS resolution first
                 if hostname in resolved_cache:
                     rip = resolved_cache[hostname]
                 else:
                     rip = resolve_hostname(hostname)
                     resolved_cache[hostname] = rip
+                # Fall back to the hop's own IP from the header
+                if not rip and hop_ip and not PRIVATE_IP_RE.match(hop_ip):
+                    rip = hop_ip
                 if not rip or PRIVATE_IP_RE.match(rip):
                     continue
+                host_ip_map[hostname] = rip
                 if rip in ip_geo_map:
-                    host_geo_map[hostname] = ip_geo_map[rip]
+                    geo = ip_geo_map[rip]
                 else:
                     _log(f"Resolving {hostname} → {rip}")
                     geo = IPLookupClient.lookup(rip)
                     ip_geo_map[rip] = geo
-                    if "error" not in geo:
-                        host_geo_map[hostname] = geo
+                if "error" not in geo:
+                    host_geo_map[hostname] = geo
 
     # Threat score
     _log("Calculating threat score...")
@@ -274,6 +281,7 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
         "hops": hops,
         "ip_geo_map": ip_geo_map,
         "host_geo_map": host_geo_map,
+        "host_ip_map": host_ip_map,
         "threat": threat,
         "highlighted_body": highlighted,
         "gemini": gemini_result,

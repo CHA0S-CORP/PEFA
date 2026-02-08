@@ -1,4 +1,4 @@
-"""eml2png — Phishing Email Forensic Analyzer."""
+"""pefa — Phishing Email Forensic Analyzer."""
 
 __version__ = "1.0.0"
 

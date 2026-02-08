@@ -26,7 +26,7 @@ def _build_upload_page():
 <html>
 <head>
 <meta charset="utf-8">
-<title>eml2png — Phishing Analyzer</title>
+<title>Phishing Analyzer</title>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 <style>
 * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -147,7 +147,7 @@ body {
 </style>
 </head>
 <body>
-<div class="topbar">&#9650; EML2PNG PHISHING ANALYZER</div>
+<div class="topbar">&#9650; PHISHING ANALYZER</div>
 <div class="card">
     <h2>UPLOAD .EML FILE</h2>
     <p>Drag &amp; drop or browse to analyze a phishing email</p>
@@ -228,7 +228,7 @@ def _build_error_page(message):
     return f"""<!DOCTYPE html>
 <html>
 <head>
-<meta charset="utf-8"><title>Error — eml2png</title>
+<meta charset="utf-8"><title>Error</title>
 <style>
 body {{ background: #0a0e17; color: #ff4444; font-family: 'JetBrains Mono', monospace;
        display: flex; align-items: center; justify-content: center; min-height: 100vh; text-align: center; }}
@@ -584,7 +584,7 @@ def start_server(port=8080, do_api=True, do_gemini=False, gemini_model="gemini-2
 
     server = HTTPServer(("127.0.0.1", port), AnalysisHandler)
     url = f"http://127.0.0.1:{port}"
-    print(f"\n  eml2png web UI running at {url}")
+    print(f"\n web UI running at {url}")
     print("  Press Ctrl+C to stop\n")
 
     webbrowser.open(url)

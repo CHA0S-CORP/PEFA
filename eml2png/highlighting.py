@@ -38,10 +38,30 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
         cursor: help;
         transition: all 0.2s ease;
         animation: phish-pulse 2.5s ease-in-out infinite;
+        position: relative;
     }
     .phish-hl-urgency:hover {
         background: rgba(251,191,36,0.35);
         box-shadow: 0 0 16px rgba(251,191,36,0.4);
+    }
+    .phish-hl-urgency:hover::after {
+        content: "\u26A0 " attr(data-threat);
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        margin-bottom: 6px;
+        background: linear-gradient(135deg, #1e1032, #1a0a2e);
+        border: 1px solid rgba(139,92,246,0.5);
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-family: monospace;
+        font-size: 11px;
+        color: #fbbf24;
+        white-space: nowrap;
+        max-width: 300px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(139,92,246,0.15);
+        z-index: 10000;
+        pointer-events: none;
     }
     .phish-hl-link-warn {
         outline: 2px solid rgba(248,113,113,0.7);
@@ -57,19 +77,45 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
         outline-width: 3px;
         box-shadow: 0 0 20px rgba(248,113,113,0.35);
     }
+    .phish-hl-link-warn:hover::after {
+        content: "\u26A0 " attr(data-flags);
+        position: absolute;
+        bottom: 100%;
+        left: 0;
+        margin-bottom: 6px;
+        background: linear-gradient(135deg, #1e1032, #1a0a2e);
+        border: 1px solid rgba(248,113,113,0.5);
+        border-radius: 6px;
+        padding: 8px 12px;
+        font-family: monospace;
+        font-size: 11px;
+        color: #f87171;
+        white-space: nowrap;
+        max-width: 300px;
+        box-shadow: 0 8px 32px rgba(0,0,0,0.5), 0 0 20px rgba(248,113,113,0.15);
+        z-index: 10000;
+        pointer-events: none;
+    }
+    .phish-hl-active {
+        outline: 2px solid rgba(34,211,238,0.8) !important;
+        outline-offset: 3px;
+        box-shadow: 0 0 16px rgba(34,211,238,0.3) !important;
+    }
     .phish-link-badge {
-        font-size: 8px;
+        display: inline-block;
+        font-size: 9px;
         font-family: monospace;
         font-weight: 700;
         background: linear-gradient(135deg, #dc2626, #b91c1c);
         color: white;
-        padding: 2px 6px;
+        padding: 3px 8px;
         border-radius: 3px;
         margin-left: 5px;
         vertical-align: middle;
         letter-spacing: 0.8px;
         text-transform: uppercase;
         box-shadow: 0 2px 6px rgba(220,38,38,0.3);
+        animation: phish-link-pulse 2s ease-in-out infinite;
     }
     </style>
     """
@@ -107,67 +153,163 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
     return modified
 
 
-def get_highlight_popup_js() -> str:
-    """Return JS that sets up highlight popups targeting the email body iframe.
+def _parse_gemini_for_tooltips(gemini_result: dict) -> dict:
+    """Extract verdict, confidence, and model from a Gemini result for tooltip display."""
+    info: dict = {}
+    text = gemini_result.get("text", "")
+    model = gemini_result.get("model", "")
+    if model:
+        info["model"] = model
+    if not text:
+        return info
+    m = re.search(r"\*{0,2}VERDICT\*{0,2}[:\s]*\*{0,2}\s*(phishing|suspicious|legitimate)", text, re.I)
+    if m:
+        info["verdict"] = m.group(1).upper()
+    m = re.search(r"\*{0,2}CONFIDENCE\*{0,2}[:\s]*\*{0,2}\s*(\d{1,3})%?", text, re.I)
+    if m:
+        info["confidence"] = m.group(1) + "%"
+    m = re.search(r"\*{0,2}ATTACK TECHNIQUE\*{0,2}[:\s]*\*{0,2}\s*(.+?)(?:\n|$)", text, re.I)
+    if m:
+        technique = m.group(1).strip().rstrip("*").strip()
+        if technique.lower() != "n/a":
+            info["technique"] = technique[:80]
+    return info
 
-    This script runs in the parent page context and accesses the iframe's
-    contentDocument (allowed because the iframe uses allow-same-origin).
+
+def get_highlight_popup_js(gemini_result: dict | None = None) -> str:
+    """Return JS that sets up highlight popups with optional LLM references.
+
+    Runs in the parent page context and accesses the iframe's contentDocument
+    (allowed because the iframe uses ``allow-same-origin``).  When *gemini_result*
+    is provided, each tooltip includes the LLM verdict, confidence, and model.
     """
-    return """
-(function(){
-    var iframe = document.querySelector('.body-section iframe');
-    if (!iframe) return;
-    function setup() {
-        var doc = iframe.contentDocument || iframe.contentWindow.document;
-        if (!doc || !doc.body) return;
-        var popup = document.createElement('div');
-        popup.id = 'phish-popup-el';
-        popup.style.cssText = 'display:none;position:fixed;z-index:10000;'
-            + 'background:linear-gradient(135deg,#1e1032,#1a0a2e);border:1px solid rgba(139,92,246,0.5);'
-            + 'border-radius:8px;padding:10px 14px;font-family:monospace;font-size:11px;color:#e2e8f0;'
-            + 'max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(139,92,246,0.15);'
-            + 'pointer-events:none;line-height:1.5;backdrop-filter:blur(8px);';
-        document.body.appendChild(popup);
-        function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
-        function showPopup(rect, html) {
-            popup.innerHTML = html;
-            popup.style.display = 'block';
-            var iframeRect = iframe.getBoundingClientRect();
-            var x = iframeRect.left + rect.left;
-            var y = iframeRect.top + rect.bottom + 6;
-            if (x + 340 > window.innerWidth) x = window.innerWidth - 350;
-            if (x < 4) x = 4;
-            if (y + 200 > window.innerHeight) y = iframeRect.top + rect.top - popup.offsetHeight - 6;
-            popup.style.left = x + 'px';
-            popup.style.top = y + 'px';
-        }
-        function hidePopup() { popup.style.display = 'none'; }
-        doc.querySelectorAll('.phish-hl-urgency').forEach(function(el) {
-            el.addEventListener('mouseenter', function() {
-                var label = el.getAttribute('data-threat') || el.getAttribute('title') || '';
-                showPopup(el.getBoundingClientRect(),
-                    '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#fbbf24;margin-bottom:4px;">SOCIAL ENGINEERING</div>'
-                    + '<div style="color:#94a3b8;">Pattern: <span style="color:#fbbf24;">' + esc(label) + '</span></div>'
-                    + '<div style="color:#64748b;font-size:10px;margin-top:3px;">Urgency/pressure language used in phishing</div>');
-            });
-            el.addEventListener('mouseleave', hidePopup);
-        });
-        doc.querySelectorAll('.phish-hl-link-warn').forEach(function(el) {
-            el.addEventListener('mouseenter', function() {
-                var flags = el.getAttribute('data-flags') || 'SUSPICIOUS';
-                var href = el.getAttribute('data-real-href') || el.getAttribute('href') || '';
-                showPopup(el.getBoundingClientRect(),
-                    '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#f87171;margin-bottom:4px;">SUSPICIOUS LINK</div>'
-                    + '<div style="color:#94a3b8;">Flags: <span style="color:#f87171;">' + esc(flags) + '</span></div>'
-                    + (href ? '<div style="color:#64748b;font-size:10px;margin-top:3px;word-break:break-all;">Destination: ' + esc(href.substring(0,120)) + '</div>' : ''));
-            });
-            el.addEventListener('mouseleave', hidePopup);
-        });
-    }
-    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
-        setup();
-    } else {
-        iframe.addEventListener('load', setup);
-    }
-})();
-"""
+    llm_info = _parse_gemini_for_tooltips(gemini_result) if gemini_result else {}
+
+    # Build the LLM reference HTML snippet used in tooltips (CSS classes)
+    if llm_info.get("verdict"):
+        verdict = llm_info["verdict"]
+        verdict_class = {"PHISHING": "popup-llm-verdict-red", "SUSPICIOUS": "popup-llm-verdict-amber", "LEGITIMATE": "popup-llm-verdict-green"}.get(verdict, "")
+        confidence = llm_info.get("confidence", "")
+        model = llm_info.get("model", "Gemini")
+        technique = llm_info.get("technique", "")
+
+        llm_line = (
+            "'<div class=\"popup-llm\">"
+            f"<div class=\"popup-llm-label\">LLM ASSESSMENT ({html.escape(model, quote=True)})</div>"
+            "<div class=\"popup-detail\">Verdict: "
+            f"<span class=\"popup-llm-verdict {verdict_class}\">{html.escape(verdict, quote=True)}</span>"
+        )
+        if confidence:
+            llm_line += f" ({html.escape(confidence, quote=True)} confidence)"
+        llm_line += "</div>"
+        if technique:
+            llm_line += (
+                "<div class=\"popup-detail\">Technique: "
+                f"<span class=\"popup-llm-technique\">{html.escape(technique, quote=True)}</span></div>"
+            )
+        llm_line += "</div>'"
+    else:
+        llm_line = "''"
+
+    return (
+        "(function(){\n"
+        "    var iframe = document.querySelector('.body-section iframe');\n"
+        "    if (!iframe) return;\n"
+        f"    var llmRef = {llm_line};\n"
+        "    function setup() {\n"
+        "        var doc = iframe.contentDocument || iframe.contentWindow.document;\n"
+        "        if (!doc || !doc.body) return;\n"
+        "        var popup = document.createElement('div');\n"
+        "        popup.id = 'phish-popup-el';\n"
+        "        document.body.appendChild(popup);\n"
+        "        var hideTimer = null;\n"
+        "        function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }\n"
+        "        function showPopup(rect, html) {\n"
+        "            if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }\n"
+        "            popup.innerHTML = html;\n"
+        "            popup.style.display = 'block';\n"
+        "            popup.style.opacity = '0';\n"
+        "            popup.style.transform = 'translateY(4px)';\n"
+        "            var iframeRect = iframe.getBoundingClientRect();\n"
+        "            var scrollTop = 0;\n"
+        "            try { scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop || 0; } catch(e) {}\n"
+        "            var x = iframeRect.left + rect.left;\n"
+        "            var y = iframeRect.top + (rect.bottom - scrollTop) + 6;\n"
+        "            if (x + 340 > window.innerWidth) x = window.innerWidth - 350;\n"
+        "            if (x < 4) x = 4;\n"
+        "            if (y + 200 > window.innerHeight) y = iframeRect.top + (rect.top - scrollTop) - popup.offsetHeight - 6;\n"
+        "            popup.style.left = x + 'px';\n"
+        "            popup.style.top = y + 'px';\n"
+        "            requestAnimationFrame(function() {\n"
+        "                popup.style.opacity = '1';\n"
+        "                popup.style.transform = 'translateY(0)';\n"
+        "            });\n"
+        "        }\n"
+        "        function hidePopup() {\n"
+        "            popup.style.opacity = '0';\n"
+        "            popup.style.transform = 'translateY(4px)';\n"
+        "            hideTimer = setTimeout(function() { popup.style.display = 'none'; }, 150);\n"
+        "        }\n"
+        "        doc.querySelectorAll('.phish-hl-urgency').forEach(function(el) {\n"
+        "            el.addEventListener('mouseenter', function() {\n"
+        "                var label = el.getAttribute('data-threat') || el.getAttribute('title') || '';\n"
+        "                showPopup(el.getBoundingClientRect(),\n"
+        "                    '<div class=\"popup-type popup-type-urgency\">SOCIAL ENGINEERING</div>'\n"
+        "                    + '<div class=\"popup-detail\">Pattern: <span class=\"popup-type-urgency\">' + esc(label) + '</span></div>'\n"
+        "                    + '<div class=\"popup-sub\">Urgency/pressure language used in phishing</div>'\n"
+        "                    + llmRef);\n"
+        "            });\n"
+        "            el.addEventListener('mouseleave', hidePopup);\n"
+        "        });\n"
+        "        doc.querySelectorAll('.phish-hl-link-warn').forEach(function(el) {\n"
+        "            el.addEventListener('mouseenter', function() {\n"
+        "                var flags = el.getAttribute('data-flags') || 'SUSPICIOUS';\n"
+        "                var href = el.getAttribute('data-real-href') || el.getAttribute('href') || '';\n"
+        "                showPopup(el.getBoundingClientRect(),\n"
+        "                    '<div class=\"popup-type popup-type-link\">SUSPICIOUS LINK</div>'\n"
+        "                    + '<div class=\"popup-detail\">Flags: <span class=\"popup-type-link\">' + esc(flags) + '</span></div>'\n"
+        "                    + (href ? '<div class=\"popup-sub\" style=\"word-break:break-all;\">Destination: ' + esc(href.substring(0,120)) + '</div>' : '')\n"
+        "                    + llmRef);\n"
+        "            });\n"
+        "            el.addEventListener('mouseleave', hidePopup);\n"
+        "        });\n"
+        # --- Highlight navigation toolbar ---
+        "        var highlights = Array.from(doc.querySelectorAll('.phish-hl-urgency, .phish-hl-link-warn'));\n"
+        "        if (highlights.length > 0) {\n"
+        "            var bodyWidget = document.querySelector('.body-widget');\n"
+        "            if (bodyWidget) {\n"
+        "                var navBar = document.createElement('div');\n"
+        "                navBar.className = 'hl-nav-bar';\n"
+        "                navBar.innerHTML = '<span class=\"hl-nav-label\">HIGHLIGHTS</span>'\n"
+        "                    + '<button class=\"hl-nav-btn\" data-dir=\"prev\">&lsaquo;</button>'\n"
+        "                    + '<span class=\"hl-nav-counter\"><span class=\"hl-nav-current\">0</span> / ' + highlights.length + '</span>'\n"
+        "                    + '<button class=\"hl-nav-btn\" data-dir=\"next\">&rsaquo;</button>';\n"
+        "                bodyWidget.appendChild(navBar);\n"
+        "                var curIdx = -1;\n"
+        "                function goToHighlight(idx) {\n"
+        "                    if (highlights.length === 0) return;\n"
+        "                    if (curIdx >= 0 && curIdx < highlights.length) highlights[curIdx].classList.remove('phish-hl-active');\n"
+        "                    curIdx = ((idx % highlights.length) + highlights.length) % highlights.length;\n"
+        "                    var el = highlights[curIdx];\n"
+        "                    el.classList.add('phish-hl-active');\n"
+        "                    el.scrollIntoView({behavior:'smooth', block:'center'});\n"
+        "                    navBar.querySelector('.hl-nav-current').textContent = (curIdx + 1);\n"
+        # Auto-expand collapsed body
+        "                    var bodySection = bodyWidget.querySelector('.body-section');\n"
+        "                    if (bodySection && bodySection.classList.contains('collapsed-body')) {\n"
+        "                        var toggleBtn = bodyWidget.querySelector('.body-toggle-btn');\n"
+        "                        if (toggleBtn) toggleBtn.click();\n"
+        "                    }\n"
+        "                }\n"
+        "                navBar.querySelector('[data-dir=\"next\"]').addEventListener('click', function() { goToHighlight(curIdx + 1); });\n"
+        "                navBar.querySelector('[data-dir=\"prev\"]').addEventListener('click', function() { goToHighlight(curIdx - 1); });\n"
+        "            }\n"
+        "        }\n"
+        "    }\n"
+        "    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {\n"
+        "        setup();\n"
+        "    } else {\n"
+        "        iframe.addEventListener('load', setup);\n"
+        "    }\n"
+        "})();\n"
+    )

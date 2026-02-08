@@ -5,7 +5,7 @@ import importlib.resources
 
 def _read_asset(subdir: str, filename: str) -> str:
     """Read a text asset from the templates directory."""
-    ref = importlib.resources.files("eml2png.templates") / subdir / filename
+    ref = importlib.resources.files("pefa.templates") / subdir / filename
     return ref.read_text(encoding="utf-8")
 
 

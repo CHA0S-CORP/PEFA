@@ -5,8 +5,81 @@
         printBtn.addEventListener('click', function() { window.print(); });
     }
 
+    // === New Analysis button ===
+    var newAnalysisBtn = document.querySelector('.new-analysis-btn');
+    if (newAnalysisBtn) {
+        newAnalysisBtn.addEventListener('click', function() {
+            window.location.reload();
+        });
+    }
+
+    // === Download HTML button ===
+    var downloadHtmlBtn = document.querySelector('.download-html-btn');
+    if (downloadHtmlBtn) {
+        downloadHtmlBtn.addEventListener('click', function() {
+            var clone = document.documentElement.cloneNode(true);
+            var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+            var blob = new Blob([html], { type: 'text/html' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
+
+    // === Download PNG button ===
+    function loadHtml2Canvas() {
+        return new Promise(function(resolve, reject) {
+            if (typeof html2canvas !== 'undefined') { resolve(html2canvas); return; }
+            var s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+            s.onload = function() { resolve(html2canvas); };
+            s.onerror = function() { reject(new Error('Failed to load html2canvas from CDN')); };
+            document.head.appendChild(s);
+        });
+    }
+    var downloadPngBtn = document.querySelector('.download-png-btn');
+    if (downloadPngBtn) {
+        downloadPngBtn.addEventListener('click', function() {
+            downloadPngBtn.textContent = '⏳ LOADING…';
+            downloadPngBtn.disabled = true;
+            loadHtml2Canvas().then(function(h2c) {
+                downloadPngBtn.textContent = '⏳ CAPTURING…';
+                return h2c(document.body, {
+                    backgroundColor: '#0a0e17',
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                });
+            }).then(function(canvas) {
+                canvas.toBlob(function(blob) {
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'report.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    downloadPngBtn.textContent = '⤓ PNG';
+                    downloadPngBtn.disabled = false;
+                }, 'image/png');
+            }).catch(function(err) {
+                console.error('PNG capture failed:', err);
+                alert('PNG capture failed: ' + err.message);
+                downloadPngBtn.textContent = '⤓ PNG';
+                downloadPngBtn.disabled = false;
+            });
+        });
+    }
+
     // === Smooth widget collapse/expand ===
     document.querySelectorAll('.widget').forEach(w => {
+        if (w.classList.contains('body-widget')) return;
         const header = w.querySelector('.widget-header');
         if (!header) return;
         const children = Array.from(w.children).filter(c => c !== header);
@@ -154,14 +227,17 @@
         container.appendChild(overlay);
         const toggleBtn = document.createElement('button');
         toggleBtn.className = 'body-toggle-btn';
-        toggleBtn.textContent = 'Show full email \u25BC';
+        toggleBtn.innerHTML = 'Show full email <span class="toggle-arrow">\u25BC</span>';
         container.appendChild(toggleBtn);
         // Register click handler once (outside checkCollapse to avoid duplicates)
         toggleBtn.addEventListener('click', () => {
             const isCollapsed = bodySection.classList.contains('collapsed-body');
             bodySection.classList.toggle('collapsed-body');
             overlay.style.display = isCollapsed ? 'none' : '';
-            toggleBtn.textContent = isCollapsed ? 'Collapse email \u25B2' : 'Show full email \u25BC';
+            toggleBtn.innerHTML = isCollapsed
+                ? 'Collapse email <span class="toggle-arrow">\u25BC</span>'
+                : 'Show full email <span class="toggle-arrow">\u25BC</span>';
+            toggleBtn.classList.toggle('expanded', isCollapsed);
             // Re-resize iframe when expanding
             if (isCollapsed && bodyIframe) resizeIframe(bodyIframe);
         });

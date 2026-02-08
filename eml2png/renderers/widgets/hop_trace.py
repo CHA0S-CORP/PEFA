@@ -7,20 +7,23 @@ from ..ioc import ioc_ip_html
 from ...utils import country_code_to_flag
 
 
-def _host_flag(hostname: str, host_geo_map: dict) -> str:
-    """Return a flag emoji span for a hostname if geo data is available."""
+def _host_resolved(hostname: str, host_ip_map: dict, host_geo_map: dict) -> str:
+    """Return resolved IP with flag for a hostname, or empty string."""
+    rip = host_ip_map.get(hostname, "")
+    if not rip:
+        return ""
     geo = host_geo_map.get(hostname)
-    if not geo or "error" in geo:
-        return ""
-    cc = geo.get("countryCode", "")
-    flag = country_code_to_flag(cc)
-    if not flag:
-        return ""
-    tip_parts = [geo.get("country", "")]
-    if geo.get("city"):
-        tip_parts.append(geo["city"])
-    tip = escape(", ".join(p for p in tip_parts if p))
-    return f'<span class="ip-flag" title="{tip}">{flag}</span>'
+    flag = ""
+    if geo and "error" not in geo:
+        cc = geo.get("countryCode", "")
+        f = country_code_to_flag(cc)
+        if f:
+            tip_parts = [geo.get("country", "")]
+            if geo.get("city"):
+                tip_parts.append(geo["city"])
+            tip = escape(", ".join(p for p in tip_parts if p))
+            flag = f'<span class="ip-flag" title="{tip}">{f}</span>'
+    return f' <span class="hop-resolved">({escape(rip)}{flag})</span>'
 
 
 class HopTraceWidget(Widget):
@@ -34,12 +37,13 @@ class HopTraceWidget(Widget):
             return ""
         ip_geo_map = analysis.get("ip_geo_map", {})
         host_geo_map = analysis.get("host_geo_map", {})
+        host_ip_map = analysis.get("host_ip_map", {})
         items = ""
         for h in hops:
             fr_name = h.get("from", "—")
             by_name = h.get("by", "—")
-            fr = escape(fr_name) + _host_flag(fr_name, host_geo_map)
-            by = escape(by_name) + _host_flag(by_name, host_geo_map)
+            fr = escape(fr_name) + _host_resolved(fr_name, host_ip_map, host_geo_map)
+            by = escape(by_name) + _host_resolved(by_name, host_ip_map, host_geo_map)
             ip = h.get("ip", "")
             dt = escape(h.get("date", ""))
             hop_geo = ip_geo_map.get(ip)

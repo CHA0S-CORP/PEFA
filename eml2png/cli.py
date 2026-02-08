@@ -1,4 +1,4 @@
-"""Command-line interface for eml2png."""
+"""Command-line interface for pefa."""
 
 import argparse
 import sys

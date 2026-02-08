@@ -6,6 +6,9 @@ from .urlscan import URLScanClient
 from .mxtoolbox import MXToolboxClient
 from .gemini import GeminiClient
 from .whois_client import WhoisClient
+from .virustotal import VirusTotalClient
+from .abuseipdb import AbuseIPDBClient
+from .alienvault import AlienVaultClient
 
 __all__ = [
     "BaseAPIClient",
@@ -14,4 +17,7 @@ __all__ = [
     "MXToolboxClient",
     "GeminiClient",
     "WhoisClient",
+    "VirusTotalClient",
+    "AbuseIPDBClient",
+    "AlienVaultClient",
 ]

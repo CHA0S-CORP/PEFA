@@ -18,6 +18,7 @@ from .widgets import (
     GeminiWidget,
     IPIntelWidget,
     HopTraceWidget,
+    IOCLookupWidget,
 )
 
 
@@ -36,6 +37,7 @@ class PageRenderer:
             IPIntelWidget(),
             URLScanWidget(),
             HopTraceWidget(),
+            IOCLookupWidget(),
         ]
 
     def _build_nav_html(self) -> str:
@@ -125,6 +127,8 @@ class PageRenderer:
             val = headers.get(key, "")
             if val:
                 env_rows += f'<div class="env-row"><span class="env-label">{key.upper()}</span><span class="env-val">{escape(val)}</span></div>'
+            if key == "Date" and analysis.get("sender_local_time"):
+                env_rows += f'<div class="env-row"><span class="env-label" style="color:var(--accent)">SENDER TIME</span><span class="env-val" style="color:var(--accent)">{escape(analysis["sender_local_time"])}</span></div>'
 
         # Metadata widget
         meta_rows = ""
@@ -155,6 +159,7 @@ class PageRenderer:
         ip_html = self.widgets[9].render(analysis, parsed)      # IP
         urlscan_html = self.widgets[10].render(analysis, parsed) # URLScan
         hops_html = self.widgets[11].render(analysis, parsed)   # Hops
+        iocs_html = self.widgets[12].render(analysis, parsed)   # IOCs
 
         # Load CSS
         base_css = load_css("base.css")
@@ -221,6 +226,7 @@ class PageRenderer:
 {ip_html}
 {urlscan_html}
 {hops_html}
+{iocs_html}
 
 {meta_widget}
 

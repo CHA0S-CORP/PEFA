@@ -12,6 +12,7 @@ from .urlscan import URLScanWidget
 from .gemini import GeminiWidget
 from .ip_intel import IPIntelWidget
 from .hop_trace import HopTraceWidget
+from .ioc_lookup import IOCLookupWidget
 
 __all__ = [
     "ThreatGaugeWidget",
@@ -26,4 +27,5 @@ __all__ = [
     "GeminiWidget",
     "IPIntelWidget",
     "HopTraceWidget",
+    "IOCLookupWidget",
 ]

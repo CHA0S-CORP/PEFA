@@ -2,15 +2,22 @@
 
 import cgi
 import io
+import json
 import os
 import secrets
 import tempfile
 import webbrowser
+from html import escape
 from http.server import HTTPServer, BaseHTTPRequestHandler
+from urllib.parse import urlparse, parse_qs
 
+from .deps import req_lib, BeautifulSoup, whois_lib
 from .parser import parse_eml
 from .pipeline import run_analysis
 from .renderers.page import PageRenderer
+from .api.virustotal import VirusTotalClient
+from .api.abuseipdb import AbuseIPDBClient
+from .api.alienvault import AlienVaultClient
 
 
 def _build_upload_page():
@@ -259,7 +266,7 @@ class AnalysisHandler(BaseHTTPRequestHandler):
                 f"connect-src 'self'; "
                 f"object-src 'none'; "
                 f"base-uri 'none'; "
-                f"form-action /analyze"
+                f"form-action 'self'"
             )
         else:
             csp = (
@@ -271,7 +278,7 @@ class AnalysisHandler(BaseHTTPRequestHandler):
                 "connect-src 'self'; "
                 "object-src 'none'; "
                 "base-uri 'none'; "
-                "form-action /analyze"
+                "form-action 'self'"
             )
         self.send_header("Content-Security-Policy", csp)
         self.send_header("X-Content-Type-Options", "nosniff")
@@ -279,7 +286,8 @@ class AnalysisHandler(BaseHTTPRequestHandler):
         self.send_header("Referrer-Policy", "no-referrer")
 
     def do_GET(self):
-        if self.path == "/" or self.path == "":
+        path = urlparse(self.path).path
+        if path == "/" or path == "":
             body = _build_upload_page().encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
@@ -287,11 +295,17 @@ class AnalysisHandler(BaseHTTPRequestHandler):
             self._send_security_headers()
             self.end_headers()
             self.wfile.write(body)
+        elif path == "/api/health":
+            self._handle_api_health()
         else:
             self.send_error(404)
 
     def do_POST(self):
-        if self.path != "/analyze":
+        path = urlparse(self.path).path
+        if path == "/api/analyze":
+            self._handle_api_analyze()
+            return
+        if path != "/analyze":
             self.send_error(404)
             return
 
@@ -363,6 +377,191 @@ class AnalysisHandler(BaseHTTPRequestHandler):
                     os.unlink(tmp_path)
                 except OSError:
                     pass
+
+    def _send_json(self, code, data):
+        """Send a JSON response."""
+        body = json.dumps(data, default=str, ensure_ascii=False).encode("utf-8")
+        self.send_response(code)
+        self.send_header("Content-Type", "application/json; charset=utf-8")
+        self.send_header("Content-Length", str(len(body)))
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.end_headers()
+        self.wfile.write(body)
+
+    def _send_json_error(self, code, message):
+        """Send a JSON error response."""
+        self._send_json(code, {"error": message, "status": code})
+
+    def _handle_api_health(self):
+        """GET /api/health — service status."""
+        self._send_json(200, {
+            "status": "ok",
+            "services": {
+                "virustotal": VirusTotalClient.available(),
+                "abuseipdb": AbuseIPDBClient.available(),
+                "alienvault": AlienVaultClient.available(),
+                "urlscan": bool(os.environ.get("URLSCAN_API_KEY")),
+                "mxtoolbox": bool(os.environ.get("MXTOOLBOX_API_KEY")),
+                "gemini": bool(os.environ.get("GEMINI_API_KEY")),
+            },
+            "optional_deps": {
+                "requests": req_lib is not None,
+                "beautifulsoup4": BeautifulSoup is not None,
+                "python-whois": whois_lib is not None,
+            },
+            "settings": {
+                "do_api": self.do_api,
+                "do_gemini": self.do_gemini,
+                "gemini_model": self.gemini_model,
+            },
+        })
+
+    def _handle_api_analyze(self):
+        """POST /api/analyze — analyze an EML file and return JSON."""
+        content_type = self.headers.get("Content-Type", "")
+        if "multipart/form-data" not in content_type:
+            self._send_json_error(400, "Expected multipart/form-data with an .eml file")
+            return
+
+        # Parse query params for overrides
+        qs = parse_qs(urlparse(self.path).query)
+        no_api = qs.get("no_api", [""])[0].lower() in ("true", "1", "yes")
+        do_gemini = qs.get("gemini", [""])[0].lower() in ("true", "1", "yes")
+        gemini_model = qs.get("gemini_model", [self.gemini_model])[0]
+
+        do_api = (not no_api) and self.do_api
+
+        try:
+            form = cgi.FieldStorage(
+                fp=self.rfile,
+                headers=self.headers,
+                environ={
+                    "REQUEST_METHOD": "POST",
+                    "CONTENT_TYPE": content_type,
+                },
+            )
+            file_field = form["file"]
+            if not file_field.filename:
+                self._send_json_error(400, "No file uploaded")
+                return
+            file_data = file_field.file.read()
+        except Exception as e:
+            self._send_json_error(400, f"Failed to read upload: {e}")
+            return
+
+        tmp_path = None
+        try:
+            with tempfile.NamedTemporaryFile(suffix=".eml", delete=False) as tmp:
+                tmp.write(file_data)
+                tmp_path = tmp.name
+
+            parsed = parse_eml(tmp_path)
+            analysis = run_analysis(
+                parsed,
+                do_api=do_api,
+                do_gemini=do_gemini or self.do_gemini,
+                gemini_model=gemini_model,
+            )
+
+            result = self._build_json_response(parsed, analysis)
+            self._send_json(200, result)
+
+        except Exception as e:
+            self._send_json_error(500, f"Analysis failed: {e}")
+
+        finally:
+            if tmp_path:
+                try:
+                    os.unlink(tmp_path)
+                except OSError:
+                    pass
+
+    @staticmethod
+    def _build_json_response(parsed, analysis):
+        """Build a JSON-serializable dict from parsed email and analysis results."""
+        headers = parsed.get("headers", {})
+        threat = analysis.get("threat", {})
+        sender = analysis.get("sender", {})
+        links = analysis.get("links", {})
+        urgency = analysis.get("urgency", {})
+        attachments = analysis.get("attachments", {})
+        language = analysis.get("language", {})
+
+        return {
+            "email": {
+                "subject": headers.get("Subject", ""),
+                "from": headers.get("From", ""),
+                "to": headers.get("To", ""),
+                "date": headers.get("Date", ""),
+                "message_id": headers.get("Message-ID", ""),
+                "return_path": headers.get("Return-Path", ""),
+                "reply_to": headers.get("Reply-To", ""),
+            },
+            "threat_score": {
+                "score": threat.get("score", 0),
+                "level": threat.get("level", "UNKNOWN"),
+                "factors": [
+                    {"description": f[0], "points": f[1]}
+                    for f in threat.get("factors", [])
+                ],
+            },
+            "sender_analysis": {
+                "from_display": sender.get("from_display", ""),
+                "from_email": sender.get("from_email", ""),
+                "from_domain": sender.get("from_domain", ""),
+                "return_path": sender.get("return_path", ""),
+                "reply_to": sender.get("reply_to", ""),
+                "flags": [{"label": f[0], "severity": f[1]} for f in sender.get("flags", [])],
+                "findings": sender.get("findings", []),
+            },
+            "authentication": parsed.get("auth", {}),
+            "link_analysis": {
+                "total_links": len(links.get("links", [])),
+                "links": [
+                    {
+                        "href": l.get("href", ""),
+                        "display": l.get("display", ""),
+                        "domain": l.get("domain", ""),
+                        "flags": [{"label": f[0], "severity": f[1]} for f in l.get("flags", [])],
+                    }
+                    for l in links.get("links", [])
+                ],
+                "findings": links.get("findings", []),
+            },
+            "urgency_analysis": {
+                "unique_count": urgency.get("unique_count", 0),
+                "total_count": urgency.get("total_count", 0),
+                "density": urgency.get("density", 0),
+                "generic_greeting": urgency.get("generic_greeting", False),
+                "matches": urgency.get("matches", []),
+            },
+            "attachment_analysis": {
+                "attachments": [
+                    {
+                        "name": a.get("name", ""),
+                        "size": a.get("size", 0),
+                        "mime_type": a.get("mime_type", "") or a.get("content_type", ""),
+                        "md5": a.get("md5", ""),
+                        "sha256": a.get("sha256", ""),
+                        "flags": [{"label": f[0], "severity": f[1]} for f in a.get("flags", [])],
+                    }
+                    for a in attachments.get("attachments", [])
+                ],
+            },
+            "language_analysis": {
+                "score": language.get("score"),
+                "findings": language.get("findings", []),
+            },
+            "ip_intel": {
+                "source_ip": analysis.get("source_ip", ""),
+                "data": analysis.get("ip_data") if analysis.get("ip_data") and "error" not in (analysis.get("ip_data") or {}) else None,
+            },
+            "sender_local_time": analysis.get("sender_local_time"),
+            "domain_age": analysis.get("domain_age") if "error" not in (analysis.get("domain_age") or {}) else None,
+            "hops": analysis.get("hops", []),
+            "iocs": analysis.get("iocs"),
+            "gemini": analysis.get("gemini") if analysis.get("gemini") and "error" not in (analysis.get("gemini") or {}) else None,
+        }
 
     def _send_error_response(self, code, message):
         body = _build_error_page(message).encode("utf-8")

@@ -1,5 +1,7 @@
 """Utility functions."""
 
+from email.utils import parsedate_to_datetime
+
 from .constants import KNOWN_BRANDS, HOMOGLYPH_MAP
 
 LEGITIMATE_TLDS = (".com", ".net", ".org", ".io", ".co", ".co.uk")
@@ -48,6 +50,28 @@ def fmt_bytes(n: int) -> str:
     if n < 1024**2:
         return f"{n/1024:.1f} KB"
     return f"{n/1024**2:.1f} MB"
+
+
+def convert_to_sender_timezone(date_header: str, timezone_name: str):
+    """Convert an email Date header to the sender's inferred local timezone.
+
+    Returns (formatted_time_str, tz_abbrev) or None on any failure.
+    """
+    try:
+        from zoneinfo import ZoneInfo
+    except ImportError:
+        return None
+    if not date_header or not timezone_name:
+        return None
+    try:
+        dt = parsedate_to_datetime(date_header)
+        tz = ZoneInfo(timezone_name)
+        local_dt = dt.astimezone(tz)
+        abbrev = local_dt.strftime("%Z") or timezone_name
+        formatted = local_dt.strftime("%Y-%m-%d %H:%M:%S") + f" ({abbrev})"
+        return formatted, abbrev
+    except Exception:
+        return None
 
 
 def country_code_to_flag(code: str) -> str:

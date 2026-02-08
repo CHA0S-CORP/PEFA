@@ -35,6 +35,7 @@ class IPIntelWidget(Widget):
                     <div class="geo-row"><span class="geo-label">COUNTRY</span><span class="geo-val">{flag_span} {escape(ip_data.get('country',''))} [{escape(ip_data.get('countryCode',''))}]</span></div>
                     <div class="geo-row"><span class="geo-label">COORDS</span><span class="geo-val mono">{ip_data.get('lat','—')}, {ip_data.get('lon','—')}</span></div>
                     <div class="geo-row"><span class="geo-label">TIMEZONE</span><span class="geo-val">{escape(ip_data.get('timezone',''))}</span></div>
+                    {"" if not analysis.get("sender_local_time") else f'<div class="geo-row"><span class="geo-label">SENDER TIME</span><span class="geo-val" style="color:var(--accent)">{escape(analysis["sender_local_time"])}</span></div>'}
                     <div class="geo-row"><span class="geo-label">ISP</span><span class="geo-val">{escape(ip_data.get('isp',''))}</span></div>
                 </div>
             </div>

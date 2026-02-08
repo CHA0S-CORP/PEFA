@@ -19,7 +19,9 @@ from .highlighting import highlight_body
 from .parser import parse_eml
 from .sanitize import sanitize_html
 from .renderers.page import PageRenderer
+from .analyzers.ioc_consolidator import extract_iocs, enrich_iocs
 from .scoring import calculate_threat_score
+from .utils import convert_to_sender_timezone
 
 
 def _safe_analyze(analyzer, parsed, label, default, log_fn=None):
@@ -79,6 +81,15 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
         ip_data = IPLookupClient.lookup(source_ip)
     elif source_ip:
         ip_data = {"error": "API calls skipped"}
+
+    # Sender local time (convert Date header to sender's timezone from IP geo)
+    sender_local_time = None
+    if ip_data and "error" not in ip_data and ip_data.get("timezone"):
+        date_header = parsed.get("headers", {}).get("Date", "")
+        result = convert_to_sender_timezone(date_header, ip_data["timezone"])
+        if result:
+            sender_local_time = result[0]
+            _log(f"Sender local time: {sender_local_time}")
 
     # Domain age
     domain_age = {}
@@ -201,6 +212,30 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
                 else: threat["level"] = "CLEAN"
                 _log(f"\u26a0 Gemini says SUSPICIOUS \u2014 threat score bumped by +{bump} to {threat['score']}")
 
+    # Ensure source IP is in ip_geo_map for consistent flag rendering
+    if source_ip and ip_data and "error" not in ip_data and source_ip not in ip_geo_map:
+        ip_geo_map[source_ip] = ip_data
+
+    # IOC consolidation + enrichment
+    _log("Consolidating IOCs...")
+    analysis_parts = {
+        "sender": sender, "links": links, "attachments": att,
+    }
+    iocs = extract_iocs(parsed, analysis_parts)
+    ioc_total = sum(len(iocs[k]) for k in ("ips", "domains", "urls", "emails", "hashes"))
+    _log(f"Found {ioc_total} IOC indicators")
+
+    # Geo-lookup any IOC IPs not already in ip_geo_map (e.g. X-Originating-IP)
+    if do_api:
+        for entry in iocs.get("ips", []):
+            ioc_ip = entry["value"]
+            if ioc_ip not in ip_geo_map and not PRIVATE_IP_RE.match(ioc_ip):
+                _log(f"Looking up IOC IP: {ioc_ip}")
+                ip_geo_map[ioc_ip] = IPLookupClient.lookup(ioc_ip)
+
+    if do_api and ioc_total > 0:
+        iocs = enrich_iocs(iocs, do_api, _log)
+
     return {
         "links": links,
         "sender": sender,
@@ -217,6 +252,8 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
         "threat": threat,
         "highlighted_body": highlighted,
         "gemini": gemini_result,
+        "sender_local_time": sender_local_time,
+        "iocs": iocs,
         "logs": logs,
     }
 

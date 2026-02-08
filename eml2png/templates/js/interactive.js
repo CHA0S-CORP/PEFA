@@ -22,6 +22,13 @@
         });
     });
 
+    // === Gemini section collapse/expand ===
+    document.querySelectorAll('.gemini-section-toggle').forEach(header => {
+        header.addEventListener('click', () => {
+            header.parentElement.classList.toggle('collapsed');
+        });
+    });
+
     // === Widget entrance animations (IntersectionObserver) ===
     const animObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {

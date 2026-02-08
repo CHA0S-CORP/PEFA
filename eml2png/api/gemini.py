@@ -20,17 +20,18 @@ class GeminiClient(BaseAPIClient):
 
         prompt = f"""You are an expert email security analyst and phishing investigator.
 
-Analyze the following email forensic data and provide:
+Analyze the following email forensic data. You MUST respond using EXACTLY the section format below. Each section must start with the section name in bold (e.g. **VERDICT**). Do not skip any section. Do not add extra sections.
 
-1. **VERDICT**: Is this email phishing, suspicious, or legitimate? (one word)
-2. **CONFIDENCE**: Your confidence level (0-100%)
-3. **EXECUTIVE SUMMARY**: 2-3 sentence summary for a non-technical audience explaining what this email is and whether it's safe.
-4. **TECHNICAL ANALYSIS**: Key technical indicators that informed your verdict (3-5 bullet points).
-5. **ATTACK TECHNIQUE**: If phishing, classify the technique (e.g., credential harvesting, BEC, spear phishing, malware delivery, brand impersonation, etc.)
-6. **RECOMMENDED ACTIONS**: What should the recipient do? (3-5 bullet points)
-7. **INDICATORS OF COMPROMISE (IOCs)**: List any domains, IPs, URLs, or file hashes that should be blocked or investigated.
+**VERDICT**: One word only — phishing, suspicious, or legitimate.
+**CONFIDENCE**: Your confidence as a percentage (0-100%).
+**EXECUTIVE SUMMARY**: 2-3 sentences for a non-technical audience explaining what this email is and whether it's safe.
+**TECHNICAL ANALYSIS**: 3-5 bullet points covering the key technical indicators that informed your verdict. Reference specific data from the analysis (e.g. domain names, authentication results, header anomalies).
+**ATTACK TECHNIQUE**: If phishing or suspicious, classify the technique (e.g. credential harvesting, BEC, spear phishing, malware delivery, brand impersonation, invoice fraud). If legitimate, write "N/A".
+**RECOMMENDED ACTIONS**: 3-5 bullet points telling the recipient what to do.
+**INDICATORS OF COMPROMISE (IOCs)**: List any malicious or suspicious domains, IPs, URLs, or file hashes that should be blocked or investigated. Use one bullet per IOC.
+**SOURCES & REFERENCES**: 2-4 bullet points citing the specific evidence and standards you relied on. Reference concrete findings from the forensic data (e.g. "SPF fail for domain X", "URL redirects to Y", "Domain registered Z days ago"). Cite relevant standards or frameworks where applicable (e.g. DMARC RFC 7489, NIST SP 800-177, MITRE ATT&CK T1566).
 
-Be specific and reference actual data from the analysis. Do not hedge unnecessarily — give a clear call.
+Be specific and reference actual data from the analysis. Do not hedge — give a clear, decisive call.
 
 {context}"""
 

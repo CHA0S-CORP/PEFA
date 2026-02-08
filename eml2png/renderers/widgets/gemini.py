@@ -14,6 +14,7 @@ _SECTION_NAMES = [
     "ATTACK TECHNIQUE",
     "RECOMMENDED ACTIONS",
     "INDICATORS OF COMPROMISE",
+    "SOURCES & REFERENCES",
 ]
 
 # Regex to split on **SECTION_NAME** or **SECTION_NAME:** headers
@@ -33,6 +34,7 @@ _SECTION_ICONS = {
     "ATTACK TECHNIQUE": "🎯",
     "RECOMMENDED ACTIONS": "🛡️",
     "INDICATORS OF COMPROMISE": "🔍",
+    "SOURCES & REFERENCES": "📚",
 }
 
 
@@ -133,7 +135,7 @@ def _render_summary(sections: dict) -> str:
 
 
 def _render_section_card(name: str, body: str) -> str:
-    """Render a section as a styled card."""
+    """Render a section as a styled collapsible card."""
     icon = _SECTION_ICONS.get(name, "📋")
     is_ioc = name == "INDICATORS OF COMPROMISE"
 
@@ -149,8 +151,9 @@ def _render_section_card(name: str, body: str) -> str:
 
     return (
         f'<div class="gemini-section">'
-        f'<div class="gemini-section-header">'
+        f'<div class="gemini-section-header gemini-section-toggle">'
         f'<span class="gemini-section-icon">{icon}</span> {escape(name)}'
+        f'<span class="gemini-chevron">▾</span>'
         f'</div>'
         f'<div class="gemini-section-body">{inner}</div>'
         f'</div>'
@@ -205,7 +208,8 @@ class GeminiWidget(Widget):
 
         # Remaining sections as cards
         for name in ("TECHNICAL ANALYSIS", "ATTACK TECHNIQUE",
-                     "RECOMMENDED ACTIONS", "INDICATORS OF COMPROMISE"):
+                     "RECOMMENDED ACTIONS", "INDICATORS OF COMPROMISE",
+                     "SOURCES & REFERENCES"):
             body = sections.get(name, "")
             if body:
                 parts.append(_render_section_card(name, body))

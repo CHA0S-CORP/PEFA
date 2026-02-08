@@ -73,7 +73,7 @@ def _sanitize_with_nh3(html_body: str) -> str:
     return nh3_lib.clean(
         html_body,
         tags=ALLOWED_TAGS,
-        clean_content_tags=set(),
+        clean_content_tags={"script"},
         attributes=ALLOWED_ATTRIBUTES,
         url_schemes=ALLOWED_URL_SCHEMES,
         link_rel=LINK_REL,

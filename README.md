@@ -6,9 +6,11 @@
 A Python CLI tool that converts `.eml` files into cyber-infographic PNGs and interactive HTML reports. PEFA performs automated forensic analysis of phishing indicators and produces a composite threat score (0–100) backed by multiple detection engines and optional threat intelligence APIs.
 
 <div align="center">
+<div style="max-height: 500px; overflow: hidden; border-radius: 8px;">
 <a href="examples/WELLS%20FARGO%20BANK.png">
-<img src="examples/WELLS%20FARGO%20BANK.png" alt="Sample PEFA report — WELLS FARGO BANK phishing analysis" style="max-height: 600px; object-fit: cover; object-position: top; border-radius: 8px;" />
+<img src="examples/WELLS%20FARGO%20BANK.png" alt="Sample PEFA report — WELLS FARGO BANK phishing analysis" width="100%" />
 </a>
+</div>
 <p><em>🔗 <a href="examples/WELLS%20FARGO%20BANK.html">View interactive HTML version</a> · <a href="examples/">Browse all sample reports</a></em></p>
 </div>
 

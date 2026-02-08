@@ -4,6 +4,23 @@ from html import escape
 
 from ..base import Widget
 from ..ioc import ioc_ip_html
+from ...utils import country_code_to_flag
+
+
+def _host_flag(hostname: str, host_geo_map: dict) -> str:
+    """Return a flag emoji span for a hostname if geo data is available."""
+    geo = host_geo_map.get(hostname)
+    if not geo or "error" in geo:
+        return ""
+    cc = geo.get("countryCode", "")
+    flag = country_code_to_flag(cc)
+    if not flag:
+        return ""
+    tip_parts = [geo.get("country", "")]
+    if geo.get("city"):
+        tip_parts.append(geo["city"])
+    tip = escape(", ".join(p for p in tip_parts if p))
+    return f'<span class="ip-flag" title="{tip}">{flag}</span>'
 
 
 class HopTraceWidget(Widget):
@@ -16,10 +33,13 @@ class HopTraceWidget(Widget):
         if not hops:
             return ""
         ip_geo_map = analysis.get("ip_geo_map", {})
+        host_geo_map = analysis.get("host_geo_map", {})
         items = ""
         for h in hops:
-            fr = escape(h.get("from", "—"))
-            by = escape(h.get("by", "—"))
+            fr_name = h.get("from", "—")
+            by_name = h.get("by", "—")
+            fr = escape(fr_name) + _host_flag(fr_name, host_geo_map)
+            by = escape(by_name) + _host_flag(by_name, host_geo_map)
             ip = h.get("ip", "")
             dt = escape(h.get("date", ""))
             hop_geo = ip_geo_map.get(ip)

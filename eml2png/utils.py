@@ -74,6 +74,21 @@ def convert_to_sender_timezone(date_header: str, timezone_name: str):
         return None
 
 
+def resolve_hostname(hostname: str) -> str:
+    """Resolve a hostname to its first IPv4 address via DNS. Returns '' on failure."""
+    import socket
+    import re
+    if not hostname or re.match(r"^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", hostname):
+        return ""
+    try:
+        results = socket.getaddrinfo(hostname, None, socket.AF_INET, socket.SOCK_STREAM)
+        if results:
+            return results[0][4][0]
+    except (socket.gaierror, OSError, IndexError):
+        pass
+    return ""
+
+
 def country_code_to_flag(code: str) -> str:
     """Convert a 2-letter country code to a flag emoji."""
     if not code or len(code) != 2:

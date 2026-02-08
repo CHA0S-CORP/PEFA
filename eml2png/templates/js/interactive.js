@@ -156,20 +156,21 @@
         toggleBtn.className = 'body-toggle-btn';
         toggleBtn.textContent = 'Show full email \u25BC';
         container.appendChild(toggleBtn);
+        // Register click handler once (outside checkCollapse to avoid duplicates)
+        toggleBtn.addEventListener('click', () => {
+            const isCollapsed = bodySection.classList.contains('collapsed-body');
+            bodySection.classList.toggle('collapsed-body');
+            overlay.style.display = isCollapsed ? 'none' : '';
+            toggleBtn.textContent = isCollapsed ? 'Collapse email \u25B2' : 'Show full email \u25BC';
+            // Re-resize iframe when expanding
+            if (isCollapsed && bodyIframe) resizeIframe(bodyIframe);
+        });
         // Check height after iframe loads
         function checkCollapse() {
             if (bodySection.scrollHeight > 500) {
                 bodySection.classList.add('collapsed-body');
                 overlay.style.display = '';
                 toggleBtn.style.display = '';
-                toggleBtn.addEventListener('click', () => {
-                    const isCollapsed = bodySection.classList.contains('collapsed-body');
-                    bodySection.classList.toggle('collapsed-body');
-                    overlay.style.display = isCollapsed ? 'none' : '';
-                    toggleBtn.textContent = isCollapsed ? 'Collapse email \u25B2' : 'Show full email \u25BC';
-                    // Re-resize iframe when expanding
-                    if (isCollapsed && bodyIframe) resizeIframe(bodyIframe);
-                });
             } else {
                 overlay.style.display = 'none';
                 toggleBtn.style.display = 'none';

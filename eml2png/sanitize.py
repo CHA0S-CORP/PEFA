@@ -63,9 +63,21 @@ def sanitize_html(html_body: str) -> str:
         return html_body
 
     if nh3_lib is not None:
-        return _sanitize_with_nh3(html_body)
+        result = _sanitize_with_nh3(html_body)
+    else:
+        result = _fallback_strip(html_body)
 
-    return _fallback_strip(html_body)
+    # Defense-in-depth: strip any <script> that survived (e.g. inside
+    # preserved <style> blocks where the parser treats them as raw text).
+    result = re.sub(
+        r"<\s*script\b[^>]*>.*?</\s*script\s*>",
+        "", result, flags=re.I | re.DOTALL,
+    )
+    result = re.sub(
+        r"<\s*/?\s*script\b[^>]*/?\s*>",
+        "", result, flags=re.I,
+    )
+    return result
 
 
 def _sanitize_with_nh3(html_body: str) -> str:

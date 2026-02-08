@@ -21,7 +21,7 @@ from .sanitize import sanitize_html
 from .renderers.page import PageRenderer
 from .analyzers.ioc_consolidator import extract_iocs, enrich_iocs
 from .scoring import calculate_threat_score
-from .utils import convert_to_sender_timezone
+from .utils import convert_to_sender_timezone, resolve_hostname
 
 
 def _safe_analyze(analyzer, parsed, label, default, log_fn=None):
@@ -149,6 +149,7 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
 
     # Geo-lookup all unique public hop IPs
     ip_geo_map = {}
+    host_geo_map = {}
     if do_api:
         hop_ips = set()
         for h in hops:
@@ -161,6 +162,29 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
             else:
                 _log(f"Looking up hop IP: {hip}")
                 ip_geo_map[hip] = IPLookupClient.lookup(hip)
+
+        # DNS-resolve hop hostnames and geo-locate for country flags
+        resolved_cache = {}
+        for h in hops:
+            for field in ("from", "by"):
+                hostname = h.get(field, "")
+                if not hostname or hostname == "—" or hostname in host_geo_map:
+                    continue
+                if hostname in resolved_cache:
+                    rip = resolved_cache[hostname]
+                else:
+                    rip = resolve_hostname(hostname)
+                    resolved_cache[hostname] = rip
+                if not rip or PRIVATE_IP_RE.match(rip):
+                    continue
+                if rip in ip_geo_map:
+                    host_geo_map[hostname] = ip_geo_map[rip]
+                else:
+                    _log(f"Resolving {hostname} → {rip}")
+                    geo = IPLookupClient.lookup(rip)
+                    ip_geo_map[rip] = geo
+                    if "error" not in geo:
+                        host_geo_map[hostname] = geo
 
     # Threat score
     _log("Calculating threat score...")
@@ -249,6 +273,7 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
         "mxtoolbox": mx_data,
         "hops": hops,
         "ip_geo_map": ip_geo_map,
+        "host_geo_map": host_geo_map,
         "threat": threat,
         "highlighted_body": highlighted,
         "gemini": gemini_result,

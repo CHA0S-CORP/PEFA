@@ -2,6 +2,37 @@
 
 A Python CLI tool that converts `.eml` files into cyber-infographic PNGs and interactive HTML reports. PEFA performs automated forensic analysis of phishing indicators and produces a composite threat score (0–100) backed by multiple detection engines and optional threat intelligence APIs.
 
+## Sample Report
+
+![Sample PEFA report — WELLS FARGO BANK phishing analysis](examples/WELLS%20FARGO%20BANK.png)
+
+[View interactive HTML version](examples/WELLS%20FARGO%20BANK.html)
+
+<details>
+<summary>More sample reports</summary>
+
+| Report | PNG | HTML |
+|---|---|---|
+| ATTENTION DEAR | [PNG](examples/ATTENTION%20DEAR.png) | [HTML](examples/ATTENTION%20DEAR.html) |
+| Congratulations Dear | [PNG](examples/Congratulations%20Dear.png) | [HTML](examples/Congratulations%20Dear.html) |
+| Dear Friend | [PNG](examples/Dear%20Friend.png) | [HTML](examples/Dear%20Friend.html) |
+| Dear Winner | [PNG](examples/Dear%20Winner_.png) | [HTML](examples/Dear%20Winner_.html) |
+| File | [PNG](examples/File.png) | [HTML](examples/File.html) |
+| Greetings to you | [PNG](examples/Greetings%20to%20you%2C.png) | [HTML](examples/Greetings%20to%20you%2C.html) |
+| HAPPY NEW YEAR! | [PNG](examples/HAPPY%20NEW%20YEAR!.png) | [HTML](examples/HAPPY%20NEW%20YEAR!.html) |
+| Konto-Überprüefig (Swiss German) | [PNG](examples/Ihri%20Mithilf%20isch%20gfrogt_%20Konto-%C3%9Cberpr%C3%BCefig%20offen%20Ref-E5W13XO1LE18GS1679.png) | [HTML](examples/Ihri%20Mithilf%20isch%20gfrogt_%20Konto-%C3%9Cberpr%C3%BCefig%20offen%20Ref-E5W13XO1LE18GS1679.html) |
+| Online Bank Of Africa | [PNG](examples/Online%20Bank%20Of%20Africa.png) | [HTML](examples/Online%20Bank%20Of%20Africa.html) |
+| Please I Need Your Urgent Attention | [PNG](examples/Please%20I%20Need%20Your%20Urgent%20Attention.%20This%20Is%20Mark%20Gelkirchen..png) | [HTML](examples/Please%20I%20Need%20Your%20Urgent%20Attention.%20This%20Is%20Mark%20Gelkirchen..html) |
+| INSTRUCTION TO CREDIT YOUR ACCOUNT ($25M) | [PNG](examples/REF_-%20INSTRUCTION%20TO%20CREDIT%20YOUR%20ACCOUNT%20WITH%20THE%20SUM%20OF%20(US%2425Million).png) | [HTML](examples/REF_-%20INSTRUCTION%20TO%20CREDIT%20YOUR%20ACCOUNT%20WITH%20THE%20SUM%20OF%20(US%2425Million).html) |
+| THIS IS YOUR ATM VISA CARD | [PNG](examples/THIS%20IS%20YOUR%20ATM%20VISA%20CARD..png) | [HTML](examples/THIS%20IS%20YOUR%20ATM%20VISA%20CARD..html) |
+| Text or Call +1 225 463 0148 | [PNG](examples/Text%20or%20Call%20%2B1%20225%20463%200148.png) | [HTML](examples/Text%20or%20Call%20%2B1%20225%20463%200148.html) |
+| URGENT RESPONSE | [PNG](examples/URGENT%20RESPONSE.png) | [HTML](examples/URGENT%20RESPONSE.html) |
+| Votre colis est prêt pour la livraison | [PNG](examples/Votre%20colis%20est%20pr%C3%AAt%20pour%20la%20livraison.png) | [HTML](examples/Votre%20colis%20est%20pr%C3%AAt%20pour%20la%20livraison.html) |
+| Your Funds Update! | [PNG](examples/Your%20Funds%20Update!.png) | [HTML](examples/Your%20Funds%20Update!.html) |
+| original_msg | [PNG](examples/original_msg.png) | [HTML](examples/original_msg.html) |
+
+</details>
+
 ## Features
 
 - **Threat Scoring** — Weighted 0–100 composite score across 7 categories with 5 severity levels (Clean / Low / Medium / High / Critical)
@@ -181,7 +212,7 @@ pefa/
 
 ## Sample Emails
 
-The `samples/` directory contains 15 example phishing emails (419 scams, social engineering, impersonation) for testing:
+The `samples/` directory contains example phishing emails (419 scams, social engineering, impersonation) for testing. Pre-generated reports are available in [`examples/`](examples/).
 
 ```bash
 pefa samples/

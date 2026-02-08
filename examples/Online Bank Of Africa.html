@@ -1,0 +1,1353 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@300;400;500;600;700&family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+<style>
+:root {
+    --bg: #0a0e17;
+    --surface: #111827;
+    --surface2: #1a2236;
+    --border: #1e293b;
+    --border-bright: #2d3f5f;
+    --text: #e2e8f0;
+    --text-dim: #64748b;
+    --text-muted: #475569;
+    --accent: #22d3ee;
+    --accent-glow: rgba(34,211,238,0.15);
+    --green: #34d399;
+    --green-glow: rgba(52,211,153,0.15);
+    --red: #f87171;
+    --red-glow: rgba(248,113,113,0.12);
+    --amber: #fbbf24;
+    --amber-glow: rgba(251,191,36,0.12);
+    --mono: 'JetBrains Mono','SF Mono','Fira Code',monospace;
+    --sans: 'Inter',-apple-system,BlinkMacSystemFont,sans-serif;
+}
+* { box-sizing:border-box; margin:0; padding:0; }
+body { background:var(--bg); color:var(--text); font-family:var(--sans); font-size:13px; line-height:1.55; }
+
+.topbar {
+    background:linear-gradient(135deg,#0f172a 0%,#1a1040 50%,#1a0a2e 100%);
+    border-bottom:1px solid var(--border-bright);
+    padding:16px 28px;
+    display:flex; align-items:center; justify-content:space-between;
+}
+.topbar-title { font-family:var(--mono); font-size:11px; font-weight:600; letter-spacing:3px; text-transform:uppercase; color:var(--accent); }
+.topbar-sub { font-family:var(--mono); font-size:10px; color:var(--text-muted); letter-spacing:1px; }
+.container { padding:24px 28px 32px; }
+
+/* Widgets */
+.widget { background:var(--surface); border:1px solid var(--border); border-radius:8px; margin-bottom:16px; overflow:hidden; }
+.widget-header { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:2px; color:var(--accent); padding:12px 18px; background:var(--surface2); border-bottom:1px solid var(--border); display:flex; align-items:center; gap:8px; }
+.widget-icon { font-size:12px; opacity:0.7; }
+.dim { color:var(--text-dim)!important; font-style:italic; }
+.mono { font-family:var(--mono); }
+
+/* Threat gauge */
+.threat-content { display:flex; align-items:center; gap:28px; padding:20px 24px; }
+.gauge-container { flex-shrink:0; }
+.gauge-ring { width:130px; height:130px; position:relative; }
+.gauge-svg { width:100%; height:100%; }
+.gauge-text { position:absolute; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center; }
+.gauge-score { font-family:var(--mono); font-size:38px; font-weight:700; line-height:1; text-shadow: 0 0 20px currentColor; }
+.gauge-label { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:2px; color:var(--text-dim); margin-top:4px; }
+.threat-factors { flex:1; min-width:0; }
+.factors-title { font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:2px; color:var(--text-muted); margin-bottom:8px; }
+.factor-row { display:flex; justify-content:space-between; padding:4px 0; border-bottom:1px solid rgba(30,41,59,0.5); font-size:12px; }
+.factor-desc { color:var(--text); }
+.factor-pts { font-family:var(--mono); color:var(--red); font-weight:600; font-size:11px; }
+
+/* Auth */
+.auth-badges { display:flex; flex-direction:column; gap:10px; padding:14px 18px; }
+.auth-check { border-radius:6px; border:1px solid var(--border); background:var(--surface2); overflow:hidden; }
+.auth-check.pass { border-color:rgba(52,211,153,0.3); background:var(--green-glow); }
+.auth-check.fail { border-color:rgba(248,113,113,0.3); background:var(--red-glow); }
+.auth-chip { display:flex; align-items:center; gap:8px; padding:10px 14px; }
+.auth-icon { font-family:var(--mono); font-weight:700; font-size:14px; }
+.auth-check.pass .auth-icon { color:var(--green); }
+.auth-check.fail .auth-icon { color:var(--red); }
+.auth-check.unknown .auth-icon { color:var(--text-muted); }
+.auth-label { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:1px; color:var(--text-dim); }
+.auth-val { font-family:var(--mono); font-size:12px; font-weight:600; margin-left:auto; }
+.auth-check.pass .auth-val { color:var(--green); }
+.auth-check.fail .auth-val { color:var(--red); }
+.auth-check.unknown .auth-val { color:var(--text-muted); }
+.auth-evidence { padding:6px 14px 10px; border-top:1px solid rgba(30,41,59,0.5); }
+.auth-evidence-item { font-family:var(--mono); font-size:10px; color:var(--text-dim); line-height:1.6; word-break:break-all; }
+
+/* Sender */
+.sender-flags { padding:12px 18px; display:flex; gap:8px; flex-wrap:wrap; }
+.sender-grid { display:grid; grid-template-columns:1fr 1fr; }
+.sender-item { padding:10px 18px; border-bottom:1px solid var(--border); border-right:1px solid var(--border); }
+.sender-item:nth-child(even) { border-right:none; }
+.sender-label { font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:1.5px; color:var(--text-muted); display:block; margin-bottom:3px; }
+.sender-val { font-size:12px; color:var(--text); word-break:break-all; }
+
+/* Flag badges */
+.flag-badge { font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:1px; padding:3px 8px; border-radius:4px; }
+.flag-crit { background:rgba(239,68,68,0.15); color:#f87171; border:1px solid rgba(239,68,68,0.3); }
+.flag-warn { background:rgba(251,191,36,0.12); color:#fbbf24; border:1px solid rgba(251,191,36,0.25); }
+
+/* Link analysis */
+.link-table { font-size:12px; }
+.link-table-header { display:grid; grid-template-columns:1fr 1.5fr auto; gap:12px; padding:10px 18px; background:var(--surface2); font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:1.5px; color:var(--text-muted); border-bottom:1px solid var(--border); }
+.link-row { display:grid; grid-template-columns:1fr 1.5fr auto; gap:12px; padding:10px 18px; border-bottom:1px solid var(--border); align-items:start; }
+.link-flagged { background:rgba(248,113,113,0.04); }
+.link-display { color:var(--text); word-break:break-all; }
+.link-href { font-family:var(--mono); font-size:11px; color:var(--text-dim); word-break:break-all; }
+.link-flags { display:flex; gap:4px; flex-wrap:wrap; }
+.link-findings { padding:12px 18px; border-bottom:1px solid var(--border); }
+.finding-item { font-size:12px; color:var(--amber); padding:3px 0; }
+
+/* Urgency */
+.urgency-content { padding:14px 18px; }
+.urgency-bar-row { display:flex; align-items:center; gap:12px; margin-bottom:8px; }
+.urgency-keyword { font-family:var(--mono); font-size:11px; color:var(--text); width:140px; flex-shrink:0; }
+.urgency-bar { flex:1; height:6px; background:var(--surface2); border-radius:3px; overflow:hidden; }
+.urgency-fill { height:100%; background:linear-gradient(90deg,#fbbf24,#f97316); border-radius:3px; }
+.urgency-count { font-family:var(--mono); font-size:11px; color:var(--amber); width:30px; text-align:right; }
+.urgency-note { padding:10px 18px; font-size:12px; color:var(--amber); border-top:1px solid var(--border); }
+
+/* Attachments */
+.att-row { padding:12px 18px; border-bottom:1px solid var(--border); }
+.att-info { display:flex; align-items:baseline; gap:12px; margin-bottom:4px; }
+.att-name { font-weight:500; color:var(--text); }
+.att-meta { font-family:var(--mono); font-size:11px; color:var(--text-dim); }
+.att-hashes { font-family:var(--mono); font-size:10px; color:var(--text-muted); display:flex; gap:16px; margin-bottom:4px; }
+.att-flags { display:flex; gap:4px; }
+
+/* Language */
+.lang-content { padding:14px 18px; }
+.lang-score { font-family:var(--mono); font-size:18px; font-weight:700; margin-bottom:6px; }
+.lang-label { font-size:11px; font-weight:600; letter-spacing:1px; opacity:0.8; }
+.lang-findings { padding:4px 0; }
+
+/* Domain age */
+.domain-content { padding:14px 18px; }
+.domain-age { font-family:var(--mono); font-size:18px; font-weight:700; margin-bottom:4px; }
+.domain-label { font-size:11px; font-weight:600; letter-spacing:1px; opacity:0.8; }
+.domain-detail { font-size:12px; color:var(--text-dim); }
+
+/* URL scan */
+.urlscan-content { padding:14px 18px; }
+.urlscan-verdict { font-family:var(--mono); font-size:14px; font-weight:700; margin-bottom:6px; }
+.urlscan-detail { font-size:12px; color:var(--text-dim); margin-bottom:4px; }
+.urlscan-link { font-size:12px; }
+
+/* IP */
+.ip-grid { display:grid; grid-template-columns:1fr 1fr; }
+.ip-main { padding:18px; border-right:1px solid var(--border); }
+.ip-address { font-family:var(--mono); font-size:22px; font-weight:700; color:var(--accent); text-shadow:0 0 20px var(--accent-glow); margin-bottom:6px; }
+.ip-org { font-size:13px; color:var(--text); font-weight:500; margin-bottom:2px; }
+.ip-asn { font-family:var(--mono); font-size:11px; color:var(--text-dim); }
+.ip-geo { padding:14px 18px; }
+.geo-row { display:flex; align-items:baseline; padding:4px 0; border-bottom:1px solid rgba(30,41,59,0.5); }
+.geo-row:last-child { border-bottom:none; }
+.geo-label { font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:1.5px; color:var(--text-muted); width:80px; flex-shrink:0; }
+.geo-val { font-size:12px; color:var(--text); }
+
+/* Metadata */
+.meta-row { display:flex; padding:8px 18px; border-bottom:1px solid var(--border); }
+.meta-row:last-child { border-bottom:none; }
+.meta-label { font-family:var(--mono); font-size:9px; font-weight:600; letter-spacing:1.5px; color:var(--text-muted); width:120px; flex-shrink:0; padding-top:2px; }
+.meta-val { font-family:var(--mono); font-size:11px; color:var(--text-dim); word-break:break-all; }
+
+/* Hops */
+.hop-trace { padding:16px 18px; }
+.hop-item { display:flex; align-items:flex-start; gap:12px; margin-bottom:12px; position:relative; }
+.hop-item:last-child { margin-bottom:0; }
+.hop-num { font-family:var(--mono); font-size:10px; font-weight:700; color:var(--accent); width:20px; height:20px; border:1.5px solid var(--accent); border-radius:50%; display:flex; align-items:center; justify-content:center; flex-shrink:0; background:var(--accent-glow); }
+.hop-line { position:absolute; left:9px; top:22px; bottom:-14px; width:1px; background:var(--border-bright); }
+.hop-item:last-child .hop-line { display:none; }
+.hop-detail { font-size:12px; }
+.hop-from { color:var(--text); font-weight:500; }
+.hop-arrow { color:var(--accent); margin:0 6px; font-family:var(--mono); }
+.hop-to { color:var(--text); font-weight:500; }
+.hop-ip { font-family:var(--mono); font-size:11px; color:var(--amber); margin-left:6px; }
+.hop-resolved { font-family:var(--mono); font-size:10px; color:var(--text-dim); margin-left:4px; }
+.hop-date { font-family:var(--mono); font-size:10px; color:var(--text-muted); margin-top:2px; }
+
+/* Country flags */
+.ip-flag { cursor: help; font-size: 14px; margin-left: 4px; vertical-align: middle; }
+.ip-flag:hover { filter: drop-shadow(0 0 4px rgba(34,211,238,0.5)); }
+
+/* Envelope */
+.envelope { background:var(--surface); border:1px solid var(--border); border-radius:8px; margin-bottom:16px; overflow:hidden; }
+.env-row { display:flex; padding:8px 18px; border-bottom:1px solid var(--border); }
+.env-row:last-child { border-bottom:none; }
+.env-label { font-family:var(--mono); font-size:9px; font-weight:700; letter-spacing:2px; color:var(--accent); width:100px; flex-shrink:0; padding-top:2px; }
+.env-val { font-size:13px; color:var(--text); word-break:break-word; }
+
+/* Email body */
+.body-widget { overflow:visible; }
+.body-section {
+    background: linear-gradient(168deg, #1a1f2e 0%, #151a27 40%, #121620 100%);
+    padding: 8px;
+    color: #c9d1d9;
+    font-size: 14px;
+    line-height: 1.7;
+    overflow: hidden;
+    position: relative;
+}
+.body-highlight-summary {
+    display: flex; gap: 8px; flex-wrap: wrap;
+    padding: 8px 18px;
+    border-bottom: 1px solid var(--border);
+    background: rgba(17,24,39,0.4);
+}
+.body-hl-badge {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 1px; padding: 3px 10px; border-radius: 4px;
+}
+.body-hl-amber {
+    background: rgba(251,191,36,0.12); color: #fbbf24;
+    border: 1px solid rgba(251,191,36,0.25);
+}
+.body-hl-red {
+    background: rgba(248,113,113,0.15); color: #f87171;
+    border: 1px solid rgba(248,113,113,0.3);
+}
+.body-section iframe { width:100%; min-height:200px; border:none; display:block; background:transparent; }
+/* Fallback styles for non-iframe body (e.g. plain text) */
+.body-section img { max-width:100%!important; height:auto!important; filter: brightness(0.92); }
+.body-section table { max-width:100%!important; }
+.body-section a { color: #60a5fa; text-decoration: underline; text-decoration-color: rgba(96,165,250,0.3); text-underline-offset: 2px; transition: all 0.2s; }
+.body-section a:hover { color: #93bbfc; text-decoration-color: rgba(96,165,250,0.7); }
+.body-section td, .body-section th { color: #c9d1d9 !important; }
+.body-section p, .body-section div, .body-section span { color: inherit; }
+
+/* IOC lookup badges */
+.ioc-wrap {
+    display: inline;
+    font-family: var(--mono);
+    word-break: break-all;
+}
+.ioc-badge {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 8px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 2px 6px;
+    border-radius: 3px;
+    margin-left: 6px;
+    vertical-align: middle;
+    text-decoration: none !important;
+    cursor: pointer;
+    transition: all 0.15s ease;
+}
+.vt-badge {
+    background: rgba(0, 102, 204, 0.15);
+    color: #4da6ff;
+    border: 1px solid rgba(0, 102, 204, 0.3);
+}
+.vt-badge:hover {
+    background: rgba(0, 102, 204, 0.3);
+    box-shadow: 0 0 8px rgba(0, 102, 204, 0.3);
+    color: #80c0ff;
+}
+.us-badge {
+    background: rgba(52, 211, 153, 0.12);
+    color: #34d399;
+    border: 1px solid rgba(52, 211, 153, 0.25);
+}
+.us-badge:hover {
+    background: rgba(52, 211, 153, 0.25);
+    box-shadow: 0 0 8px rgba(52, 211, 153, 0.25);
+    color: #6ee7b7;
+}
+
+/* Grid helpers */
+.row-2 { display:grid; grid-template-columns:1fr 1fr; gap:16px; margin-bottom:16px; }
+.row-2 .widget { margin-bottom:0; }
+
+/* Analysis log */
+.log-widget .widget-header { color: var(--text-muted); }
+.log-entries { padding: 12px 18px; }
+.log-entry { font-family: var(--mono); font-size: 11px; color: var(--text-dim); line-height: 1.7; white-space: pre-wrap; word-break: break-all; }
+
+/* Footer */
+.footer { font-family:var(--mono); font-size:9px; color:var(--text-muted); text-align:center; padding:16px; letter-spacing:1px; border-top:1px solid var(--border); margin-top:8px; }
+
+/* Gemini AI */
+.gemini-widget { border-color: rgba(139, 92, 246, 0.3); }
+.gemini-widget .widget-header { color: #a78bfa; }
+.gemini-content { padding: 18px; font-size: 13px; line-height: 1.7; color: var(--text); }
+.gemini-content p { margin-bottom: 10px; }
+.gemini-content strong { color: #c4b5fd; }
+.gemini-h1 { font-family: var(--mono); font-size: 14px; font-weight: 700; color: #a78bfa; margin: 16px 0 8px; letter-spacing: 1px; }
+.gemini-h2 { font-family: var(--mono); font-size: 12px; font-weight: 600; color: #a78bfa; margin: 14px 0 6px; letter-spacing: 0.5px; }
+.gemini-list { margin: 6px 0 12px 20px; padding: 0; }
+.gemini-list li { margin-bottom: 4px; color: var(--text); }
+
+/* Gemini verdict banner */
+.gemini-verdict-banner {
+    display: flex; align-items: center; gap: 12px;
+    padding: 14px 18px; border-radius: 6px;
+    border: 1px solid; margin-bottom: 16px;
+}
+.gemini-verdict-icon { font-size: 20px; }
+.gemini-verdict-text { font-family: var(--mono); font-size: 16px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; }
+.gemini-confidence {
+    font-family: var(--mono); font-size: 11px; font-weight: 700;
+    padding: 3px 10px; border-radius: 4px; margin-left: auto;
+    letter-spacing: 0.5px;
+}
+
+/* Gemini executive summary */
+.gemini-summary {
+    background: rgba(139, 92, 246, 0.06); border: 1px solid rgba(139, 92, 246, 0.2);
+    border-radius: 6px; padding: 16px 18px; margin-bottom: 16px;
+}
+.gemini-summary-label {
+    font-family: var(--mono); font-size: 9px; font-weight: 700;
+    letter-spacing: 2px; color: #a78bfa; margin-bottom: 8px;
+}
+.gemini-summary p { font-size: 14px; line-height: 1.75; }
+
+/* Gemini section cards */
+.gemini-section {
+    border: 1px solid var(--border); border-radius: 6px;
+    margin-bottom: 12px; overflow: hidden;
+}
+.gemini-section-header {
+    font-family: var(--mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 1.5px; color: #a78bfa;
+    padding: 10px 16px; background: var(--surface2);
+    border-bottom: 1px solid var(--border);
+    display: flex; align-items: center; gap: 6px;
+}
+.gemini-section-icon { font-size: 12px; }
+.gemini-section-body { padding: 14px 16px; }
+
+/* Gemini IOC items */
+.gemini-ioc-item { font-family: var(--mono); font-size: 12px; background: rgba(30,41,59,0.6); padding: 2px 6px; border-radius: 3px; }
+
+/* Gemini collapsible section cards */
+.gemini-section-toggle { cursor: pointer; user-select: none; }
+.gemini-section-toggle:hover { background: linear-gradient(135deg, var(--surface2), rgba(139,92,246,0.08)); }
+.gemini-chevron { margin-left: auto; font-size: 12px; color: var(--text-muted); transition: transform 0.3s ease; }
+.gemini-section.collapsed .gemini-chevron { transform: rotate(-90deg); }
+.gemini-section-body { max-height: 1000px; overflow: hidden; transition: max-height 0.4s ease, opacity 0.3s ease, padding 0.3s ease; opacity: 1; }
+.gemini-section.collapsed .gemini-section-body { max-height: 0; opacity: 0; padding-top: 0; padding-bottom: 0; }
+
+/* IOC Lookup */
+.ioc-lookup-widget { border-color: rgba(34,211,238,0.2); }
+.ioc-section { border-bottom: 1px solid var(--border); }
+.ioc-section:last-child { border-bottom: none; }
+.ioc-section-header { font-family: var(--mono); font-size: 9px; font-weight: 600; letter-spacing: 1.5px; color: var(--text-muted); padding: 10px 18px; background: var(--surface2); border-bottom: 1px solid var(--border); }
+.ioc-row { display: flex; align-items: center; gap: 8px; padding: 8px 18px; border-bottom: 1px solid rgba(30,41,59,0.5); flex-wrap: wrap; }
+.ioc-row:last-child { border-bottom: none; }
+.ioc-value { font-size: 12px; color: var(--text); word-break: break-all; }
+.ioc-hash-label { font-family: var(--mono); font-size: 9px; font-weight: 700; letter-spacing: 1px; color: var(--text-muted); width: 50px; flex-shrink: 0; }
+.intel-badge { display: inline-block; font-family: var(--mono); font-size: 8px; font-weight: 700; letter-spacing: 0.5px; padding: 2px 6px; border-radius: 3px; margin-left: 4px; vertical-align: middle; }
+.intel-badge-dim { background: rgba(100,116,139,0.15); color: var(--text-muted); border: 1px solid rgba(100,116,139,0.2); }
+.intel-badge-amber { background: rgba(251,191,36,0.12); color: #fbbf24; border: 1px solid rgba(251,191,36,0.25); }
+.intel-badge-red { background: rgba(248,113,113,0.15); color: #f87171; border: 1px solid rgba(248,113,113,0.3); }
+
+/* Scanline */
+body::before { content:''; position:fixed; top:0;left:0;right:0;bottom:0; background:repeating-linear-gradient(0deg,transparent,transparent 2px,rgba(0,0,0,0.03) 2px,rgba(0,0,0,0.03) 4px); pointer-events:none; z-index:5; }
+
+html { scroll-behavior: smooth; }
+.container { max-width:1000px; margin:0 auto; width:100%; }
+
+/* Smooth widget collapse/expand */
+.widget-content { max-height:2000px; overflow:hidden; transition: max-height 0.4s ease, opacity 0.3s ease; opacity:1; }
+.widget-content.collapsed { max-height:0; opacity:0; }
+
+/* Widget header hover + chevron */
+.widget-header { transition: background 0.2s ease; position:relative; }
+.widget-header:hover { background: linear-gradient(135deg, var(--surface2), rgba(34,211,238,0.06)); }
+.widget-header::after { content:'▾'; margin-left:auto; font-size:12px; color:var(--text-muted); transition: transform 0.3s ease; }
+.collapsed-header::after { transform: rotate(-90deg); }
+.widget-header:hover .widget-icon { transform: rotate(90deg); }
+.widget-icon { transition: transform 0.3s ease; display:inline-block; }
+
+/* Widget entrance animations (interactive only) */
+@keyframes fadeInUp {
+    from { opacity:0; transform:translateY(24px); }
+    to { opacity:1; transform:translateY(0); }
+}
+body.interactive .widget,
+body.interactive .envelope { opacity:0; transform:translateY(24px); }
+body.interactive .widget.visible,
+body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
+
+/* Widget hover glow */
+.widget { transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+.widget:hover { border-color: rgba(34,211,238,0.25); box-shadow: 0 0 16px rgba(34,211,238,0.08); }
+.threat-widget:hover { border-color: rgba(248,113,113,0.3); box-shadow: 0 0 20px rgba(248,113,113,0.1); }
+.gemini-widget:hover { border-color: rgba(139,92,246,0.35); box-shadow: 0 0 20px rgba(139,92,246,0.12); }
+.urgency-widget:hover { border-color: rgba(251,191,36,0.3); box-shadow: 0 0 20px rgba(251,191,36,0.1); }
+
+/* Threat gauge glow */
+.gauge-glow { position:absolute; inset:-20px; border-radius:50%; opacity:0.4; pointer-events:none; animation: pulseGlow 2.5s ease-in-out infinite alternate; }
+@keyframes pulseGlow { from { opacity:0.3; transform:scale(0.95); } to { opacity:0.5; transform:scale(1.05); } }
+
+/* Section navigation */
+.section-nav {
+    position:fixed; right:16px; top:50%; transform:translateY(-50%);
+    z-index:9000; display:flex; flex-direction:column; gap:2px;
+    background:rgba(17,24,39,0.85); backdrop-filter:blur(12px);
+    border:1px solid var(--border-bright); border-radius:10px;
+    padding:10px 8px; min-width:44px;
+}
+.nav-group { margin-bottom:6px; }
+.nav-group:last-child { margin-bottom:0; }
+.nav-group-label {
+    font-family:var(--mono); font-size:7px; font-weight:700;
+    letter-spacing:2px; text-transform:uppercase; color:var(--text-muted);
+    padding:4px 8px 2px; opacity:0.6;
+}
+.nav-dot {
+    display:flex; align-items:center; gap:6px; padding:4px 8px;
+    text-decoration:none; color:var(--text-dim); border-radius:6px;
+    transition: all 0.2s ease; font-size:11px;
+}
+.nav-dot:hover {
+    color:var(--accent); background:rgba(34,211,238,0.08);
+}
+.nav-dot-icon { font-size:8px; transition: transform 0.2s ease; }
+.nav-dot-text { font-family:var(--mono); font-size:9px; font-weight:500; letter-spacing:0.5px; white-space:nowrap; }
+.nav-dot.active {
+    color:var(--accent);
+    background:rgba(34,211,238,0.1);
+}
+.nav-dot.active .nav-dot-icon { transform:scale(1.3); text-shadow:0 0 6px var(--accent); }
+
+/* Copy-to-clipboard buttons */
+.copy-btn {
+    width:20px; height:20px; display:inline-flex; align-items:center; justify-content:center;
+    background:transparent; border:1px solid var(--border); border-radius:4px;
+    color:var(--text-dim); cursor:pointer; opacity:0; transition: all 0.2s ease;
+    padding:0; margin-left:4px; vertical-align:middle; position:relative;
+}
+.ioc-wrap:hover .copy-btn,
+.att-hash:hover .copy-btn { opacity:1; }
+.copy-btn:hover { background:var(--surface2); color:var(--accent); border-color:var(--accent); }
+.copy-feedback {
+    position:absolute; top:-28px; left:50%; transform:translateX(-50%);
+    background:var(--green); color:#0a0e17; font-family:var(--mono); font-size:9px;
+    font-weight:700; padding:3px 8px; border-radius:4px; white-space:nowrap;
+    animation: fadeInUp 0.2s ease; pointer-events:none; z-index:100;
+}
+
+/* Custom tooltips */
+.custom-tooltip {
+    position:fixed; z-index:10001; display:none; opacity:0;
+    background:linear-gradient(135deg, #1a2236, #111827);
+    border:1px solid var(--border-bright); border-radius:6px;
+    padding:6px 10px; font-family:var(--mono); font-size:10px;
+    color:var(--text); box-shadow:0 4px 16px rgba(0,0,0,0.5);
+    max-width:400px; word-break:break-all; pointer-events:none;
+    transition: opacity 0.15s ease;
+}
+
+/* Collapsible email body */
+.body-collapse-container { position:relative; }
+.body-section.collapsed-body { max-height:400px; overflow:hidden; transition: max-height 0.5s ease; }
+.body-fade-overlay {
+    position:absolute; bottom:40px; left:0; right:0; height:120px;
+    background:linear-gradient(to bottom, transparent, #121620);
+    pointer-events:none; z-index:1;
+}
+.body-toggle-btn {
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    width:100%; padding:10px; margin-top:0;
+    background:linear-gradient(135deg, var(--surface2), rgba(34,211,238,0.06));
+    border:1px solid var(--border-bright); border-top:none;
+    border-radius:0 0 8px 8px;
+    color:var(--text-dim); font-family:var(--mono);
+    font-size:10px; font-weight:600; letter-spacing:1.5px; cursor:pointer;
+    transition: all 0.2s ease; text-align:center;
+}
+.body-toggle-btn:hover { color:var(--accent); border-color:var(--accent); background:linear-gradient(135deg, var(--surface2), rgba(34,211,238,0.12)); }
+.body-toggle-btn .toggle-arrow {
+    display:inline-block; transition:transform 0.3s ease; font-size:12px;
+}
+.body-toggle-btn.expanded .toggle-arrow { transform:rotate(180deg); }
+
+/* Tablet */
+@media (max-width: 768px) {
+    .container { padding:16px; }
+    .topbar { flex-direction:column; gap:8px; padding:12px 16px; text-align:center; }
+    .row-2 { grid-template-columns:1fr; }
+    .ip-grid { grid-template-columns:1fr; }
+    .ip-main { border-right:none; border-bottom:1px solid var(--border); }
+    .sender-grid { grid-template-columns:1fr; }
+    .sender-item { border-right:none; }
+    .link-table-header, .link-row { grid-template-columns:1fr 1fr; }
+    .link-flags { grid-column: 1 / -1; }
+    .widget-header { padding:10px 14px; font-size:9px; }
+    .threat-content { flex-direction:column; padding:16px; gap:16px; }
+    body { font-size:12px; }
+    .section-nav .nav-dot-text,
+    .section-nav .nav-group-label { display:none; }
+    .section-nav { padding:8px 6px; min-width:32px; }
+    .nav-dot { padding:5px; justify-content:center; }
+    .nav-dot-icon { font-size:10px; }
+}
+
+/* Mobile */
+@media (max-width: 480px) {
+    .container { padding:12px 10px; }
+    .topbar { padding:10px 12px; }
+    body { font-size:11px; }
+    .widget { border-radius:6px; }
+    .widget-header { padding:8px 12px; font-size:8px; }
+    .link-table-header { display:none; }
+    .link-row {
+        grid-template-columns:1fr; gap:4px; padding:10px 14px;
+        border-left:2px solid var(--border-bright);
+    }
+    .link-row > div::before { font-family:var(--mono); font-size:8px; font-weight:600; letter-spacing:1px; color:var(--text-muted); display:block; margin-bottom:2px; }
+    .link-display::before { content:'DISPLAY'; }
+    .link-href::before { content:'URL'; }
+    .link-flags::before { content:'FLAGS'; }
+    .env-row, .meta-row { flex-direction:column; gap:4px; }
+    .env-label, .meta-label { width:auto; }
+    .body-section { padding:14px; font-size:12px; }
+    .section-nav .nav-dot-text,
+    .section-nav .nav-group-label { display:none; }
+    .section-nav { right:8px; padding:6px 4px; min-width:28px; border-radius:8px; }
+    .nav-dot { padding:4px; }
+    .nav-dot-icon { font-size:8px; }
+    .row-2 { grid-template-columns:1fr; }
+    .ip-grid { grid-template-columns:1fr; }
+    .ip-main { border-right:none; border-bottom:1px solid var(--border); }
+    .sender-grid { grid-template-columns:1fr; }
+    .sender-item { border-right:none; }
+    .gauge-ring { width:100px; height:100px; }
+    .gauge-score { font-size:30px; }
+}
+
+/* Topbar action buttons */
+.topbar-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    background: rgba(34,211,238,0.08);
+    border: 1px solid rgba(34,211,238,0.25);
+    border-radius: 5px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.topbar-btn:hover {
+    background: rgba(34,211,238,0.18);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(34,211,238,0.15);
+}
+
+/* Popup element */
+#phish-popup-el {
+    display:none; position:fixed; z-index:10000;
+    background:linear-gradient(135deg,#1e1032,#1a0a2e);
+    border:1px solid rgba(139,92,246,0.5); border-radius:8px;
+    padding:10px 14px; font-family:var(--mono); font-size:11px;
+    color:#e2e8f0; max-width:340px;
+    box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(139,92,246,0.15);
+    pointer-events:none; line-height:1.5; backdrop-filter:blur(8px);
+    opacity:0; transform:translateY(4px);
+    transition:opacity 0.15s ease, transform 0.15s ease;
+}
+#phish-popup-el .popup-type {
+    font-size:9px; font-weight:700; letter-spacing:1.5px; margin-bottom:4px;
+}
+.popup-type-urgency { color:#fbbf24; }
+.popup-type-link { color:#f87171; }
+#phish-popup-el .popup-detail { color:#94a3b8; }
+#phish-popup-el .popup-sub { color:#64748b; font-size:10px; margin-top:3px; }
+#phish-popup-el .popup-llm {
+    margin-top:6px; padding-top:6px;
+    border-top:1px solid rgba(139,92,246,0.2);
+}
+#phish-popup-el .popup-llm-label {
+    font-size:8px; font-weight:700; letter-spacing:1.2px;
+    color:#a78bfa; margin-bottom:2px;
+}
+#phish-popup-el .popup-llm-verdict { font-weight:700; }
+.popup-llm-verdict-red { color:#f87171; }
+.popup-llm-verdict-amber { color:#fbbf24; }
+.popup-llm-verdict-green { color:#34d399; }
+#phish-popup-el .popup-llm-technique { color:#c4b5fd; }
+
+/* Highlight navigation bar */
+.hl-nav-bar {
+    display:flex; align-items:center; gap:12px;
+    padding:8px 18px;
+    border-top:1px solid var(--border);
+    background:var(--surface2);
+    border-radius:0 0 8px 8px;
+}
+.hl-nav-label {
+    font-family:var(--mono); font-size:9px; font-weight:700;
+    letter-spacing:2px; color:var(--accent); margin-right:auto;
+}
+.hl-nav-counter {
+    font-family:var(--mono); font-size:11px; color:var(--text-dim);
+    letter-spacing:0.5px;
+}
+.hl-nav-current { color:var(--accent); font-weight:700; }
+.hl-nav-btn {
+    width:28px; height:28px; display:inline-flex; align-items:center; justify-content:center;
+    background:transparent; border:1px solid var(--border-bright); border-radius:5px;
+    color:var(--text-dim); font-size:16px; cursor:pointer;
+    font-family:var(--mono); transition:all 0.2s ease; padding:0;
+}
+.hl-nav-btn:hover {
+    color:var(--accent); border-color:var(--accent);
+    background:rgba(34,211,238,0.08);
+    box-shadow:0 0 8px rgba(34,211,238,0.15);
+}
+
+/* Print */
+@media print {
+    .section-nav, .topbar-btn { display:none !important; }
+    body::before { display:none; }
+    .widget { break-inside:avoid; box-shadow:none; border-color:#ccc; }
+    .widget-content.collapsed { max-height:none !important; opacity:1 !important; }
+    body { background:#fff; color:#111; }
+    .topbar { background:#fff; border-bottom:1px solid #ccc; }
+    .container { max-width:100%; }
+}
+
+</style>
+</head>
+<body class="interactive">
+<nav class="section-nav">
+            <div class="nav-group" data-group="assessment">
+                <div class="nav-group-label">ASSESS</div>
+                <a href="#nav-threat" class="nav-dot" data-section="nav-threat"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Threat</span></a>
+<a href="#nav-ai" class="nav-dot" data-section="nav-ai"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">AI</span></a>
+
+            </div>
+            <div class="nav-group" data-group="email">
+                <div class="nav-group-label">EMAIL</div>
+                <a href="#nav-sender" class="nav-dot" data-section="nav-sender"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Sender</span></a>
+<a href="#nav-auth" class="nav-dot" data-section="nav-auth"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Auth</span></a>
+<a href="#nav-links" class="nav-dot" data-section="nav-links"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Links</span></a>
+<a href="#nav-urgency" class="nav-dot" data-section="nav-urgency"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Urgency</span></a>
+<a href="#nav-language" class="nav-dot" data-section="nav-language"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Language</span></a>
+<a href="#nav-attachments" class="nav-dot" data-section="nav-attachments"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Files</span></a>
+
+            </div>
+            <div class="nav-group" data-group="network">
+                <div class="nav-group-label">NETWORK</div>
+                <a href="#nav-domain" class="nav-dot" data-section="nav-domain"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Domain</span></a>
+<a href="#nav-ip" class="nav-dot" data-section="nav-ip"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">IP</span></a>
+<a href="#nav-urlscan" class="nav-dot" data-section="nav-urlscan"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">URLScan</span></a>
+<a href="#nav-hops" class="nav-dot" data-section="nav-hops"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Hops</span></a>
+<a href="#nav-iocs" class="nav-dot" data-section="nav-iocs"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">IOCs</span></a>
+
+            </div>
+            <div class="nav-group" data-group="raw">
+                <div class="nav-group-label">RAW</div>
+                <a href="#nav-metadata" class="nav-dot" data-section="nav-metadata"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Meta</span></a>
+                <a href="#nav-envelope" class="nav-dot" data-section="nav-envelope"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Envelope</span></a>
+                <a href="#nav-body" class="nav-dot" data-section="nav-body"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Body</span></a>
+                <a href="#nav-logs" class="nav-dot" data-section="nav-logs"><span class="nav-dot-icon">◈</span><span class="nav-dot-text">Logs</span></a>
+            </div>
+        </nav>
+<div class="topbar">
+    <div>
+        <div class="topbar-title">▲ PHISHING EMAIL FORENSIC ANALYSIS</div>
+        <div class="topbar-sub">Online Bank Of Africa</div>
+    </div>
+    <div style="display:flex;align-items:center;gap:12px;">
+        <button class="topbar-btn new-analysis-btn" title="Analyze new email">&#8853; NEW ANALYSIS</button>
+        <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
+        <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
+        <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
+        <div class="topbar-sub">2026-02-07 20:21 UTC</div>
+    </div>
+</div>
+<div class="container">
+
+
+    <div class="widget threat-widget" id="nav-threat">
+        <div class="widget-header"><span class="widget-icon">⬡</span> PHISHING THREAT ASSESSMENT</div>
+        <div class="threat-content">
+            <div class="gauge-container">
+                <div class="gauge-ring" style="--score:53;--color:#f97316;--glow:rgba(249,115,22,0.3)">
+                    <svg viewBox="0 0 120 120" class="gauge-svg">
+                        <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
+                        <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
+                            stroke-width="8" stroke-linecap="round"
+                            stroke-dasharray="0 326.7" data-target-dash="173.2"
+                            transform="rotate(-90 60 60)"
+                            style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
+                    </svg>
+                    <div class="gauge-text">
+                        <div class="gauge-score" style="color:#f97316" data-target="53">0</div>
+                        <div class="gauge-label">HIGH</div>
+                    </div>
+                    <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
+                </div>
+            </div>
+            <div class="threat-factors">
+                <div class="factors-title">CONTRIBUTING FACTORS</div>
+                <div class="factor-row"><span class="factor-desc">REPLY-TO MISMATCH</span><span class="factor-pts">+8</span></div><div class="factor-row"><span class="factor-desc">All auth (SPF+DKIM+DMARC) passing</span><span class="factor-pts">-5</span></div><div class="factor-row"><span class="factor-desc">Gemini AI verdict: PHISHING</span><span class="factor-pts">+50</span></div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="widget gemini-widget" id="nav-ai">
+        <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
+        <div class="gemini-content">
+            <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">98%</span></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt, specifically an advance-fee scam, designed to trick the recipient into believing they are due a large sum of money. It is not safe and attempts to impersonate a bank to solicit a response for fraudulent purposes. Do not interact with this email.</p></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
+<li>  The `REPLY-TO` address (`onlinebanking579@gmail.com`) is a free email service and does not match the `FROM` domain (`sea.plala.or.jp`), indicating an attempt to direct replies to an attacker-controlled address.</li>
+<li>  The email impersonates &quot;Bank of Africa&quot; and its CEO, Mr. Arthur Isiko, but originates from `sea.plala.or.jp`, a Japanese ISP, which has no legitimate association with the claimed organization.</li>
+<li>  The email body employs classic advance-fee scam social engineering, promising a large sum of &quot;compensation and settlement funds&quot; ($8.5 million) and requesting urgent action to open an &quot;offshore account.&quot;</li>
+<li>  Despite passing SPF, DKIM, and DMARC for `sea.plala.or.jp`, these authentication results are irrelevant to the impersonation of &quot;Bank of Africa&quot; and do not validate the sender&#x27;s true identity or intent.</li>
+</ul></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-fee scam (419 scam)</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
+<li>  Do not reply to the email or attempt to contact the sender via any provided details.</li>
+<li>  Delete the email immediately to prevent accidental interaction.</li>
+<li>  Report this email to your organization&#x27;s IT security team.</li>
+<li>  Block the sender&#x27;s email address and domain at your email gateway if possible.</li>
+</ul>
+<p><strong>INDICATORS OF COMPROMISE (IOCs)</strong>:</p>
+<ul class="gemini-list">
+<li>  fff@sea.plala.or.jp</li>
+<li>  onlinebanking579@gmail.com</li>
+<li>  sea.plala.or.jp</li>
+<li>  60.36.166.34</li>
+</ul></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">📚</span> SOURCES &amp; REFERENCES<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
+<li>  `REPLY-TO` mismatch between `fff@sea.plala.or.jp` and `onlinebanking579@gmail.com` as a strong indicator of malicious intent.</li>
+<li>  Impersonation of &quot;Bank of Africa&quot; and its CEO, Mr. Arthur Isiko, while sending from an unrelated domain `sea.plala.or.jp`.</li>
+<li>  The email body&#x27;s use of advance-fee scam (419 scam) narrative, promising large sums of money for &quot;offshore account&quot; setup.</li>
+<li>  MITRE ATT&amp;CK T1566 (Phishing) and T1566.001 (Spearphishing: Social Engineering).</li>
+</ul></div></div>
+        </div>
+    </div>
+
+<div class="row-2">
+    
+    <div class="widget sender-widget" id="nav-sender">
+        <div class="widget-header"><span class="widget-icon">👤</span> SENDER ANALYSIS</div>
+        <div class="sender-flags"><span class="flag-badge flag-crit">REPLY-TO MISMATCH</span></div>
+        
+    <div class="sender-grid">
+        <div class="sender-item"><span class="sender-label">FROM (DISPLAY)</span><span class="sender-val">BOA</span></div>
+        <div class="sender-item"><span class="sender-label">FROM (EMAIL)</span><span class="sender-val mono"><span class="ioc-wrap">fff@sea.plala.or.jp<a href="https://www.virustotal.com/gui/domain/sea.plala.or.jp" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal domain lookup">VT</a></span></span></div>
+        <div class="sender-item"><span class="sender-label">RETURN-PATH</span><span class="sender-val mono"><span class="ioc-wrap">fff@sea.plala.or.jp<a href="https://www.virustotal.com/gui/domain/sea.plala.or.jp" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal domain lookup">VT</a></span></span></div>
+        <div class="sender-item"><span class="sender-label">REPLY-TO</span><span class="sender-val mono"><span class="ioc-wrap">onlinebanking579@gmail.com<a href="https://www.virustotal.com/gui/domain/gmail.com" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal domain lookup">VT</a></span></span></div>
+    </div>
+        <div class="link-findings"><div class="finding-item">⚠ Reply-To (onlinebanking579@gmail.com) differs from From (fff@sea.plala.or.jp)</div></div>
+    </div>
+    <div>
+        
+    <div class="widget auth-widget" id="nav-auth">
+        <div class="widget-header"><span class="widget-icon">◈</span> EMAIL AUTHENTICATION</div>
+        <div class="auth-badges">
+            <div class="auth-check pass"><div class="auth-chip"><span class="auth-icon">✓</span><span class="auth-label">SPF</span><span class="auth-val">pass</span></div><div class="auth-evidence"><div class="auth-evidence-item">Header: spf=pass (google.com: domain of fff@sea.plala.or.jp designates 60.36.166.34 as permitted sender)</div><div class="auth-evidence-item">MXToolbox: 12 check(s) passed</div></div></div>
+            <div class="auth-check pass"><div class="auth-chip"><span class="auth-icon">✓</span><span class="auth-label">DKIM</span><span class="auth-val">pass</span></div><div class="auth-evidence"><div class="auth-evidence-item">Header: dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=Muyrba95</div><div class="auth-evidence-item">DKIM-Signature: d=plala.or.jp; s=p20240201</div></div></div>
+            <div class="auth-check pass"><div class="auth-chip"><span class="auth-icon">✓</span><span class="auth-label">DMARC</span><span class="auth-val">pass</span></div><div class="auth-evidence"><div class="auth-evidence-item">Header: dmarc=pass (p=REJECT sp=REJECT dis=NONE)</div><div class="auth-evidence-item">MXToolbox: 5 check(s) passed</div></div></div>
+        </div>
+    </div>
+        
+    <div class="widget lang-widget" id="nav-language">
+        <div class="widget-header"><span class="widget-icon">📝</span> LANGUAGE ANALYSIS</div>
+        <div class="lang-content">
+            <div class="lang-score" style="color:#34d399">100/100 <span class="lang-label">GOOD</span></div>
+            <div class="dim" style="padding:0 18px 14px;font-size:12px;">No significant language anomalies</div>
+        </div>
+    </div>
+    </div>
+</div>
+
+
+
+
+
+
+
+
+        <div class="widget ip-widget" id="nav-ip">
+            <div class="widget-header"><span class="widget-icon">◉</span> ORIGIN IP INTELLIGENCE</div>
+            <div class="ip-grid">
+                <div class="ip-main">
+                    <div class="ip-address"><span class="ioc-wrap">60.36.166.34<span class="ip-flag" title="Japan, Chiyoda City, NTT Communications Corporation">🇯🇵</span><a href="https://www.virustotal.com/gui/ip-address/60.36.166.34" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a><a href="https://urlscan.io/search/#60.36.166.34" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a></span></div>
+                    <div class="ip-org">NTT Communications Corporation</div>
+                    <div class="ip-asn">AS4713 NTT DOCOMO BUSINESS,Inc.</div>
+                </div>
+                <div class="ip-geo">
+                    <div class="geo-row"><span class="geo-label">LOCATION</span><span class="geo-val">Chiyoda City, Tokyo</span></div>
+                    <div class="geo-row"><span class="geo-label">COUNTRY</span><span class="geo-val"><span class="ip-flag" title="Japan">🇯🇵</span> Japan [JP]</span></div>
+                    <div class="geo-row"><span class="geo-label">COORDS</span><span class="geo-val mono">35.6906, 139.77</span></div>
+                    <div class="geo-row"><span class="geo-label">TIMEZONE</span><span class="geo-val">Asia/Tokyo</span></div>
+                    <div class="geo-row"><span class="geo-label">SENDER TIME</span><span class="geo-val" style="color:var(--accent)">2026-02-01 05:18:16 (JST)</span></div>
+                    <div class="geo-row"><span class="geo-label">ISP</span><span class="geo-val">NTT Communications Corporation</span></div>
+                </div>
+            </div>
+        </div>
+
+
+    <div class="widget hop-widget" id="nav-hops">
+        <div class="widget-header"><span class="widget-icon">◆</span> DELIVERY PATH — 5 HOPS</div>
+        <div class="hop-trace">
+        <div class="hop-item">
+            <div class="hop-num">5</div>
+            <div class="hop-line"></div>
+            <div class="hop-detail">
+                <span class="hop-from">—</span><span class="hop-arrow">→</span><span class="hop-to">2002 <span class="hop-resolved">(0.0.7.210)</span></span>
+                <div class="hop-date">Sat, 31 Jan 2026 12:18:29 -0800 (PST)</div>
+            </div>
+        </div>
+        <div class="hop-item">
+            <div class="hop-num">4</div>
+            <div class="hop-line"></div>
+            <div class="hop-detail">
+                <span class="hop-from">msc112.plala.or.jp <span class="hop-resolved">(60.36.166.34<span class="ip-flag" title="Japan, Chiyoda City">🇯🇵</span>)</span></span><span class="hop-arrow">→</span><span class="hop-to">mx.google.com <span class="hop-resolved">(60.36.166.34<span class="ip-flag" title="Japan, Chiyoda City">🇯🇵</span>)</span></span><span class="hop-ip"><span class="ioc-wrap">60.36.166.34<span class="ip-flag" title="Japan, Chiyoda City, NTT Communications Corporation">🇯🇵</span><a href="https://www.virustotal.com/gui/ip-address/60.36.166.34" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a><a href="https://urlscan.io/search/#60.36.166.34" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a></span></span>
+                <div class="hop-date">Sat, 31 Jan 2026 12:18:29 -0800 (PST)</div>
+            </div>
+        </div>
+        <div class="hop-item">
+            <div class="hop-num">3</div>
+            <div class="hop-line"></div>
+            <div class="hop-detail">
+                <span class="hop-from">mdkim-o06.ake-mailbk.plala.or.jp</span><span class="hop-arrow">→</span><span class="hop-to">msc112.plala.or.jp <span class="hop-resolved">(60.36.166.34<span class="ip-flag" title="Japan, Chiyoda City">🇯🇵</span>)</span></span><span class="hop-ip"><span class="ioc-wrap">172.23.12.55<a href="https://www.virustotal.com/gui/ip-address/172.23.12.55" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a><a href="https://urlscan.io/search/#172.23.12.55" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a></span></span>
+                <div class="hop-date">Sun, 1 Feb 2026 05:18:21 +0900</div>
+            </div>
+        </div>
+        <div class="hop-item">
+            <div class="hop-num">2</div>
+            <div class="hop-line"></div>
+            <div class="hop-detail">
+                <span class="hop-from">msa13.ake-mailbk.plala.or.jp</span><span class="hop-arrow">→</span><span class="hop-to">mdkim-o.ake-mailbk.plala.or.jp</span><span class="hop-ip"><span class="ioc-wrap">172.23.12.93<a href="https://www.virustotal.com/gui/ip-address/172.23.12.93" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a><a href="https://urlscan.io/search/#172.23.12.93" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a></span></span>
+                <div class="hop-date">01 Feb 2026 05:18:17 +0900</div>
+            </div>
+        </div>
+        <div class="hop-item">
+            <div class="hop-num">1</div>
+            <div class="hop-line"></div>
+            <div class="hop-detail">
+                <span class="hop-from">mweb12</span><span class="hop-arrow">→</span><span class="hop-to">msa13.plala.or.jp <span class="hop-resolved">(60.36.166.13<span class="ip-flag" title="Japan, Chiyoda City">🇯🇵</span>)</span></span><span class="hop-ip"><span class="ioc-wrap">172.23.13.122<a href="https://www.virustotal.com/gui/ip-address/172.23.13.122" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a><a href="https://urlscan.io/search/#172.23.13.122" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a></span></span>
+                <div class="hop-date">Sun, 1 Feb 2026 05:18:16 +0900</div>
+            </div>
+        </div></div>
+    </div>
+
+    <div class="widget ioc-lookup-widget" id="nav-iocs">
+        <div class="widget-header"><span class="widget-icon">◈</span> CONSOLIDATED IOCs — 5 INDICATORS <span class="dim">(no TI services configured)</span></div>
+        <div class="widget-content"><div class="ioc-section">
+    <div class="ioc-section-header">IP ADDRESSES (2)</div>
+    <div class="ioc-row"><span class="ioc-value"><span class="ioc-wrap">01.31.12.18<a href="https://www.virustotal.com/gui/ip-address/01.31.12.18" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a><a href="https://urlscan.io/search/#01.31.12.18" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a></span></span></div><div class="ioc-row"><span class="ioc-value"><span class="ioc-wrap">60.36.166.34<span class="ip-flag" title="Japan, Chiyoda City, NTT Communications Corporation">🇯🇵</span><a href="https://www.virustotal.com/gui/ip-address/60.36.166.34" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a><a href="https://urlscan.io/search/#60.36.166.34" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a></span></span></div>
+</div><div class="ioc-section">
+    <div class="ioc-section-header">DOMAINS (1)</div>
+    <div class="ioc-row"><span class="ioc-value mono">sea.plala.or.jp</span></div>
+</div><div class="ioc-section">
+    <div class="ioc-section-header">EMAIL ADDRESSES (2)</div>
+    <div class="ioc-row"><span class="ioc-value"><span class="ioc-wrap">fff@sea.plala.or.jp<a href="https://www.virustotal.com/gui/domain/sea.plala.or.jp" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal domain lookup">VT</a></span></span></div><div class="ioc-row"><span class="ioc-value"><span class="ioc-wrap">onlinebanking579@gmail.com<a href="https://www.virustotal.com/gui/domain/gmail.com" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal domain lookup">VT</a></span></span></div>
+</div></div>
+    </div>
+
+<div class="widget meta-widget" id="nav-metadata"><div class="widget-header"><span class="widget-icon">◇</span> MESSAGE METADATA</div><div class="meta-row"><span class="meta-label">MESSAGE-ID</span><span class="meta-val">&lt;20260201051816.CSTE6.4341.root@mweb12&gt;</span></div><div class="meta-row"><span class="meta-label">RETURN-PATH</span><span class="meta-val">&lt;fff@sea.plala.or.jp&gt;</span></div><div class="meta-row"><span class="meta-label">MIME</span><span class="meta-val">1.0</span></div><div class="meta-row"><span class="meta-label">CONTENT-TYPE</span><span class="meta-val">text/plain; charset=&quot;iso-2022-jp&quot;</span></div></div>
+
+<div class="envelope" id="nav-envelope"><div class="env-row"><span class="env-label">FROM</span><span class="env-val">BOA &lt;fff@sea.plala.or.jp&gt;</span></div><div class="env-row"><span class="env-label">REPLY-TO</span><span class="env-val">onlinebanking579@gmail.com</span></div><div class="env-row"><span class="env-label">DATE</span><span class="env-val">Sun, 01 Feb 2026 05:18:16 +0900</span></div><div class="env-row"><span class="env-label" style="color:var(--accent)">SENDER TIME</span><span class="env-val" style="color:var(--accent)">2026-02-01 05:18:16 (JST)</span></div><div class="env-row"><span class="env-label">SUBJECT</span><span class="env-val">Online Bank Of Africa</span></div></div>
+
+<div class="widget body-widget" id="nav-body"><div class="widget-header"><span class="widget-icon">◇</span> EMAIL BODY (RENDERED)</div><div class="body-section"><iframe sandbox="allow-same-origin" srcdoc="&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;body{margin:0;padding:0;background:transparent;color:#c9d1d9;font-size:14px;line-height:1.7;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;}img{max-width:100%!important;height:auto!important;filter:brightness(0.92);}table{max-width:100%!important;}a{color:#60a5fa;text-decoration:underline;text-decoration-color:rgba(96,165,250,0.3);text-underline-offset:2px;pointer-events:none;cursor:default;}td,th{color:#c9d1d9!important;}p,div,span{color:inherit;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;&lt;pre style=&#x27;white-space:pre-wrap;font-family:inherit;&#x27;&gt;Dear Beneficiary,
+
+I wish to inform you that your compensation and settlement funds/payment total sum of $8.5 million dollars has been deposited in this bank by the United Nations and the Africa&amp;#x27;s Fund settlement Committee (AFSC), we have been instructed to release this funds to you as soon as possible and after our meeting today we have agreed to pay you via online bank transfer by opening an offshore account in your name in this bank, after that we will credit your total funds into your offshore account and send the login details to you.
+
+Get back to us as soon as possible for the offshore account opening form.
+
+Regards
+
+Mr. Arthur Isiko
+CEO, Bank of Africa Uganda
+Email: onlinebanking579@gmail.com
+Phone: +256 743324632
+&lt;/pre&gt;&lt;/body&gt;&lt;/html&gt;" style="width:100%;border:none;min-height:200px;display:block;background:transparent;" title="Email body content"></iframe></div></div>
+
+<div class="widget log-widget" id="nav-logs">
+<div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:21:06.316] Analyzing links...</div>
+<div class="log-entry">[20:21:06.316] Analyzing sender...</div>
+<div class="log-entry">[20:21:06.316] Scanning urgency patterns...</div>
+<div class="log-entry">[20:21:06.316] Checking attachments...</div>
+<div class="log-entry">[20:21:06.316] Analyzing language...</div>
+<div class="log-entry">[20:21:06.317] Looking up IP: 60.36.166.34</div>
+<div class="log-entry">[20:21:06.362] Sender local time: 2026-02-01 05:18:16 (JST)</div>
+<div class="log-entry">[20:21:06.362] Checking domain age: sea.plala.or.jp</div>
+<div class="log-entry">[20:21:06.612] Querying MXToolbox (SPF/DKIM/DMARC): sea.plala.or.jp</div>
+<div class="log-entry">[20:21:09.432] Resolving 2002 → 0.0.7.210</div>
+<div class="log-entry">[20:21:09.669] Resolving msa13.plala.or.jp → 60.36.166.13</div>
+<div class="log-entry">[20:21:09.732] Calculating threat score...</div>
+<div class="log-entry">[20:21:09.732] Sanitizing email body...</div>
+<div class="log-entry">[20:21:09.732] Highlighting body...</div>
+<div class="log-entry">[20:21:09.732] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:21:18.167] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:21:18.168] ⚠ Gemini says PHISHING — threat score bumped by +50 to 53</div>
+<div class="log-entry">[20:21:18.168] Consolidating IOCs...</div>
+<div class="log-entry">[20:21:18.168] Found 5 IOC indicators</div>
+<div class="log-entry">[20:21:18.168] Looking up IOC IP: 01.31.12.18</div></div></div>
+</div>
+
+</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:21:18 UTC</div>
+<script>
+(function() {
+    // === Print button ===
+    var printBtn = document.querySelector('.print-btn');
+    if (printBtn) {
+        printBtn.addEventListener('click', function() { window.print(); });
+    }
+
+    // === New Analysis button ===
+    var newAnalysisBtn = document.querySelector('.new-analysis-btn');
+    if (newAnalysisBtn) {
+        newAnalysisBtn.addEventListener('click', function() {
+            window.location.reload();
+        });
+    }
+
+    // === Download HTML button ===
+    var downloadHtmlBtn = document.querySelector('.download-html-btn');
+    if (downloadHtmlBtn) {
+        downloadHtmlBtn.addEventListener('click', function() {
+            var clone = document.documentElement.cloneNode(true);
+            var html = '<!DOCTYPE html>\n' + clone.outerHTML;
+            var blob = new Blob([html], { type: 'text/html' });
+            var url = URL.createObjectURL(blob);
+            var a = document.createElement('a');
+            a.href = url;
+            a.download = 'report.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        });
+    }
+
+    // === Download PNG button ===
+    function loadHtml2Canvas() {
+        return new Promise(function(resolve, reject) {
+            if (typeof html2canvas !== 'undefined') { resolve(html2canvas); return; }
+            var s = document.createElement('script');
+            s.src = 'https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js';
+            s.onload = function() { resolve(html2canvas); };
+            s.onerror = function() { reject(new Error('Failed to load html2canvas from CDN')); };
+            document.head.appendChild(s);
+        });
+    }
+    var downloadPngBtn = document.querySelector('.download-png-btn');
+    if (downloadPngBtn) {
+        downloadPngBtn.addEventListener('click', function() {
+            downloadPngBtn.textContent = '⏳ LOADING…';
+            downloadPngBtn.disabled = true;
+            loadHtml2Canvas().then(function(h2c) {
+                downloadPngBtn.textContent = '⏳ CAPTURING…';
+                return h2c(document.body, {
+                    backgroundColor: '#0a0e17',
+                    scale: 2,
+                    useCORS: true,
+                    logging: false
+                });
+            }).then(function(canvas) {
+                canvas.toBlob(function(blob) {
+                    var url = URL.createObjectURL(blob);
+                    var a = document.createElement('a');
+                    a.href = url;
+                    a.download = 'report.png';
+                    document.body.appendChild(a);
+                    a.click();
+                    document.body.removeChild(a);
+                    URL.revokeObjectURL(url);
+                    downloadPngBtn.textContent = '⤓ PNG';
+                    downloadPngBtn.disabled = false;
+                }, 'image/png');
+            }).catch(function(err) {
+                console.error('PNG capture failed:', err);
+                alert('PNG capture failed: ' + err.message);
+                downloadPngBtn.textContent = '⤓ PNG';
+                downloadPngBtn.disabled = false;
+            });
+        });
+    }
+
+    // === Smooth widget collapse/expand ===
+    document.querySelectorAll('.widget').forEach(w => {
+        if (w.classList.contains('body-widget')) return;
+        const header = w.querySelector('.widget-header');
+        if (!header) return;
+        const children = Array.from(w.children).filter(c => c !== header);
+        if (children.length === 0) return;
+        const wrapper = document.createElement('div');
+        wrapper.className = 'widget-content';
+        children.forEach(c => wrapper.appendChild(c));
+        w.appendChild(wrapper);
+        header.style.cursor = 'pointer';
+        header.addEventListener('click', () => {
+            wrapper.classList.toggle('collapsed');
+            header.classList.toggle('collapsed-header');
+        });
+    });
+
+    // === Gemini section collapse/expand ===
+    document.querySelectorAll('.gemini-section-toggle').forEach(header => {
+        header.addEventListener('click', () => {
+            header.parentElement.classList.toggle('collapsed');
+        });
+    });
+
+    // === Widget entrance animations (IntersectionObserver) ===
+    const animObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (e.isIntersecting) {
+                e.target.classList.add('visible');
+                animObs.unobserve(e.target);
+            }
+        });
+    }, { threshold: 0.08 });
+    document.querySelectorAll('.widget, .envelope').forEach(w => {
+        if (w.classList.contains('threat-widget')) {
+            w.classList.add('visible');
+        } else {
+            animObs.observe(w);
+        }
+    });
+
+    // === Threat gauge count-up + ring animation ===
+    const gaugeObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            if (!e.isIntersecting) return;
+            gaugeObs.unobserve(e.target);
+            const scoreEl = e.target.querySelector('.gauge-score[data-target]');
+            const ringEl = e.target.querySelector('circle[data-target-dash]');
+            if (!scoreEl) return;
+            const target = parseInt(scoreEl.dataset.target) || 0;
+            const targetDash = parseFloat(ringEl ? ringEl.dataset.targetDash : 0);
+            const duration = 1200;
+            const start = performance.now();
+            function easeOut(t) { return 1 - Math.pow(1 - t, 3); }
+            function tick(now) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = easeOut(progress);
+                scoreEl.textContent = Math.round(target * eased);
+                if (ringEl) ringEl.setAttribute('stroke-dasharray', (targetDash * eased).toFixed(1) + ' 326.7');
+                if (progress < 1) requestAnimationFrame(tick);
+            }
+            requestAnimationFrame(tick);
+        });
+    }, { threshold: 0.3 });
+    const threatW = document.querySelector('.threat-widget');
+    if (threatW) gaugeObs.observe(threatW);
+
+    // === Copy-to-clipboard buttons ===
+    function addCopyBtn(el, textFn) {
+        const btn = document.createElement('button');
+        btn.className = 'copy-btn';
+        btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+        btn.title = 'Copy to clipboard';
+        btn.addEventListener('click', (ev) => {
+            ev.stopPropagation();
+            const text = textFn();
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).catch(() => fallbackCopy(text));
+            } else { fallbackCopy(text); }
+            btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#34d399" stroke-width="3"><polyline points="20 6 9 17 4 12"/></svg>';
+            const pill = document.createElement('span');
+            pill.className = 'copy-feedback';
+            pill.textContent = 'Copied!';
+            btn.parentElement.style.position = 'relative';
+            btn.parentElement.appendChild(pill);
+            setTimeout(() => {
+                btn.innerHTML = '<svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 01-2-2V4a2 2 0 012-2h9a2 2 0 012 2v1"/></svg>';
+                if (pill.parentElement) pill.remove();
+            }, 1500);
+        });
+        el.style.position = 'relative';
+        el.appendChild(btn);
+    }
+    function fallbackCopy(text) {
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;left:-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+        } catch (err) {
+            console.error('Fallback clipboard copy failed:', err);
+        }
+    }
+    // IOC spans
+    document.querySelectorAll('.ioc-wrap').forEach(el => {
+        addCopyBtn(el, () => {
+            const clone = el.cloneNode(true);
+            clone.querySelectorAll('.ioc-badge, .copy-btn, .copy-feedback').forEach(x => x.remove());
+            return clone.textContent.trim();
+        });
+    });
+    // Attachment hashes
+    document.querySelectorAll('.att-hash[data-full]').forEach(el => {
+        addCopyBtn(el, () => el.dataset.full || el.textContent.trim());
+    });
+
+    // === Iframe auto-resize for email body ===
+    function resizeIframe(iframe) {
+        try {
+            var doc = iframe.contentDocument || iframe.contentWindow.document;
+            if (doc && doc.body) {
+                var h = doc.documentElement.scrollHeight || doc.body.scrollHeight;
+                iframe.style.height = Math.max(h, 200) + 'px';
+            }
+        } catch (e) { /* cross-origin blocked — keep min-height */ }
+    }
+    var bodyIframe = document.querySelector('.body-section iframe');
+    if (bodyIframe) {
+        bodyIframe.addEventListener('load', function() { resizeIframe(bodyIframe); });
+        // Fallback resize after a delay (for slow-loading srcdoc)
+        setTimeout(function() { resizeIframe(bodyIframe); }, 500);
+    }
+
+    // === Collapsible email body ===
+    const bodySection = document.querySelector('.body-section');
+    if (bodySection) {
+        const container = document.createElement('div');
+        container.className = 'body-collapse-container';
+        bodySection.parentNode.insertBefore(container, bodySection);
+        container.appendChild(bodySection);
+        const overlay = document.createElement('div');
+        overlay.className = 'body-fade-overlay';
+        container.appendChild(overlay);
+        const toggleBtn = document.createElement('button');
+        toggleBtn.className = 'body-toggle-btn';
+        toggleBtn.innerHTML = 'Show full email <span class="toggle-arrow">\u25BC</span>';
+        container.appendChild(toggleBtn);
+        // Register click handler once (outside checkCollapse to avoid duplicates)
+        toggleBtn.addEventListener('click', () => {
+            const isCollapsed = bodySection.classList.contains('collapsed-body');
+            bodySection.classList.toggle('collapsed-body');
+            overlay.style.display = isCollapsed ? 'none' : '';
+            toggleBtn.innerHTML = isCollapsed
+                ? 'Collapse email <span class="toggle-arrow">\u25BC</span>'
+                : 'Show full email <span class="toggle-arrow">\u25BC</span>';
+            toggleBtn.classList.toggle('expanded', isCollapsed);
+            // Re-resize iframe when expanding
+            if (isCollapsed && bodyIframe) resizeIframe(bodyIframe);
+        });
+        // Check height after iframe loads
+        function checkCollapse() {
+            if (bodySection.scrollHeight > 500) {
+                bodySection.classList.add('collapsed-body');
+                overlay.style.display = '';
+                toggleBtn.style.display = '';
+            } else {
+                overlay.style.display = 'none';
+                toggleBtn.style.display = 'none';
+            }
+        }
+        if (bodyIframe) {
+            bodyIframe.addEventListener('load', checkCollapse);
+            setTimeout(checkCollapse, 600);
+        } else {
+            checkCollapse();
+        }
+    }
+
+    // === Custom styled tooltips ===
+    const tooltip = document.createElement('div');
+    tooltip.className = 'custom-tooltip';
+    document.body.appendChild(tooltip);
+    document.querySelectorAll('[title]').forEach(el => {
+        if (el.classList.contains('phish-hl-urgency') || el.classList.contains('phish-hl-link-warn')) return;
+        const text = el.getAttribute('title');
+        if (!text) return;
+        el.setAttribute('data-tooltip', text);
+        el.removeAttribute('title');
+        el.addEventListener('mouseenter', (ev) => {
+            tooltip.textContent = el.dataset.tooltip;
+            tooltip.style.display = 'block';
+            const rect = el.getBoundingClientRect();
+            let top = rect.top - tooltip.offsetHeight - 8;
+            let left = rect.left + rect.width / 2 - tooltip.offsetWidth / 2;
+            if (top < 4) top = rect.bottom + 8;
+            if (left < 4) left = 4;
+            if (left + tooltip.offsetWidth > window.innerWidth - 4) left = window.innerWidth - tooltip.offsetWidth - 4;
+            tooltip.style.top = top + 'px';
+            tooltip.style.left = left + 'px';
+            tooltip.style.opacity = '1';
+        });
+        el.addEventListener('mouseleave', () => {
+            tooltip.style.display = 'none';
+            tooltip.style.opacity = '0';
+        });
+    });
+
+    // === Defang links inside email body iframe ===
+    function defangIframeLinks() {
+        if (!bodyIframe) return;
+        try {
+            var doc = bodyIframe.contentDocument || bodyIframe.contentWindow.document;
+            if (!doc) return;
+            doc.querySelectorAll('a').forEach(function(a) {
+                a.removeAttribute('href');
+                a.style.cursor = 'default';
+                a.title = '(link disabled for safety)';
+            });
+        } catch (e) { /* cross-origin */ }
+    }
+    if (bodyIframe) {
+        bodyIframe.addEventListener('load', defangIframeLinks);
+        setTimeout(defangIframeLinks, 600);
+    }
+})();
+
+</script>
+<script>
+(function(){
+    var iframe = document.querySelector('.body-section iframe');
+    if (!iframe) return;
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (98% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-fee scam (419 scam)</span></div></div>';
+    function setup() {
+        var doc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!doc || !doc.body) return;
+        var popup = document.createElement('div');
+        popup.id = 'phish-popup-el';
+        document.body.appendChild(popup);
+        var hideTimer = null;
+        function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
+        function showPopup(rect, html) {
+            if (hideTimer) { clearTimeout(hideTimer); hideTimer = null; }
+            popup.innerHTML = html;
+            popup.style.display = 'block';
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(4px)';
+            var iframeRect = iframe.getBoundingClientRect();
+            var scrollTop = 0;
+            try { scrollTop = doc.documentElement.scrollTop || doc.body.scrollTop || 0; } catch(e) {}
+            var x = iframeRect.left + rect.left;
+            var y = iframeRect.top + (rect.bottom - scrollTop) + 6;
+            if (x + 340 > window.innerWidth) x = window.innerWidth - 350;
+            if (x < 4) x = 4;
+            if (y + 200 > window.innerHeight) y = iframeRect.top + (rect.top - scrollTop) - popup.offsetHeight - 6;
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+            requestAnimationFrame(function() {
+                popup.style.opacity = '1';
+                popup.style.transform = 'translateY(0)';
+            });
+        }
+        function hidePopup() {
+            popup.style.opacity = '0';
+            popup.style.transform = 'translateY(4px)';
+            hideTimer = setTimeout(function() { popup.style.display = 'none'; }, 150);
+        }
+        doc.querySelectorAll('.phish-hl-urgency').forEach(function(el) {
+            el.addEventListener('mouseenter', function() {
+                var label = el.getAttribute('data-threat') || el.getAttribute('title') || '';
+                showPopup(el.getBoundingClientRect(),
+                    '<div class="popup-type popup-type-urgency">SOCIAL ENGINEERING</div>'
+                    + '<div class="popup-detail">Pattern: <span class="popup-type-urgency">' + esc(label) + '</span></div>'
+                    + '<div class="popup-sub">Urgency/pressure language used in phishing</div>'
+                    + llmRef);
+            });
+            el.addEventListener('mouseleave', hidePopup);
+        });
+        doc.querySelectorAll('.phish-hl-link-warn').forEach(function(el) {
+            el.addEventListener('mouseenter', function() {
+                var flags = el.getAttribute('data-flags') || 'SUSPICIOUS';
+                var href = el.getAttribute('data-real-href') || el.getAttribute('href') || '';
+                showPopup(el.getBoundingClientRect(),
+                    '<div class="popup-type popup-type-link">SUSPICIOUS LINK</div>'
+                    + '<div class="popup-detail">Flags: <span class="popup-type-link">' + esc(flags) + '</span></div>'
+                    + (href ? '<div class="popup-sub" style="word-break:break-all;">Destination: ' + esc(href.substring(0,120)) + '</div>' : '')
+                    + llmRef);
+            });
+            el.addEventListener('mouseleave', hidePopup);
+        });
+        var highlights = Array.from(doc.querySelectorAll('.phish-hl-urgency, .phish-hl-link-warn'));
+        if (highlights.length > 0) {
+            var bodyWidget = document.querySelector('.body-widget');
+            if (bodyWidget) {
+                var navBar = document.createElement('div');
+                navBar.className = 'hl-nav-bar';
+                navBar.innerHTML = '<span class="hl-nav-label">HIGHLIGHTS</span>'
+                    + '<button class="hl-nav-btn" data-dir="prev">&lsaquo;</button>'
+                    + '<span class="hl-nav-counter"><span class="hl-nav-current">0</span> / ' + highlights.length + '</span>'
+                    + '<button class="hl-nav-btn" data-dir="next">&rsaquo;</button>';
+                bodyWidget.appendChild(navBar);
+                var curIdx = -1;
+                function goToHighlight(idx) {
+                    if (highlights.length === 0) return;
+                    if (curIdx >= 0 && curIdx < highlights.length) highlights[curIdx].classList.remove('phish-hl-active');
+                    curIdx = ((idx % highlights.length) + highlights.length) % highlights.length;
+                    var el = highlights[curIdx];
+                    el.classList.add('phish-hl-active');
+                    el.scrollIntoView({behavior:'smooth', block:'center'});
+                    navBar.querySelector('.hl-nav-current').textContent = (curIdx + 1);
+                    var bodySection = bodyWidget.querySelector('.body-section');
+                    if (bodySection && bodySection.classList.contains('collapsed-body')) {
+                        var toggleBtn = bodyWidget.querySelector('.body-toggle-btn');
+                        if (toggleBtn) toggleBtn.click();
+                    }
+                }
+                navBar.querySelector('[data-dir="next"]').addEventListener('click', function() { goToHighlight(curIdx + 1); });
+                navBar.querySelector('[data-dir="prev"]').addEventListener('click', function() { goToHighlight(curIdx - 1); });
+            }
+        }
+    }
+    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+        setup();
+    } else {
+        iframe.addEventListener('load', setup);
+    }
+})();
+
+</script>
+<script>
+(function() {
+    // Hide dots whose target section doesn't exist
+    document.querySelectorAll('.nav-dot').forEach(dot => {
+        const targetId = dot.dataset.section;
+        if (!document.getElementById(targetId)) {
+            dot.style.display = 'none';
+        }
+    });
+    // Hide empty nav groups
+    document.querySelectorAll('.nav-group').forEach(g => {
+        const visibleDots = g.querySelectorAll('.nav-dot:not([style*="display: none"])');
+        if (visibleDots.length === 0) g.style.display = 'none';
+    });
+    // Scroll-spy with IntersectionObserver
+    const dots = document.querySelectorAll('.nav-dot');
+    const sectionIds = Array.from(dots).map(d => d.dataset.section).filter(id => document.getElementById(id));
+    const navObs = new IntersectionObserver((entries) => {
+        entries.forEach(e => {
+            const dot = document.querySelector(`.nav-dot[data-section="${CSS.escape(e.target.id)}"]`);
+            if (dot) {
+                if (e.isIntersecting) dot.classList.add('active');
+                else dot.classList.remove('active');
+            }
+        });
+    }, { rootMargin: '-20% 0px -60% 0px', threshold: 0 });
+    sectionIds.forEach(id => navObs.observe(document.getElementById(id)));
+    // Click handlers with smooth scroll + offset
+    dots.forEach(dot => {
+        dot.addEventListener('click', (ev) => {
+            ev.preventDefault();
+            const target = document.getElementById(dot.dataset.section);
+            if (target) {
+                const y = target.getBoundingClientRect().top + window.pageYOffset - 20;
+                window.scrollTo({ top: y, behavior: 'smooth' });
+            }
+        });
+    });
+})();
+
+</script>
+</body>
+</html>

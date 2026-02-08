@@ -24,6 +24,8 @@ ALLOWED_TAGS = {
     "a", "img",
     # Legacy formatting (common in emails)
     "font", "center",
+    # Style (scoped inside iframe)
+    "style",
 }
 
 # Attributes allowed per-tag (or "*" for all tags)
@@ -71,6 +73,7 @@ def _sanitize_with_nh3(html_body: str) -> str:
     return nh3_lib.clean(
         html_body,
         tags=ALLOWED_TAGS,
+        clean_content_tags=set(),
         attributes=ALLOWED_ATTRIBUTES,
         url_schemes=ALLOWED_URL_SCHEMES,
         link_rel=LINK_REL,

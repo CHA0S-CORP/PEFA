@@ -53,19 +53,22 @@ body { background:var(--bg); color:var(--text); font-family:var(--sans); font-si
 .factor-pts { font-family:var(--mono); color:var(--red); font-weight:600; font-size:11px; }
 
 /* Auth */
-.auth-badges { display:flex; flex-direction:column; gap:8px; padding:14px 18px; }
-.auth-chip { display:flex; align-items:center; gap:8px; padding:10px 14px; border-radius:6px; border:1px solid var(--border); background:var(--surface2); }
-.auth-chip.pass { border-color:rgba(52,211,153,0.3); background:var(--green-glow); }
-.auth-chip.fail { border-color:rgba(248,113,113,0.3); background:var(--red-glow); }
+.auth-badges { display:flex; flex-direction:column; gap:10px; padding:14px 18px; }
+.auth-check { border-radius:6px; border:1px solid var(--border); background:var(--surface2); overflow:hidden; }
+.auth-check.pass { border-color:rgba(52,211,153,0.3); background:var(--green-glow); }
+.auth-check.fail { border-color:rgba(248,113,113,0.3); background:var(--red-glow); }
+.auth-chip { display:flex; align-items:center; gap:8px; padding:10px 14px; }
 .auth-icon { font-family:var(--mono); font-weight:700; font-size:14px; }
-.auth-chip.pass .auth-icon { color:var(--green); }
-.auth-chip.fail .auth-icon { color:var(--red); }
-.auth-chip.unknown .auth-icon { color:var(--text-muted); }
+.auth-check.pass .auth-icon { color:var(--green); }
+.auth-check.fail .auth-icon { color:var(--red); }
+.auth-check.unknown .auth-icon { color:var(--text-muted); }
 .auth-label { font-family:var(--mono); font-size:10px; font-weight:600; letter-spacing:1px; color:var(--text-dim); }
 .auth-val { font-family:var(--mono); font-size:12px; font-weight:600; margin-left:auto; }
-.auth-chip.pass .auth-val { color:var(--green); }
-.auth-chip.fail .auth-val { color:var(--red); }
-.auth-chip.unknown .auth-val { color:var(--text-muted); }
+.auth-check.pass .auth-val { color:var(--green); }
+.auth-check.fail .auth-val { color:var(--red); }
+.auth-check.unknown .auth-val { color:var(--text-muted); }
+.auth-evidence { padding:6px 14px 10px; border-top:1px solid rgba(30,41,59,0.5); }
+.auth-evidence-item { font-family:var(--mono); font-size:10px; color:var(--text-dim); line-height:1.6; word-break:break-all; }
 
 /* Sender */
 .sender-flags { padding:12px 18px; display:flex; gap:8px; flex-wrap:wrap; }

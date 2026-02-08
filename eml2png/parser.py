@@ -9,6 +9,18 @@ import re
 from .deps import BeautifulSoup
 
 
+def _extract_auth_clause(auth_results: str, proto: str) -> str:
+    """Extract the full clause for a protocol from Authentication-Results."""
+    # Match e.g. "spf=pass (google.com: ...)" or "dkim=pass header.d=example.com"
+    m = re.search(
+        rf"{proto}=\w+\s*(?:\([^)]*\)|[^;]*)",
+        auth_results, re.I,
+    )
+    if m:
+        return m.group(0).strip().rstrip(";").strip()
+    return ""
+
+
 def parse_eml(eml_path: str) -> dict:
     with open(eml_path, "rb") as f:
         msg = email.message_from_binary_file(f, policy=email.policy.default)
@@ -27,12 +39,30 @@ def parse_eml(eml_path: str) -> dict:
     auth_results = msg.get("Authentication-Results", "")
     dkim_sig = msg.get("DKIM-Signature", "")
 
-    auth = {"spf": "", "dkim": "", "dmarc": ""}
+    auth = {"spf": "", "dkim": "", "dmarc": "",
+            "spf_evidence": [], "dkim_evidence": [], "dmarc_evidence": []}
     if auth_results:
         for proto in ("spf", "dkim", "dmarc"):
             m = re.search(rf"{proto}=(\w+)", auth_results, re.I)
             if m:
                 auth[proto] = m.group(1)
+                # Extract the clause around the result as evidence
+                clause = _extract_auth_clause(auth_results, proto)
+                if clause:
+                    auth[f"{proto}_evidence"].append(f"Header: {clause}")
+    if dkim_sig:
+        # Extract key selector and domain from DKIM-Signature
+        d_match = re.search(r"\bd=([^\s;]+)", dkim_sig)
+        s_match = re.search(r"\bs=([^\s;]+)", dkim_sig)
+        parts = []
+        if d_match:
+            parts.append(f"d={d_match.group(1)}")
+        if s_match:
+            parts.append(f"s={s_match.group(1)}")
+        if parts:
+            auth["dkim_evidence"].append(f"DKIM-Signature: {'; '.join(parts)}")
+    elif not auth["dkim"]:
+        auth["dkim_evidence"].append("No DKIM-Signature header present")
 
     html_body = None
     text_body = None

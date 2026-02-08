@@ -5,7 +5,7 @@ from html import escape
 from ..base import Widget
 
 
-def auth_badge_html(label, value):
+def auth_badge_html(label, value, evidence=None):
     if not value:
         cls, icon = "unknown", "—"
     elif value.lower() == "pass":
@@ -14,7 +14,22 @@ def auth_badge_html(label, value):
         cls, icon = "fail", "✗"
     else:
         cls, icon = "unknown", "?"
-    return f'<div class="auth-chip {cls}"><span class="auth-icon">{icon}</span><span class="auth-label">{label}</span><span class="auth-val">{escape(value or "N/A")}</span></div>'
+    evidence_html = ""
+    if evidence:
+        items = "".join(
+            f'<div class="auth-evidence-item">{escape(e)}</div>' for e in evidence
+        )
+        evidence_html = f'<div class="auth-evidence">{items}</div>'
+    return (
+        f'<div class="auth-check {cls}">'
+        f'<div class="auth-chip">'
+        f'<span class="auth-icon">{icon}</span>'
+        f'<span class="auth-label">{label}</span>'
+        f'<span class="auth-val">{escape(value or "N/A")}</span>'
+        f'</div>'
+        f'{evidence_html}'
+        f'</div>'
+    )
 
 
 class AuthWidget(Widget):
@@ -30,8 +45,8 @@ class AuthWidget(Widget):
     <div class="widget auth-widget" id="nav-auth">
         <div class="widget-header"><span class="widget-icon">◈</span> EMAIL AUTHENTICATION</div>
         <div class="auth-badges">
-            {auth_badge_html("SPF", auth["spf"])}
-            {auth_badge_html("DKIM", auth["dkim"])}
-            {auth_badge_html("DMARC", auth["dmarc"])}
+            {auth_badge_html("SPF", auth["spf"], auth.get("spf_evidence"))}
+            {auth_badge_html("DKIM", auth["dkim"], auth.get("dkim_evidence"))}
+            {auth_badge_html("DMARC", auth["dmarc"], auth.get("dmarc_evidence"))}
         </div>
     </div>"""

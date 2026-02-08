@@ -117,6 +117,21 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
                         f"MXToolbox {proto.upper()} check failed despite header claiming pass"
                     )
                     sender["flags"].append((f"MXTOOLBOX {proto.upper()} FAIL", "warning"))
+                # Add MXToolbox evidence
+                ev_key = f"{proto}_evidence"
+                if ev_key not in auth:
+                    auth[ev_key] = []
+                mx_passed = mx_check.get("passed", [])
+                mx_failed = mx_check.get("failed", [])
+                mx_warnings = mx_check.get("warnings", [])
+                if mx_failed:
+                    for item in mx_failed[:3]:
+                        auth[ev_key].append(f"MXToolbox FAIL: {item}")
+                if mx_warnings:
+                    for item in mx_warnings[:2]:
+                        auth[ev_key].append(f"MXToolbox WARN: {item}")
+                if mx_passed and not mx_failed:
+                    auth[ev_key].append(f"MXToolbox: {len(mx_passed)} check(s) passed")
 
     # Hops
     hops = IPLookupClient.parse_hops(parsed["received"])

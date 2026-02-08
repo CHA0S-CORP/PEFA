@@ -1,4 +1,10 @@
 (function() {
+    // === Print button ===
+    var printBtn = document.querySelector('.print-btn');
+    if (printBtn) {
+        printBtn.addEventListener('click', function() { window.print(); });
+    }
+
     // === Smooth widget collapse/expand ===
     document.querySelectorAll('.widget').forEach(w => {
         const header = w.querySelector('.widget-header');
@@ -112,6 +118,23 @@
         addCopyBtn(el, () => el.dataset.full || el.textContent.trim());
     });
 
+    // === Iframe auto-resize for email body ===
+    function resizeIframe(iframe) {
+        try {
+            var doc = iframe.contentDocument || iframe.contentWindow.document;
+            if (doc && doc.body) {
+                var h = doc.documentElement.scrollHeight || doc.body.scrollHeight;
+                iframe.style.height = Math.max(h, 200) + 'px';
+            }
+        } catch (e) { /* cross-origin blocked — keep min-height */ }
+    }
+    var bodyIframe = document.querySelector('.body-section iframe');
+    if (bodyIframe) {
+        bodyIframe.addEventListener('load', function() { resizeIframe(bodyIframe); });
+        // Fallback resize after a delay (for slow-loading srcdoc)
+        setTimeout(function() { resizeIframe(bodyIframe); }, 500);
+    }
+
     // === Collapsible email body ===
     const bodySection = document.querySelector('.body-section');
     if (bodySection) {
@@ -126,17 +149,30 @@
         toggleBtn.className = 'body-toggle-btn';
         toggleBtn.textContent = 'Show full email \u25BC';
         container.appendChild(toggleBtn);
-        if (bodySection.scrollHeight > 500) {
-            bodySection.classList.add('collapsed-body');
-            toggleBtn.addEventListener('click', () => {
-                const isCollapsed = bodySection.classList.contains('collapsed-body');
-                bodySection.classList.toggle('collapsed-body');
-                overlay.style.display = isCollapsed ? 'none' : '';
-                toggleBtn.textContent = isCollapsed ? 'Collapse email \u25B2' : 'Show full email \u25BC';
-            });
+        // Check height after iframe loads
+        function checkCollapse() {
+            if (bodySection.scrollHeight > 500) {
+                bodySection.classList.add('collapsed-body');
+                overlay.style.display = '';
+                toggleBtn.style.display = '';
+                toggleBtn.addEventListener('click', () => {
+                    const isCollapsed = bodySection.classList.contains('collapsed-body');
+                    bodySection.classList.toggle('collapsed-body');
+                    overlay.style.display = isCollapsed ? 'none' : '';
+                    toggleBtn.textContent = isCollapsed ? 'Collapse email \u25B2' : 'Show full email \u25BC';
+                    // Re-resize iframe when expanding
+                    if (isCollapsed && bodyIframe) resizeIframe(bodyIframe);
+                });
+            } else {
+                overlay.style.display = 'none';
+                toggleBtn.style.display = 'none';
+            }
+        }
+        if (bodyIframe) {
+            bodyIframe.addEventListener('load', checkCollapse);
+            setTimeout(checkCollapse, 600);
         } else {
-            overlay.style.display = 'none';
-            toggleBtn.style.display = 'none';
+            checkCollapse();
         }
     }
 
@@ -169,10 +205,21 @@
         });
     });
 
-    // === Defang all remaining links in body ===
-    document.querySelectorAll('.body-section a').forEach(a => {
-        a.removeAttribute('href');
-        a.style.cursor = 'default';
-        a.title = '(link disabled for safety)';
-    });
+    // === Defang links inside email body iframe ===
+    function defangIframeLinks() {
+        if (!bodyIframe) return;
+        try {
+            var doc = bodyIframe.contentDocument || bodyIframe.contentWindow.document;
+            if (!doc) return;
+            doc.querySelectorAll('a').forEach(function(a) {
+                a.removeAttribute('href');
+                a.style.cursor = 'default';
+                a.title = '(link disabled for safety)';
+            });
+        } catch (e) { /* cross-origin */ }
+    }
+    if (bodyIframe) {
+        bodyIframe.addEventListener('load', defangIframeLinks);
+        setTimeout(defangIframeLinks, 600);
+    }
 })();

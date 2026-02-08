@@ -17,6 +17,7 @@ from .constants import PRIVATE_IP_RE
 from .deps import require_playwright, sync_playwright
 from .highlighting import highlight_body
 from .parser import parse_eml
+from .sanitize import sanitize_html
 from .renderers.page import PageRenderer
 from .scoring import calculate_threat_score
 
@@ -141,9 +142,11 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
         parsed["auth"], sender, links, urgency, att, lang, ip_data, domain_age_days
     )
 
-    # Highlighted body
+    # Sanitize + highlight body
+    _log("Sanitizing email body...")
+    sanitized = sanitize_html(parsed["html_body"])
     _log("Highlighting body...")
-    highlighted = highlight_body(parsed["html_body"], urgency.get("positions", []), links)
+    highlighted = highlight_body(sanitized, urgency.get("positions", []), links)
 
     # Gemini AI assessment
     gemini_result = {}

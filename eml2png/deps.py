@@ -22,6 +22,11 @@ try:
 except ImportError:
     whois_lib = None
 
+try:
+    import nh3 as nh3_lib
+except ImportError:
+    nh3_lib = None
+
 
 def require_playwright():
     """Exit with install instructions if Playwright is not available."""

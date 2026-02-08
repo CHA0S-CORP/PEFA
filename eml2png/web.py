@@ -3,6 +3,7 @@
 import cgi
 import io
 import os
+import secrets
 import tempfile
 import webbrowser
 from http.server import HTTPServer, BaseHTTPRequestHandler
@@ -245,12 +246,45 @@ class AnalysisHandler(BaseHTTPRequestHandler):
     do_gemini = False
     gemini_model = "gemini-2.5-flash"
 
+    def _send_security_headers(self, nonce=None):
+        """Add security headers to the response."""
+        if nonce:
+            csp = (
+                f"default-src 'none'; "
+                f"script-src 'nonce-{nonce}'; "
+                f"style-src 'unsafe-inline' https://fonts.googleapis.com; "
+                f"font-src https://fonts.gstatic.com; "
+                f"img-src data: https:; "
+                f"frame-src 'self'; "
+                f"connect-src 'self'; "
+                f"object-src 'none'; "
+                f"base-uri 'none'; "
+                f"form-action /analyze"
+            )
+        else:
+            csp = (
+                "default-src 'none'; "
+                "script-src 'unsafe-inline'; "
+                "style-src 'unsafe-inline' https://fonts.googleapis.com; "
+                "font-src https://fonts.gstatic.com; "
+                "img-src data: https:; "
+                "connect-src 'self'; "
+                "object-src 'none'; "
+                "base-uri 'none'; "
+                "form-action /analyze"
+            )
+        self.send_header("Content-Security-Policy", csp)
+        self.send_header("X-Content-Type-Options", "nosniff")
+        self.send_header("X-Frame-Options", "DENY")
+        self.send_header("Referrer-Policy", "no-referrer")
+
     def do_GET(self):
         if self.path == "/" or self.path == "":
             body = _build_upload_page().encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
+            self._send_security_headers()
             self.end_headers()
             self.wfile.write(body)
         else:
@@ -302,13 +336,15 @@ class AnalysisHandler(BaseHTTPRequestHandler):
                 do_gemini=self.do_gemini,
                 gemini_model=self.gemini_model,
             )
+            nonce = secrets.token_urlsafe(32)
             renderer = PageRenderer()
-            html = renderer.build(parsed, analysis, interactive=True)
+            html = renderer.build(parsed, analysis, interactive=True, csp_nonce=nonce)
 
             body = html.encode("utf-8")
             self.send_response(200)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(body)))
+            self._send_security_headers(nonce=nonce)
             self.end_headers()
             self.wfile.write(body)
 
@@ -317,6 +353,7 @@ class AnalysisHandler(BaseHTTPRequestHandler):
             self.send_response(500)
             self.send_header("Content-Type", "text/html; charset=utf-8")
             self.send_header("Content-Length", str(len(error_html)))
+            self._send_security_headers()
             self.end_headers()
             self.wfile.write(error_html)
 
@@ -332,6 +369,7 @@ class AnalysisHandler(BaseHTTPRequestHandler):
         self.send_response(code)
         self.send_header("Content-Type", "text/html; charset=utf-8")
         self.send_header("Content-Length", str(len(body)))
+        self._send_security_headers()
         self.end_headers()
         self.wfile.write(body)
 

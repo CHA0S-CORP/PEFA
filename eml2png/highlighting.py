@@ -72,50 +72,6 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
         box-shadow: 0 2px 6px rgba(220,38,38,0.3);
     }
     </style>
-    <div id="phish-popup-el" style="display:none;position:fixed;z-index:10000;
-        background:linear-gradient(135deg,#1e1032,#1a0a2e);border:1px solid rgba(139,92,246,0.5);
-        border-radius:8px;padding:10px 14px;font-family:monospace;font-size:11px;color:#e2e8f0;
-        max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(139,92,246,0.15);
-        pointer-events:none;line-height:1.5;backdrop-filter:blur(8px);"></div>
-    <script>
-    (function(){
-        var popup = document.getElementById('phish-popup-el');
-        if (!popup) return;
-        function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
-        function showPopup(e, html) {
-            popup.innerHTML = html;
-            popup.style.display = 'block';
-            var r = e.target.getBoundingClientRect();
-            var x = r.left;
-            var y = r.bottom + 6;
-            if (x + 340 > window.innerWidth) x = window.innerWidth - 350;
-            if (x < 4) x = 4;
-            if (y + 200 > window.innerHeight) y = r.top - popup.offsetHeight - 6;
-            popup.style.left = x + 'px';
-            popup.style.top = y + 'px';
-        }
-        function hidePopup() { popup.style.display = 'none'; }
-        document.querySelectorAll('.phish-hl-urgency').forEach(function(el) {
-            el.addEventListener('mouseenter', function(e) {
-                var label = el.getAttribute('data-threat') || el.getAttribute('title') || '';
-                showPopup(e, '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#fbbf24;margin-bottom:4px;">SOCIAL ENGINEERING</div>'
-                    + '<div style="color:#94a3b8;">Pattern: <span style="color:#fbbf24;">' + esc(label) + '</span></div>'
-                    + '<div style="color:#64748b;font-size:10px;margin-top:3px;">Urgency/pressure language used in phishing</div>');
-            });
-            el.addEventListener('mouseleave', hidePopup);
-        });
-        document.querySelectorAll('.phish-hl-link-warn').forEach(function(el) {
-            el.addEventListener('mouseenter', function(e) {
-                var flags = el.getAttribute('data-flags') || 'SUSPICIOUS';
-                var href = el.getAttribute('data-real-href') || el.getAttribute('href') || '';
-                showPopup(e, '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#f87171;margin-bottom:4px;">SUSPICIOUS LINK</div>'
-                    + '<div style="color:#94a3b8;">Flags: <span style="color:#f87171;">' + esc(flags) + '</span></div>'
-                    + (href ? '<div style="color:#64748b;font-size:10px;margin-top:3px;word-break:break-all;">Destination: ' + esc(href.substring(0,120)) + '</div>' : ''));
-            });
-            el.addEventListener('mouseleave', hidePopup);
-        });
-    })();
-    </script>
     """
 
     modified = style_inject + html_body
@@ -149,3 +105,69 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
         modified = str(soup)
 
     return modified
+
+
+def get_highlight_popup_js() -> str:
+    """Return JS that sets up highlight popups targeting the email body iframe.
+
+    This script runs in the parent page context and accesses the iframe's
+    contentDocument (allowed because the iframe uses allow-same-origin).
+    """
+    return """
+(function(){
+    var iframe = document.querySelector('.body-section iframe');
+    if (!iframe) return;
+    function setup() {
+        var doc = iframe.contentDocument || iframe.contentWindow.document;
+        if (!doc || !doc.body) return;
+        var popup = document.createElement('div');
+        popup.id = 'phish-popup-el';
+        popup.style.cssText = 'display:none;position:fixed;z-index:10000;'
+            + 'background:linear-gradient(135deg,#1e1032,#1a0a2e);border:1px solid rgba(139,92,246,0.5);'
+            + 'border-radius:8px;padding:10px 14px;font-family:monospace;font-size:11px;color:#e2e8f0;'
+            + 'max-width:340px;box-shadow:0 8px 32px rgba(0,0,0,0.5),0 0 20px rgba(139,92,246,0.15);'
+            + 'pointer-events:none;line-height:1.5;backdrop-filter:blur(8px);';
+        document.body.appendChild(popup);
+        function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
+        function showPopup(rect, html) {
+            popup.innerHTML = html;
+            popup.style.display = 'block';
+            var iframeRect = iframe.getBoundingClientRect();
+            var x = iframeRect.left + rect.left;
+            var y = iframeRect.top + rect.bottom + 6;
+            if (x + 340 > window.innerWidth) x = window.innerWidth - 350;
+            if (x < 4) x = 4;
+            if (y + 200 > window.innerHeight) y = iframeRect.top + rect.top - popup.offsetHeight - 6;
+            popup.style.left = x + 'px';
+            popup.style.top = y + 'px';
+        }
+        function hidePopup() { popup.style.display = 'none'; }
+        doc.querySelectorAll('.phish-hl-urgency').forEach(function(el) {
+            el.addEventListener('mouseenter', function() {
+                var label = el.getAttribute('data-threat') || el.getAttribute('title') || '';
+                showPopup(el.getBoundingClientRect(),
+                    '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#fbbf24;margin-bottom:4px;">SOCIAL ENGINEERING</div>'
+                    + '<div style="color:#94a3b8;">Pattern: <span style="color:#fbbf24;">' + esc(label) + '</span></div>'
+                    + '<div style="color:#64748b;font-size:10px;margin-top:3px;">Urgency/pressure language used in phishing</div>');
+            });
+            el.addEventListener('mouseleave', hidePopup);
+        });
+        doc.querySelectorAll('.phish-hl-link-warn').forEach(function(el) {
+            el.addEventListener('mouseenter', function() {
+                var flags = el.getAttribute('data-flags') || 'SUSPICIOUS';
+                var href = el.getAttribute('data-real-href') || el.getAttribute('href') || '';
+                showPopup(el.getBoundingClientRect(),
+                    '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#f87171;margin-bottom:4px;">SUSPICIOUS LINK</div>'
+                    + '<div style="color:#94a3b8;">Flags: <span style="color:#f87171;">' + esc(flags) + '</span></div>'
+                    + (href ? '<div style="color:#64748b;font-size:10px;margin-top:3px;word-break:break-all;">Destination: ' + esc(href.substring(0,120)) + '</div>' : ''));
+            });
+            el.addEventListener('mouseleave', hidePopup);
+        });
+    }
+    if (iframe.contentDocument && iframe.contentDocument.readyState === 'complete') {
+        setup();
+    } else {
+        iframe.addEventListener('load', setup);
+    }
+})();
+"""

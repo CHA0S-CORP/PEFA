@@ -13,6 +13,7 @@ dependencies = [
     "python-whois",
     "playwright",
     "legacy-cgi",
+    "nh3",
 ]
 
 [project.scripts]

@@ -662,7 +662,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
         <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
         <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
-        <div class="topbar-sub">2026-02-07 20:19 UTC</div>
+        <div class="topbar-sub">2026-02-07 20:39 UTC</div>
     </div>
 </div>
 <div class="container">
@@ -677,12 +677,12 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="189.5"
+                            stroke-dasharray="189.5 326.7" data-target-dash="189.5"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:#f97316" data-target="58">0</div>
+                        <div class="gauge-score" style="color:#f97316" data-target="58">58</div>
                         <div class="gauge-label">HIGH</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
@@ -700,11 +700,22 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
         <div class="gemini-content">
             <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">100%</span></div>
-<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a scam attempting to trick you into believing you&#x27;ve won a large sum of money, a free home, and an SUV. It is not safe and is designed to steal your personal information and likely extort money from you later.</p></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt designed to trick you into believing you&#x27;ve won a large sum of money and a free home. It impersonates the International Monetary Fund (IMF) to steal your personal information, which could lead to identity theft or further scams. Do not respond or provide any requested details.</p></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  <strong>Sender Impersonation</strong>: The email claims to be from &quot;IMF OFFICE&quot; but originates from `yossy.ono3@gray.plala.or.jp`, which is not an official International Monetary Fund domain.</li>
-<li>  <strong>Reply-To Mismatch</strong>: The `REPLY-TO` address (`imonetaryfund973@gmail.com</li>
+<li>  <strong>REPLY-TO MISMATCH</strong>: The `REPLY-TO` address (`imonetaryfund973@gmail.com`) differs significantly from the `FROM` address (`yossy.ono3@gray.plala.or.jp`), indicating an attempt to hide the true sender and direct replies to a different, likely controlled, account.</li>
+<li>  <strong>Sender Impersonation</strong>: The email claims to be from &quot;IMF OFFICE&quot; but originates from `gray.plala.or.jp`, a Japanese ISP domain, and directs replies to a `gmail.com` address, neither of which are legitimate domains for the International Monetary Fund.</li>
+<li>  <strong>Social Engineering</strong>: The email uses classic advance-fee scam tactics, promising a &quot;fund worth of $50 million,&quot; a &quot;free home,&quot; and a &quot;brand-new SUV&quot; to entice the recipient into providing sensitive personal information.</li>
+<li>  <strong>Request for PII</strong>: The email explicitly asks for extensive personal identifiable information (PII) including Full Name, Contact Address, Phone Number, Email Address, and Drivers License, which is a hallmark of credential harvesting.</li>
+<li>  <strong>Authentication Pass for Malicious Domain</strong>: While SPF, DKIM, and DMARC pass for `gray.plala.or.jp`, this only validates the sending server for that specific domain, not the legitimacy of the sender&#x27;s claim to be the IMF.</li>
 </ul></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-fee scam, Brand Impersonation, Credential Harvesting</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
+<li>  Immediately delete this email without opening any links or attachments.</li>
+<li>  Do not reply to the sender or provide any requested personal information.</li>
+<li>  Report the email to your IT security department or email provider.</li>
+<li>  Block the sender&#x27;s email address and domain to prevent future attempts.</li>
+</ul>
+<p>**INDICATORS OF</p></div></div>
         </div>
     </div>
 
@@ -848,30 +859,30 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
 
 <div class="widget log-widget" id="nav-logs">
 <div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
-<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:19:29.663] Analyzing links...</div>
-<div class="log-entry">[20:19:29.663] Analyzing sender...</div>
-<div class="log-entry">[20:19:29.663] Scanning urgency patterns...</div>
-<div class="log-entry">[20:19:29.664] Checking attachments...</div>
-<div class="log-entry">[20:19:29.664] Analyzing language...</div>
-<div class="log-entry">[20:19:29.664] Looking up IP: 60.36.166.40</div>
-<div class="log-entry">[20:19:29.748] Sender local time: 2026-01-31 06:39:48 (JST)</div>
-<div class="log-entry">[20:19:29.748] Checking domain age: gray.plala.or.jp</div>
-<div class="log-entry">[20:19:30.012] Querying MXToolbox (SPF/DKIM/DMARC): gray.plala.or.jp</div>
-<div class="log-entry">[20:19:33.559] Resolving 2002 → 0.0.7.210</div>
-<div class="log-entry">[20:19:33.625] Resolving msa13.plala.or.jp → 60.36.166.13</div>
-<div class="log-entry">[20:19:33.683] Calculating threat score...</div>
-<div class="log-entry">[20:19:33.683] Sanitizing email body...</div>
-<div class="log-entry">[20:19:33.683] Highlighting body...</div>
-<div class="log-entry">[20:19:33.683] Querying Gemini (gemini-2.5-flash)...</div>
-<div class="log-entry">[20:19:42.482] ✓ Gemini assessment received</div>
-<div class="log-entry">[20:19:42.483] ⚠ Gemini says PHISHING — threat score bumped by +50 to 58</div>
-<div class="log-entry">[20:19:42.483] Consolidating IOCs...</div>
-<div class="log-entry">[20:19:42.483] Found 5 IOC indicators</div>
-<div class="log-entry">[20:19:42.483] Looking up IOC IP: 01.30.13.39</div></div></div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:39:38.999] Analyzing links...</div>
+<div class="log-entry">[20:39:38.999] Analyzing sender...</div>
+<div class="log-entry">[20:39:38.999] Scanning urgency patterns...</div>
+<div class="log-entry">[20:39:39.000] Checking attachments...</div>
+<div class="log-entry">[20:39:39.000] Analyzing language...</div>
+<div class="log-entry">[20:39:39.000] Looking up IP: 60.36.166.40</div>
+<div class="log-entry">[20:39:39.049] Sender local time: 2026-01-31 06:39:48 (JST)</div>
+<div class="log-entry">[20:39:39.049] Checking domain age: gray.plala.or.jp</div>
+<div class="log-entry">[20:39:39.289] Querying MXToolbox (SPF/DKIM/DMARC): gray.plala.or.jp</div>
+<div class="log-entry">[20:39:42.463] Resolving 2002 → 0.0.7.210</div>
+<div class="log-entry">[20:39:42.585] Resolving msa13.plala.or.jp → 60.36.166.13</div>
+<div class="log-entry">[20:39:42.628] Calculating threat score...</div>
+<div class="log-entry">[20:39:42.628] Sanitizing email body...</div>
+<div class="log-entry">[20:39:42.628] Highlighting body...</div>
+<div class="log-entry">[20:39:42.628] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:39:51.097] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:39:51.097] ⚠ Gemini says PHISHING — threat score bumped by +50 to 58</div>
+<div class="log-entry">[20:39:51.097] Consolidating IOCs...</div>
+<div class="log-entry">[20:39:51.097] Found 5 IOC indicators</div>
+<div class="log-entry">[20:39:51.097] Looking up IOC IP: 01.30.13.39</div></div></div>
 </div>
 
 </div>
-<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:19:42 UTC</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:39:51 UTC</div>
 <script>
 (function() {
     // === Print button ===
@@ -1188,7 +1199,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
 (function(){
     var iframe = document.querySelector('.body-section iframe');
     if (!iframe) return;
-    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div></div>';
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-fee scam, Brand Impersonation, Credential Harvesting</span></div></div>';
     function setup() {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         if (!doc || !doc.body) return;

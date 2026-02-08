@@ -202,8 +202,9 @@ Set any combination of API keys to enrich reports with external intelligence:
 ```bash
 export GEMINI_API_KEY="..."       # AI assessment
 export URLSCAN_API_KEY="..."      # Domain reputation
-export VIRUSTOTAL_API_KEY="..."   # IOC reputation
+export VT_API_KEY="..."           # VirusTotal IOC reputation
 export ABUSEIPDB_API_KEY="..."    # IP abuse reports
+export OTX_API_KEY="..."          # AlienVault OTX threat intel
 export MXTOOLBOX_API_KEY="..."    # Deep email auth validation
 
 pefa suspicious-email.eml --html --gemini
@@ -262,23 +263,183 @@ Passing all authentication checks and having an established domain (3+ years) ap
 
 ## 🔌 API Integrations
 
-All API integrations are optional. PEFA works fully offline with `--no-api`. Each integration checks for its own environment variable and silently skips if unavailable.
+All API integrations are optional. PEFA works fully offline with `--no-api`. Each integration checks for its own environment variable and silently skips if unavailable. No API key is required to run a basic analysis — PEFA performs link analysis, urgency detection, sender spoofing checks, attachment scanning, authentication header parsing, and threat scoring entirely locally.
 
-| Service | Environment Variable | Purpose |
-|---|---|---|
-| 🤖 Google Gemini | `GEMINI_API_KEY` | AI-powered phishing assessment |
-| 🔍 urlscan.io | `URLSCAN_API_KEY` | Domain reputation intelligence |
-| 📧 MXToolbox | `MXTOOLBOX_API_KEY` | SPF/DKIM/DMARC deep validation |
-| 🦠 VirusTotal | `VIRUSTOTAL_API_KEY` | IOC reputation lookups |
-| 🚨 AbuseIPDB | `ABUSEIPDB_API_KEY` | IP abuse reports |
-| 👽 AlienVault OTX | `ALIENVAULT_API_KEY` | Threat intelligence enrichment |
-| 🌍 ip-api.com | *(none — free tier)* | IP geolocation |
-| 📋 WHOIS | *(none — uses python-whois)* | Domain age lookup |
+### Overview
+
+| Service | Environment Variable | Free? | What It Adds to Reports |
+|---|---|---|---|
+| 🤖 [Google Gemini](#google-gemini) | `GEMINI_API_KEY` | Free tier available | AI verdict, attack classification, recommended actions |
+| 🔍 [urlscan.io](#urlscanio) | `URLSCAN_API_KEY` | Free tier available | URL/domain reputation verdicts |
+| 📧 [MXToolbox](#mxtoolbox) | `MXTOOLBOX_API_KEY` | Paid | Deep SPF/DKIM/DMARC validation against live DNS |
+| 🦠 [VirusTotal](#virustotal) | `VT_API_KEY` | Free tier available | IOC reputation (IPs, domains, URLs, file hashes) |
+| 🚨 [AbuseIPDB](#abuseipdb) | `ABUSEIPDB_API_KEY` | Free tier available | IP abuse confidence scores and report counts |
+| 👽 [AlienVault OTX](#alienvault-otx) | `OTX_API_KEY` | Free | Threat intelligence pulse counts and reputation |
+| 🌍 ip-api.com | *(none)* | Free | IP geolocation for delivery path hops |
+| 📋 WHOIS | *(none)* | Free | Domain registration age and registrar info |
+
+### Getting API Keys
+
+#### Google Gemini
+
+Sign up at [Google AI Studio](https://ai.google.dev/) to get a free API key. The free tier provides generous rate limits suitable for individual use.
 
 ```bash
 export GEMINI_API_KEY="your-key-here"
+```
+
+Gemini provides an AI-powered phishing assessment that includes a verdict (phishing / suspicious / legitimate), confidence percentage, executive summary, technical analysis, attack type classification, and recommended actions. It can also boost the threat score by up to +50 points.
+
+```bash
+# Use default model (gemini-2.5-flash)
+pefa email.eml --gemini
+
+# Use a more capable model
+pefa email.eml --gemini --gemini-model gemini-2.5-pro
+```
+
+> **Note:** The `--gemini` flag is required to activate AI analysis even if `GEMINI_API_KEY` is set. This keeps AI calls explicit.
+
+#### urlscan.io
+
+Sign up at [urlscan.io](https://urlscan.io/user/signup/) for a free account. Navigate to your profile to find your API key.
+
+```bash
 export URLSCAN_API_KEY="your-key-here"
 ```
+
+When suspicious links are detected, PEFA queries urlscan.io for domain reputation data including overall verdict (malicious/suspicious/benign), page metadata, and redirect statistics. Results link directly to the urlscan.io result page for manual investigation.
+
+#### MXToolbox
+
+Sign up at [MXToolbox](https://mxtoolbox.com/User/Register.aspx) for an API subscription.
+
+```bash
+export MXTOOLBOX_API_KEY="your-key-here"
+```
+
+Performs live DNS-based validation of SPF, DKIM, and DMARC records for the sender's domain. This goes beyond parsing email headers — it checks the actual DNS configuration. If MXToolbox results contradict the header claims (e.g., headers say DKIM pass but DNS shows a failure), PEFA flags the discrepancy as a warning.
+
+#### VirusTotal
+
+Sign up at [VirusTotal](https://www.virustotal.com/gui/join-us) for a free community account. Your API key is available on your profile page.
+
+```bash
+export VT_API_KEY="your-key-here"
+```
+
+Enriches extracted IOCs with multi-vendor detection results:
+- **IPs** (up to 5) — malicious/suspicious/harmless detection counts and reputation score
+- **Domains** (up to 5) — same detection breakdown plus reputation
+- **URLs** (up to 3) — vendor detection counts
+- **File hashes** (up to 5) — detection counts and meaningful filenames
+
+> **Free tier:** 4 requests/minute, 500 requests/day, 15.5K requests/month.
+
+#### AbuseIPDB
+
+Sign up at [AbuseIPDB](https://www.abuseipdb.com/register) for a free account.
+
+```bash
+export ABUSEIPDB_API_KEY="your-key-here"
+```
+
+Checks IP addresses (up to 5) against AbuseIPDB's crowd-sourced abuse report database. Returns an abuse confidence score (0–100), total number of reports, whitelist status, country, and ISP. Queries cover reports from the last 90 days.
+
+> **Free tier:** 1,000 checks/day.
+
+#### AlienVault OTX
+
+Sign up at [AlienVault OTX](https://otx.alienvault.com/accounts/signup/) for a free account.
+
+```bash
+export OTX_API_KEY="your-key-here"
+```
+
+Queries the Open Threat Exchange for community-sourced threat intelligence. Returns pulse counts (how many threat intelligence reports reference the IOC) and reputation scores for:
+- IPs (up to 5)
+- Domains (up to 5)
+- URLs (up to 3)
+- File hashes (up to 5)
+
+### Setting Up All API Keys
+
+For maximum enrichment, configure all keys in your shell profile (`~/.bashrc`, `~/.zshrc`, etc.):
+
+```bash
+# Required: set --gemini flag to activate
+export GEMINI_API_KEY="your-gemini-key"
+
+# Threat intelligence (activate automatically when set)
+export URLSCAN_API_KEY="your-urlscan-key"
+export VT_API_KEY="your-virustotal-key"
+export ABUSEIPDB_API_KEY="your-abuseipdb-key"
+export OTX_API_KEY="your-alienvault-key"
+
+# Email authentication
+export MXTOOLBOX_API_KEY="your-mxtoolbox-key"
+```
+
+Then run with full enrichment:
+
+```bash
+pefa email.eml --html --gemini
+```
+
+### API Usage Examples
+
+```bash
+# Fully offline — no API calls at all
+pefa email.eml --no-api
+
+# Basic analysis with free APIs only (ip-api.com + WHOIS)
+# No env vars needed
+pefa email.eml
+
+# Add AI assessment only
+export GEMINI_API_KEY="..."
+pefa email.eml --gemini
+
+# IOC enrichment with VirusTotal + AbuseIPDB
+export VT_API_KEY="..."
+export ABUSEIPDB_API_KEY="..."
+pefa email.eml --html
+
+# Full enrichment: all APIs + AI + HTML report
+export GEMINI_API_KEY="..."
+export VT_API_KEY="..."
+export ABUSEIPDB_API_KEY="..."
+export OTX_API_KEY="..."
+export URLSCAN_API_KEY="..."
+export MXTOOLBOX_API_KEY="..."
+pefa email.eml --html --gemini
+
+# Batch process with full enrichment
+pefa ./emails/ -o ./reports/ --html --gemini
+```
+
+### How APIs Affect the Report
+
+Without any API keys, PEFA still performs:
+- Header-based SPF/DKIM/DMARC checks
+- Link analysis (mismatches, brand impersonation, homoglyphs, suspicious TLDs)
+- Sender spoofing detection
+- Urgency language scanning
+- Attachment threat assessment
+- Language quality analysis
+- Threat scoring (0–100)
+
+Adding API keys progressively enriches the report:
+
+| APIs Configured | Additional Report Sections |
+|---|---|
+| *(none)* | Base analysis with all local checks |
+| + `GEMINI_API_KEY` | AI Assessment panel with verdict, confidence, attack classification |
+| + `VT_API_KEY` | IOC table with VirusTotal detection counts per indicator |
+| + `ABUSEIPDB_API_KEY` | IP abuse confidence scores in IOC table |
+| + `OTX_API_KEY` | Threat intelligence pulse counts in IOC table |
+| + `URLSCAN_API_KEY` | URL reputation verdicts in link analysis section |
+| + `MXTOOLBOX_API_KEY` | Deep DNS validation results in authentication section |
 
 ## 🏗️ Architecture
 

@@ -662,7 +662,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
         <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
         <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
-        <div class="topbar-sub">2026-02-07 20:23 UTC</div>
+        <div class="topbar-sub">2026-02-07 20:43 UTC</div>
     </div>
 </div>
 <div class="container">
@@ -677,12 +677,12 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="199.3"
+                            stroke-dasharray="199.3 326.7" data-target-dash="199.3"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:#f97316" data-target="61">0</div>
+                        <div class="gauge-score" style="color:#f97316" data-target="61">61</div>
                         <div class="gauge-label">HIGH</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
@@ -700,32 +700,31 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
         <div class="gemini-content">
             <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">100%</span></div>
-<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a scam attempting to trick the recipient into believing they have won a large sum of money from a lottery. It is not safe and is designed to elicit a response that will likely lead to further attempts to defraud the recipient through an advance-fee fraud scheme.</p></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a scam attempting to trick you into believing you&#x27;ve won a large sum of money from a lottery winner. It is a social engineering attack designed to defraud recipients and is not safe. Do not interact with this email or reply to it.</p></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  <strong>REPLY-TO MISMATCH</strong>: The `REPLY-TO` address (`dorseyelizabeth11@gmail.com`) is a generic Gmail address and differs significantly from the `FROM` address (`takamy@cameo.plala.or.jp`), indicating an attempt to direct replies to a different, likely controlled, account.</li>
-<li>  <strong>Sender Domain Discrepancy</strong>: The `FROM` domain (`cameo.plala.or.jp`) is a legitimate Japanese ISP domain, but the content (Mega Million Jackpot winner, &quot;Mr. Richard Wahl&quot;) is completely incongruous with this sender, suggesting a compromised account or abuse of a legitimate service.</li>
-<li>  <strong>Authentication Pass, but Contextual Mismatch</strong>: SPF, DKIM, and DMARC all passed for `cameo.plala.or.jp`. While technically authenticating the sender&#x27;s server, this does not authenticate the *identity* of &quot;Mr. Richard Wahl&quot; or the legitimacy of the message content, highlighting that authentication alone isn&#x27;t sufficient for security.</li>
-<li>  <strong>Social Engineering Indicators</strong>: The email uses a &quot;Generic Greeting&quot;, &quot;urgency language&quot; (e.g., &quot;verify&quot;, &quot;Reply with the CODE&quot;), and &quot;Excessive capitalization (10 ALL-CAPS words)&quot;, all common social engineering tactics to bypass scrutiny and prompt a quick response.</li>
-<li>  <strong>Lottery Scam Narrative</strong>: The email body explicitly states &quot;mega winner of $533M USD in Mega Million Jackpot, I&#x27;m donating to 5 random individuals&quot; and offers &quot;$5,000,000,00 Million USD&quot; to the recipient, which is a classic lottery or advance-fee fraud scam.</li>
+<li>  <strong>REPLY-TO MISMATCH</strong>: The `REPLY-TO` address (`dorseyelizabeth11@gmail.com`) is a personal Gmail account, which is a strong indicator of a scam and does not align with the `FROM` address domain (`cameo.plala.or.jp`) or the alleged sender&#x27;s identity.</li>
+<li>  <strong>IMPERSONATION AND SCAM NARRATIVE</strong>: The email impersonates &quot;Mr. Richard Wahl,&quot; a known Mega Millions jackpot winner, and offers a &quot;donation&quot; of $5,000,000 USD, which is a classic advance-fee or lottery scam social engineering tactic.</li>
+<li>  <strong>GENERIC SENDER DOMAIN</strong>: The `FROM` domain (`cameo.plala.or.jp`) is a generic Japanese ISP domain, not associated with any legitimate financial institution or the alleged lottery winner, indicating an attempt to mask the true sender.</li>
+<li>  <strong>AUTHENTICATION PASSES</strong>: Despite SPF, DKIM, and DMARC passing for `cameo.plala.or.jp`, these records only validate the sending server for that domain, not the legitimacy of the sender&#x27;s identity or the content, indicating the scammer is likely using a compromised or abused legitimate email account.</li>
 </ul></div></div>
-<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Lottery Scam / Advance-Fee Fraud (419 Scam)</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-Fee Fraud / Lottery Scam (Social Engineering)</p></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  Delete the email immediately without clicking any links or replying.</li>
-<li>  Do not reply to the sender or the specified `REPLY-TO` email address.</li>
-<li>  Report the email to your IT security department or email provider as a phishing attempt.</li>
-<li>  Be wary of unsolicited emails promising large sums of money, prizes, or donations, especially if they ask for personal information or money upfront.</li>
+<li>  Do not reply to the email or contact the provided email address (`dorseyelizabeth11@gmail.com`).</li>
+<li>  Delete the email immediately from your inbox.</li>
+<li>  Report this email as a phishing attempt to your IT security department.</li>
+<li>  Block the sender&#x27;s email address (`takamy@cameo.plala.or.jp`) and the reply-to address (`dorseyelizabeth11@gmail.com`).</li>
 </ul>
 <p><strong>INDICATORS OF COMPROMISE (IOCs)</strong>:</p>
 <ul class="gemini-list">
-<li>  `dorseyelizabeth11@gmail.com` (Email address for replies)</li>
-<li>  `takamy@cameo.plala.or.jp` (Sender email address, potentially compromised or abused)</li>
-<li>  `cameo.plala.or.jp` (Sender domain, potentially abused or compromised)</li>
-<li>  `60.36.166.37` (Origin IP, potentially associated with a compromised account or abused service)</li>
-<li>  `https://www.youtube.com/watch?v=tne02ExNDrw` (URL in email body, part of the scam narrative)</li>
+<li>  `takamy@cameo.plala.or.jp` (Malicious Sender Email)</li>
+<li>  `dorseyelizabeth11@gmail.com` (Malicious Reply-To Email)</li>
+<li>  `cameo.plala.or.jp` (Suspicious Sending Domain - potentially abused)</li>
+<li>  `60.36.166.37` (Origin IP - potentially associated with abuse)</li>
 </ul></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">📚</span> SOURCES &amp; REFERENCES<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  <strong>REPLY-TO MISMATCH</strong>: The `Sender Findings` explicitly states &quot;Reply-To (dorseyelizabeth11@gmail.com) differs from From (takamy@cameo.plala.or.jp)&quot;, a strong indicator of suspicious intent.</li>
-<li>  <strong>Social Engineering</strong>: The email body&#x27;s content, including the &quot;Mega Million Jackpot&quot; claim and request to &quot;Reply with the CODE&quot;, aligns with MITRE ATT&amp;CK T1566.001 (Phishing: Spearphishing Attachment) or T1566.002 (Phishing:</li>
+<li>  The `REPLY-TO` mismatch (`dorseyelizabeth11@gmail.com` vs `takamy@cameo.plala.or.jp`) is a key indicator of social engineering, as per NIST SP 800-177, Section 3.2.1.</li>
+<li>  The email body&#x27;s &quot;mega winner&quot; and &quot;donation&quot; narrative is a common characteristic of advance-fee/lottery scams, aligning with MITRE ATT&amp;CK T1566.001 (Phishing).</li>
+<li>  The use of a generic ISP domain (`cameo.plala.or.jp`) for an alleged high-value transaction indicates an attempt to impersonate a legitimate</li>
 </ul></div></div>
         </div>
     </div>
@@ -880,30 +879,30 @@ Hope to put a smile on your face and that of your family.
 
 <div class="widget log-widget" id="nav-logs">
 <div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
-<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:23:12.092] Analyzing links...</div>
-<div class="log-entry">[20:23:12.092] Analyzing sender...</div>
-<div class="log-entry">[20:23:12.092] Scanning urgency patterns...</div>
-<div class="log-entry">[20:23:12.093] Checking attachments...</div>
-<div class="log-entry">[20:23:12.093] Analyzing language...</div>
-<div class="log-entry">[20:23:12.093] Looking up IP: 60.36.166.37</div>
-<div class="log-entry">[20:23:12.139] Sender local time: 2026-01-13 10:41:32 (JST)</div>
-<div class="log-entry">[20:23:12.139] Checking domain age: cameo.plala.or.jp</div>
-<div class="log-entry">[20:23:12.370] Querying MXToolbox (SPF/DKIM/DMARC): cameo.plala.or.jp</div>
-<div class="log-entry">[20:23:15.312] Resolving 2002 → 0.0.7.210</div>
-<div class="log-entry">[20:23:15.537] Resolving msa14.plala.or.jp → 60.36.166.14</div>
-<div class="log-entry">[20:23:15.596] Calculating threat score...</div>
-<div class="log-entry">[20:23:15.596] Sanitizing email body...</div>
-<div class="log-entry">[20:23:15.596] Highlighting body...</div>
-<div class="log-entry">[20:23:15.596] Querying Gemini (gemini-2.5-flash)...</div>
-<div class="log-entry">[20:23:24.499] ✓ Gemini assessment received</div>
-<div class="log-entry">[20:23:24.500] ⚠ Gemini says PHISHING — threat score bumped by +50 to 61</div>
-<div class="log-entry">[20:23:24.500] Consolidating IOCs...</div>
-<div class="log-entry">[20:23:24.500] Found 5 IOC indicators</div>
-<div class="log-entry">[20:23:24.500] Looking up IOC IP: 01.12.17.41</div></div></div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:43:17.686] Analyzing links...</div>
+<div class="log-entry">[20:43:17.686] Analyzing sender...</div>
+<div class="log-entry">[20:43:17.686] Scanning urgency patterns...</div>
+<div class="log-entry">[20:43:17.687] Checking attachments...</div>
+<div class="log-entry">[20:43:17.687] Analyzing language...</div>
+<div class="log-entry">[20:43:17.688] Looking up IP: 60.36.166.37</div>
+<div class="log-entry">[20:43:17.748] Sender local time: 2026-01-13 10:41:32 (JST)</div>
+<div class="log-entry">[20:43:17.748] Checking domain age: cameo.plala.or.jp</div>
+<div class="log-entry">[20:43:18.147] Querying MXToolbox (SPF/DKIM/DMARC): cameo.plala.or.jp</div>
+<div class="log-entry">[20:43:20.632] Resolving 2002 → 0.0.7.210</div>
+<div class="log-entry">[20:43:21.080] Resolving msa14.plala.or.jp → 60.36.166.14</div>
+<div class="log-entry">[20:43:21.122] Calculating threat score...</div>
+<div class="log-entry">[20:43:21.122] Sanitizing email body...</div>
+<div class="log-entry">[20:43:21.122] Highlighting body...</div>
+<div class="log-entry">[20:43:21.122] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:43:30.395] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:43:30.395] ⚠ Gemini says PHISHING — threat score bumped by +50 to 61</div>
+<div class="log-entry">[20:43:30.395] Consolidating IOCs...</div>
+<div class="log-entry">[20:43:30.395] Found 5 IOC indicators</div>
+<div class="log-entry">[20:43:30.395] Looking up IOC IP: 01.12.17.41</div></div></div>
 </div>
 
 </div>
-<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:23:24 UTC</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:43:30 UTC</div>
 <script>
 (function() {
     // === Print button ===
@@ -1220,7 +1219,7 @@ Hope to put a smile on your face and that of your family.
 (function(){
     var iframe = document.querySelector('.body-section iframe');
     if (!iframe) return;
-    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Lottery Scam / Advance-Fee Fraud (419 Scam)</span></div></div>';
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-Fee Fraud / Lottery Scam (Social Engineering)</span></div></div>';
     function setup() {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         if (!doc || !doc.body) return;

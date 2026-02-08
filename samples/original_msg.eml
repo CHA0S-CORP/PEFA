@@ -1,0 +1,88 @@
+Delivered-To: <REMOVED>
+Received: by 2002:a05:622a:50a4:b0:4f0:2c38:6b02 with SMTP id fp36csp4011500qtb;
+        Mon, 12 Jan 2026 17:41:41 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWBnvmtpndypntGRTyr6KX5Pc/gB80OMlWz+jGB0ZLm8vJEjNv3xewlltv6HAV0c9pITzkvheWfCLs=@gmail.com
+X-Google-Smtp-Source: AGHT+IHWgtVnt6LvdoyE9vBUtfYBOoWogdUmtKr22aOh9WSb7LoGfam5yREkJdb9oixNfdDjZfpN
+X-Received: by 2002:a05:6a20:12cb:b0:341:5d9f:800f with SMTP id adf61e73a8af0-3898f9b9986mr17643189637.50.1768268501030;
+        Mon, 12 Jan 2026 17:41:41 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768268501; cv=none;
+        d=google.com; s=arc-20240605;
+        b=Sasir4I8i4o/IH7joZpZqDM3GCaAr/m/mIz0wpVyvDTEFRyRNJAqfFy9PS3ZRUVdCz
+         CskNfq9eCJLJZi1633QPP079Z0DVAkxcU++/qPyDf0QOF3jkolb5g6gvZxK6ocz2TBNr
+         2Zqe0ELP5KZLf8weF1SKl+aK2bCQcAvAOEOb2vbapBx44Xx7azeH2A4//NblL+XQwkJp
+         AGCNY42CABp3EnVQmyEitZEsXja3yBMTLZUWb7uwnvfyFy5aOw1PPmJk24ZjYxUJCVpn
+         bFeFCdcSNe8L4hv3GyesrftlgHuQuT8oB0M6l+0CwXosROoEAsQbZcRIfQ1+/NrzLevL
+         O5aQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=pcilLTZCWtqaOJdeo3pnZ/K+wkKPnBJWZrg3+Xz+H3g=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=TAhpO5iN6zxy69Ndd/f/6M0NHBzxAXibiXDSdluLyMR56inZJvNK7K6MKkUqdOvX39
+         hYoPE5HmfMGcUPb9KiAQ4H9/ZLAKBtBYHiFiVDHVG1Xa4HIMDCqaS42YjGY1hIP9qDo2
+         fMw65ennSITrXvOUwV1u6Y0JQs6JFUtaw6NKQHs5DRxTfAfX3lFrwVQFB/0H75YJ80Fu
+         HpapnMrQBjCLTb0ggV+6HZdUsgHVvbM7qyuTbqMEoP4zbuF57xitgvw7rjGHDabz4bwM
+         GZFbx3BaPqmHgWSDA+IDx87nfSQjp4OtF8SzkNez3sAQJWt2NiSkQDXVLbnkAKiK9ewh
+         l0Dg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=vEbN2b0U;
+       spf=pass (google.com: domain of takamy@cameo.plala.or.jp designates 60.36.166.37 as permitted sender) smtp.mailfrom=takamy@cameo.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <takamy@cameo.plala.or.jp>
+Received: from msc115.plala.or.jp (msc115.plala.or.jp. [60.36.166.37])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-c4cbd3ad9c8si28307877a12.75.2026.01.12.17.41.34
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 12 Jan 2026 17:41:41 -0800 (PST)
+Received-SPF: pass (google.com: domain of takamy@cameo.plala.or.jp designates 60.36.166.37 as permitted sender) client-ip=60.36.166.37;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=vEbN2b0U;
+       spf=pass (google.com: domain of takamy@cameo.plala.or.jp designates 60.36.166.37 as permitted sender) smtp.mailfrom=takamy@cameo.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o06.ake-mailbk.plala.or.jp ([172.23.12.55])
+          by msc115.plala.or.jp with ESMTP
+          id <20260113014133.XVGT3757.msc115.plala.or.jp@mdkim-o06.ake-mailbk.plala.or.jp>;
+          Tue, 13 Jan 2026 10:41:33 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1768268493;
+  x=1799804493;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=pcilLTZCWtqaOJdeo3pnZ/K+wkKPnBJWZrg3+Xz+H3g=;
+  b=vEbN2b0U34pYsf6NflhxGaFnjRG6sqyTtGE9WDDF3HWd6FNOvFOlxnVr
+   /c/GrrkERkjWGOSL4a+ded9A0XOAaWUgRZigtM2CMg7sWHQ67x9VX0Z2x
+   HxbEZpIqkHu+gjcnpzXqYEIPBkWg2yRHZJ6958FfJe3aJgYwjAESjAQtU
+   836tcEafqLY+/NJh2cQSKmqIxLjRUrTfgjEX/SRGl0+WtgJek25TXQx6/
+   QhvptXKIR5ItD13KiWklh8o05ZJJpev+UGFV5cs+lmQ1bIwKaGFWMQkW3
+   /f7yGLw717YBScoZGcd9xc3B2CgPbqBzcBNTuHtkkVpGZfAQgvJyO0+Nq
+   w==;
+X-CSE-ConnectionGUID: HQTinm/iQ4enDsRl//9PXg==
+X-CSE-MsgGUID: fCsK4g5xTReTtAjUMOUOsQ==
+Received: from msa14.ake-mailbk.plala.or.jp (HELO msa14.plala.or.jp) ([172.23.12.94])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 13 Jan 2026 10:41:33 +0900
+Received: from mwebp12 ([172.23.13.132]) by msa14.plala.or.jp with ESMTP
+          id <20260113014132.JCEX13262.msa14.plala.or.jp@mwebp12>;
+          Tue, 13 Jan 2026 10:41:32 +0900
+Date: Tue, 13 Jan 2026 10:41:32 +0900
+From: "Mr. Richard Wahl" <takamy@cameo.plala.or.jp>
+Reply-To: dorseyelizabeth11@gmail.com
+Message-ID: <20260113104132.LWLDA.435.root@mwebp12>
+Subject: 
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac14; Tue, 13 Jan 2026 10:41:32 +0900
+
+Greetings of the day to you From Mr. Richard Wahl
+
+I am Mr. Richard Wahl, the mega winner of $533M USD in Mega Million Jackpot, I'm donating to 5 random individuals. If you receive my email then your email was selected after a spin ball. I have spread most of my wealth over a number of charities and organizations. I have voluntarily decided to donate the sum of $5,000,000,00 Million USD to you as you are one of the selected 5, to verify my winnings please see the YouTube page below.
+WATCH HERE:https://www.youtube.com/watch?v=tne02ExNDrw.
+
+THIS IS YOUR OWN CODE: 100305
+Reply with the CODE [100305] to this email:(dorseyelizabeth11@gmail.com) follow her instruction to help you receive it. She will send it to you either by Check or ATM MasterCard.
+Contact my Financial Team head My Personal Assistant
+Name: Miss Dorsey Elizabeth Richard
+Email: dorseyelizabeth11@gmail.com
+Hope to put a smile on your face and that of your family.

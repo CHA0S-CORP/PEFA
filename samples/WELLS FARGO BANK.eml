@@ -1,0 +1,95 @@
+Delivered-To: <REMOVED>
+Received: by 2002:ac8:794b:0:b0:503:3ab3:6a97 with SMTP id r11csp1116572qtt;
+        Thu, 29 Jan 2026 21:19:29 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWqazq+oKl/HPzYm4JZcafrOf1IxMvmnimpJG8As8X7NeuNwPi8t0uJ5FeFdXtFe1lpUABSh511SmE=@gmail.com
+X-Received: by 2002:a05:6a00:1d26:b0:81f:4769:6fec with SMTP id d2e1a72fcca58-823ab670e65mr1682155b3a.21.1769750369508;
+        Thu, 29 Jan 2026 21:19:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769750369; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RnxSBaCLTxp9Hfj0+NOu13f+533lZC9xlhJJoMtA2jMysNJbnxOMw5Np9vZv6mHgoK
+         GsUfFOe7reHOOpRNAdD+TkZTjQUYQ+lUqtUjTEBYdKEt3e+HgeQx+sjRuK39U3ZcR6hR
+         vNDF+MxmH/et3/qLc98fhe/LS8V9arP5PdZLAoTq0mgRkysOhh+FS3Rw8gEbZzzFzQom
+         lgQnEViO1+vH1DzONtC/fTeiaeXsWOUZboL/A5wBWhcz55tyBrklrtgBQUhPbjgjt+di
+         6gbV1H/8+k2s+47rzfZlDrO3LKLOAXCjU/OEscC/9PWnLT7YFzIq0w0AWbMh7X3nP2iz
+         cUIQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=nhle0b/BFkXwVi8uoy0EbSIleWxoaRk9LB9gjUWHpmU=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=OlsBHMMujtQa5hm/OWTXqarMA8S0TzjyH937equprq2OVrSVfjXm0rvFWn2ubQ5cXL
+         CXp3J7IkEimtuwRPFi0koBg1dyUgazp4WTSP6DHSH7X4avzQMaVK2RC76ZlKI7Bd18sv
+         t0hq3NfoVN3f5SCc8hmbKz9QOX01bFgpROMVWzEsDrcnCbrLhsamzj+Yo6M5Rihw4XLC
+         DnNwsqvCwbgoLJLaS1Zsrup2Pn+CJuFK7sJm3x8SwirdXs/EdnGfy3rWvx/l1DikWLH6
+         6Odu4u5XD6sPfmL8CwNhNWCfyLmN234F3kgEJCKOGfQILWvX3qs4tIznK6CxTmMJ0wf6
+         v6JA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=mjscRS0e;
+       spf=pass (google.com: domain of ko9916@amber.plala.or.jp designates 60.36.166.33 as permitted sender) smtp.mailfrom=ko9916@amber.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <ko9916@amber.plala.or.jp>
+Received: from msc111.plala.or.jp (msc111.plala.or.jp. [60.36.166.33])
+        by mx.google.com with ESMTPS id d2e1a72fcca58-82379c9dc92si12213074b3a.267.2026.01.29.21.19.21
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 29 Jan 2026 21:19:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of ko9916@amber.plala.or.jp designates 60.36.166.33 as permitted sender) client-ip=60.36.166.33;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=mjscRS0e;
+       spf=pass (google.com: domain of ko9916@amber.plala.or.jp designates 60.36.166.33 as permitted sender) smtp.mailfrom=ko9916@amber.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o09.ake-mailbk.plala.or.jp ([172.23.12.58])
+          by msc111.plala.or.jp with ESMTP
+          id <20260130051920.NHW3944.msc111.plala.or.jp@mdkim-o09.ake-mailbk.plala.or.jp>;
+          Fri, 30 Jan 2026 14:19:20 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1769750360;
+  x=1801286360;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=nhle0b/BFkXwVi8uoy0EbSIleWxoaRk9LB9gjUWHpmU=;
+  b=mjscRS0eFAWdG09Yo+BjAHZISKB+W2rkYwuhCVRB2tMjzVH8hZmZneZK
+   pQWo3rwsdcaPhowCoitYMBGp09Med+JWVWNJNGy9vj1AsRjC8Uu+8nP1l
+   dthaAK+S09BP7lfeQSauaenAZ34TDZ0z83rUTTk9DqD/b/HGXUGDxaAJe
+   GT/ES6jbEvMarUhbKQR8mEZWbooOHSATbphGchYQUzMoy0NmP6xcuehXd
+   fSBHd6QRjdPs8bfdiiFOug0l002EFT/JGryBvc+G5uZn1/2yTFl25DtC5
+   7Aj0CKdHG0QbZ+Io4bIEpKDZGlSf2Udztlk+4qCe6Fd5GNJm/Xy7nLP9C
+   w==;
+X-CSE-ConnectionGUID: 6c0EMALJRs+WtIka42zevw==
+X-CSE-MsgGUID: Uy5TAaTNTl28rIWNjxfz7A==
+Received: from msa13.ake-mailbk.plala.or.jp (HELO msa13.plala.or.jp) ([172.23.12.93])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 30 Jan 2026 14:19:20 +0900
+Received: from mwebp12 ([172.23.13.132]) by msa13.plala.or.jp with ESMTP
+          id <20260130051919.ZISB29664.msa13.plala.or.jp@mwebp12>;
+          Fri, 30 Jan 2026 14:19:19 +0900
+Date: Fri, 30 Jan 2026 14:19:19 +0900
+From: Wells Fargo Bank <ko9916@amber.plala.or.jp>
+Reply-To: wellsfargobankonline00@gmail.com
+Message-ID: <20260130141919.A60OR.483.root@mwebp12>
+Subject: WELLS FARGO BANK
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac13; Fri, 30 Jan 2026 14:19:20 +0900
+
+
+--
+WELLS FARGO BANK, SAN FRANCISCO, CALIFORNIA.
+OFFICIAL BUSINESS ADDRESS: 420 MONTGOMERY STREET, 7TH FLOOR,
+SAN FRANCISCO, CALIFORNIA
+
+ATTN: Beneficiary : PAYMENT FILE NUMBER: A
+
+Release/Transfer Notice for your due Funds (US$4.500,000.00).
+24 Hour Service.
+
+If you can not get the complete fee of $250, tell us what amount you are ready to provide so that the Bank can get others for you and things will be better again for you, this is an assurance from us to you, you must trust in what we are doing before things will work out.
+
+Once the document is gotten the funds will be sent into your Bank account.
+
+Yours Sincerely,
+MR. THEODORE F. CRAVER Jr
+DIRECTOR
+MEMBER BOARD OF DIRECTORS, WELLS FARGO BANK, SAN FRANCISCO

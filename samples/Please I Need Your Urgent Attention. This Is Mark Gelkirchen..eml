@@ -1,0 +1,395 @@
+Received: from BY1PR01MB8710.prod.exchangelabs.com (::1) by
+ PH0PR01MB7474.prod.exchangelabs.com with HTTPS; Fri, 6 Feb 2026 10:44:01
+ +0000
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=vmygsDRhHjyCussXlsVSH3GGlnAga+p1SAeyK1Is21hyu8iK7dS4Xqxm/qV75FseTGFiWejLyWhtyxDgaY8TS8imcuEq17gFzwC/+pfuDB8TEn4AS2eW37d+zW1vTgKPbuZoJzheSnh9NjUrpmPp3TvlH0kd46/hM/B+tacKytw5XNWIoeRJ1675l3SOdimWIyzT9HeC/grccHKwJEiMCEwmpiK7OM8z83JII55YdXf8JFwxw6mgZ9kIrQt+AXALBYzgea7wSc2DRlAb8PZXpZPHENokuDXImFP43Mu3L/4cpfUAfj4seA5k3uSrvJGMqMYCtQJ/jXWe71OlZYKCzA==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=oj4q4Epfz94ISDvWmKrQfsFBRzMfpNQwCOkvQibiipY=;
+ b=PLYF6Yqcg2T3BITncmryGl3Mi/JAzWHfUXGKAJ7G9Vx2PJXRBGV1R5QyBej3faPvnDlPiC8ngyS2xvMmG6jmhCnRvannjDKDul78I7Uq7ckyg/mMNsGVshNWlVD96cGBokYbfn1NenwFRSt6933yMk/snK2ImaPvo1jOhN8xM2BLb1gC19xOeITsm8jTv2jZwezmbe+Mi0fmdPyMyQFC/FeW334RTRbR3RrofK+ozH/mPQ5mp+uazDmUnP9Mr7+KTwgfkGxcVFqaxLk7bn8Wx+4Yx7FzTL2f9/akHDKR9QMumFBmd/6+y0yoBdtXQ40XTRzwZqiCHbhW3w8LSt2ybQ==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 2a00:1450:4864:20::634) smtp.rcpttodomain=<REMOVED>
+ smtp.mailfrom=gmail.com; dmarc=pass (p=none sp=quarantine pct=100)
+ action=none header.from=gmail.com; dkim=pass (signature was verified)
+ header.d=gmail.com; arc=pass (0 oda=0 ltdi=1)
+Received: from CH5P221CA0024.NAMP221.PROD.OUTLOOK.COM (2603:10b6:610:1f2::18)
+ by BY1PR01MB8710.prod.exchangelabs.com (2603:10b6:a03:5ae::6) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9587.12; Fri, 6 Feb 2026 10:43:58 +0000
+Received: from CH2PEPF00000144.namprd02.prod.outlook.com
+ (2603:10b6:610:1f2:cafe::34) by CH5P221CA0024.outlook.office365.com
+ (2603:10b6:610:1f2::18) with Microsoft SMTP Server (version=TLS1_2,
+ cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id 15.20.9587.16 via Frontend
+ Transport; Fri, 6 Feb 2026 10:43:52 +0000
+Authentication-Results: spf=pass (sender IP is 2a00:1450:4864:20::634)
+ smtp.mailfrom=gmail.com; dkim=pass (signature was verified)
+ header.d=gmail.com;dmarc=pass action=none header.from=gmail.com;compauth=pass
+ reason=100
+Received-SPF: Pass (protection.outlook.com: domain of gmail.com designates
+ 2a00:1450:4864:20::634 as permitted sender) receiver=protection.outlook.com;
+ client-ip=2a00:1450:4864:20::634; helo=mail-ej1-x634.google.com; pr=C
+Received: from mail-ej1-x634.google.com (2a00:1450:4864:20::634) by
+ CH2PEPF00000144.mail.protection.outlook.com (2603:10b6:61f:fc00::365) with
+ Microsoft SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id
+ 15.20.9587.10 via Frontend Transport; Fri, 6 Feb 2026 10:43:56 +0000
+Received: by mail-ej1-x634.google.com with SMTP id a640c23a62f3a-b885e8c679bso76827866b.1
+        for <<REMOVED>>; Fri, 06 Feb 2026 02:43:56 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770374635; cv=none;
+        d=google.com; s=arc-20240605;
+        b=CrnxnY4QrDannYbWJmPPuNZzlvDI2rU+AAptwlH+rErj25O0GV3SDzw1Ze0ALMLR+i
+         J6z+EqjHysM4tS72Na7NPx5seX9M+WB+t5vX3GQB9IKOAPytW6kasy5XMl4Ae3L/cfH+
+         Y6DbrLPugE+kdNPI+RRC2pv1etwYY59ZD/8tIWFMaXdjjBBhYuZ9OUtBW24xCtdN2zX5
+         6/Ycztu6imEKV3nu4YUHhQ/WkzSCo5FverWhun05RCsQlNyyFQ8MBxLC6cETgiO8Cip5
+         gOGvF76Q9g8Q+iIiSb6XS/N06trJOkzZaqiq5whS8hrBTNxZY/r6+iBlRuRmcszvvpzr
+         Eb3A==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=oj4q4Epfz94ISDvWmKrQfsFBRzMfpNQwCOkvQibiipY=;
+        fh=69Q+a42Gom4uB5bLVQMhOqvFfDaUQo9mAIAf+lKnWPo=;
+        b=Vk6NmtTrPJciIiNAAmHIHjOLH8HYUxS/KSh3cz8OIzONpl2HGTQ8b3EWN6G1Krvm1f
+         Rd0Upk1JWADEgbss8rgppjJ9lNmQfDhVLaunIWw7c1IClYYO7Ggo5el1WGxzfzIQiTO9
+         C5mqei4XYqz4JVfisXJ3IOzb9wWggGqtN3GAtJfSFQ34d2iNB2nh2KW1icAJYDih1VZK
+         9CaXX2pVJvS+1vTqVFa9SZHWacST7QEZ2c2ygpD2Q1bPEfEktG2zyQspkkMhhZSks308
+         RJ6zrc5vvXwqr/QvaWGiU7LwT7DP8a7CT/3wMF1yEwOtjStKnvOVBc94Levmb3GsFArx
+         x2LA==;
+        darn=<REMOVED>
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770374635; x=1770979435; darn=<REMOVED>;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=oj4q4Epfz94ISDvWmKrQfsFBRzMfpNQwCOkvQibiipY=;
+        b=M1hYI2fl060tYS1bKAr+V82D1KcHw+M+Ku35BGLRGTL5QmsbqfSgukuJ3xR8XZzv9n
+         VPzIfVkIkf00J0vuL54/+PSK0ssbf0T51AdE1GdA9auT/HHPm0761K1u/Z7CA17qhOG6
+         GBiChZ64kYc0W409S5+TZi1XlHCnzlR3E81NLKW/0yrLABYrXwvU0k8xIGmcs1B6ph9x
+         g7Gd/lDefwAWQleF3xm1gAREo6H3JZDJ9OznZMMmCi3WefKmDRA8bQiBOaSdMgiO1Wv1
+         eT7Bf4XZ6QqTjaPrGi31wnRTznTLxONd31sywN37ep3TX446bCv+WKiaOaL5DSz3j+cX
+         G9lA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770374635; x=1770979435;
+        h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=oj4q4Epfz94ISDvWmKrQfsFBRzMfpNQwCOkvQibiipY=;
+        b=eOzrWBUCsGd6XpJk7JF9v1G2xXJfWAIZUBkl4MntO4hcox0NACZ+qj8A8lGKXG0B+O
+         UBYpsKuG9cHDSZf9PXNnqWQwX11iSlkvGrdK3H55fNjuTf1kT/WuQbHkIrb2JYreVsnD
+         Bo7cTZ87iEuC4y+c3+SVKhC7+c0RcDin2SeB3TeXmk1IKaKP1Mvpigx0zlYQGkxphG3h
+         2yv4hJ92kuDKEIuMk7/67pyhvgj8fcclZVrn79zcHPpzDjsRA6SDxGnGQPK6oTh10M5z
+         H2ZHxrUatQJIwfmeXkY5DY1vIfi30OGAuXeznLzxmzO05Yl1ukBlKI3m/uxJzMEYGPSW
+         p+yw==
+X-Forwarded-Encrypted: i=1; AJvYcCWfs/ckLbCa0o9jxh8uiwAGw4V/dn+PyirRn5Ezh1R2o1lpmpNO700zcJ6YGIKXb2VGGG4j@<REMOVED>
+X-Gm-Message-State: AOJu0Yy4kUQ/mE7nDCUfVsG23Oahc0egq2WmDe+eUVH/T7181OZ/r89w
+	qArUL5siJCIW/zBYSEt4enLskFo4l6HsSHMdlclzpNKwcs0UQYmVKeZqKzS2oTLC3Af/OE8ZS2P
+	1UAGkgVhyiZ6SRuOJt4Mkdd8xxMRSLqw=
+X-Gm-Gg: AZuq6aLin/wHvWA+PCPOS0Dc17RwvKspkzkKlVQEDetcYWbXmwztZWUvkeHDbmmNxD6
+	uMECDGBYZd9CA9XmRrICECT1ns6hSu3FxoP+ZNIJZRHD1pIIe03If91honXD2/9Ta+Bg0DpY4Uw
+	0LcCtduX3YeZ0rIZzuuaHL3gJq94Mwb56z8rUovr94HnAEfxScBF/TqgZnReErqz4iqNQ1/sreD
+	g1lQ9T7MQzDT9B02hLxuc/MAS/67n50QQFANG+HnSBOMROOh2l7WzNiHY0QItZuvfNhfToUJUj7
+X-Received: by 2002:a17:907:96aa:b0:b8e:a1a6:8196 with SMTP id
+ a640c23a62f3a-b8edf341040mr144701066b.46.1770374634722; Fri, 06 Feb 2026
+ 02:43:54 -0800 (PST)
+Reply-To: markgelkirchenmgm@gmail.com
+From: Mark Gelkirchen <chaplainjoemartins@gmail.com>
+Date: Fri, 6 Feb 2026 02:43:42 -0800
+X-Gm-Features: AZwV_Qim1zOJsYUVpS_k0yfsim5PlhwjSzVDHYhYg-uFi31RNQBdoWipa76trjA
+Message-ID: <CALj+LG6e3yQCdRRnvuwS9ES0=Wa9GGs0ZukrsoV_JfPrjHTyXg@mail.gmail.com>
+Subject: Please I Need Your Urgent Attention. This Is Mark Gelkirchen.
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="00000000000038da8f064a25775f"
+BCC: <<REMOVED>>
+Return-Path: chaplainjoemartins@gmail.com
+X-MS-Exchange-Organization-ExpirationStartTime: 06 Feb 2026 10:43:57.0297
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id: a0e27e5f-f64e-4c8b-dce9-08de656ca14d
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 3a46f788-6ced-4002-b220-02d8147f37f4:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: CH2PEPF00000144:EE_|BY1PR01MB8710:EE_|PH0PR01MB7474:EE_
+X-MS-Exchange-Organization-AuthSource: CH2PEPF00000144.namprd02.prod.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Office365-Filtering-Correlation-Id: a0e27e5f-f64e-4c8b-dce9-08de656ca14d
+X-MS-Exchange-Organization-SCL: 5
+X-Forefront-Antispam-Report: CIP:2a00:1450:4864:20::634;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:mail-ej1-x634.google.com;PTR:mail-ej1-x634.google.com;CAT:SPM;SFS:(13230040)(7093399015)(12012899012)(13003099007)(8096899003)(54012099003)(805200001);DIR:INB;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|7093399015|12012899012|13003099007|8096899003|54012099003|805200001;
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 06 Feb 2026 10:43:56.5952
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: a0e27e5f-f64e-4c8b-dce9-08de656ca14d
+X-MS-Exchange-CrossTenant-Id: 3a46f788-6ced-4002-b220-02d8147f37f4
+X-MS-Exchange-CrossTenant-AuthSource: CH2PEPF00000144.namprd02.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: BY1PR01MB8710
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:05.2379034
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.9587.013
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:J;OFR:SpamFilterAuthJ;ENG:(910005)(944506478)(944626604)(4710137)(4715077)(4999163)(920097)(930201)(3100021)(140003)(1310096);RF:JunkEmail;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?RXowalB3aGI2SEJUNkMvbzBVV0tTWEEwaTVwNVN3U3JqSE9vclRmRlp5Y245?=
+ =?utf-8?B?Z0xoYWh5TEFYeXV4eTYzR3pLTHdZTzNiNU5qNVhQK1FOdVlIeldrN1RFV1dU?=
+ =?utf-8?B?NDNHUkkzZy9YbUdXSTArdWhsSWI0SEdUWFZVbWV0cSsxVVA5VkV3ZDhFVXVz?=
+ =?utf-8?B?aS9Dem54aWd1RFBSUnBrYnVxOGVWZmNOZXZTeDdFb1hLQlhmSzlGRHlhQ2tx?=
+ =?utf-8?B?ekdCZFI1cWdZejBKQVpndVBtdiswYzlYUml4akk4M3hYdFdQUXRzK1hrSEFF?=
+ =?utf-8?B?UHNKVFB5cHl2YldkY3V1N2JyRUt6S1Nlak5nNUFTODVmaDMraHE3dHZyOWlH?=
+ =?utf-8?B?Nmt2Z0lndWpteTdxcmlZYytEZ3VJZmJZNE9hODNTV20vTGorSUJmbFE1ZERB?=
+ =?utf-8?B?enJIaGVjVFE3cW5uSTA5eDBSNGRFNG9MK1d0ZmRvQmVNclpnK056QllRQ3RG?=
+ =?utf-8?B?TDlMMlZ6bmZEaEoxeVZrUG4zUUZaa3F6WTFxZFZkeW1yTHRSbTVOSnVMbnQr?=
+ =?utf-8?B?cVNDUDZYMmJVR2JXZFRMTk5lR1JEQ0tuTmhXWmsyWERIajZrNysrN1NYMDdx?=
+ =?utf-8?B?eGJjVjg2NWpFQStnVDdoVzZPQ2FOcEZYRElmcW1UVXllRlVCcG42dkhaNGJp?=
+ =?utf-8?B?Rm92TlBEMGUydEQ1STVUWUtKalRKejlzL0ttSjdwSHAweU1ZS25mcExhcTdU?=
+ =?utf-8?B?aDh0K2tlRUNCSkRaQ0xXWEkzTXRtU04wdnhPbldteHlIREVVQlRaaHE1UHZ2?=
+ =?utf-8?B?VkdOQ0hzK3pBdGxteC9UMnllV2ZQai9PeEtQbStYNXU5MWI3ZWh2OGgzcCtr?=
+ =?utf-8?B?cmw1c3crS3VlV0k1RnFoQ1NMdnUwSEV3dWMzYjluVW42VU9YY3hFbnFrazhh?=
+ =?utf-8?B?cUtXMGJrbGRIWjJkY3JIQnBMNm02bUtQU2JwZ3NKTVJzRHlJRDZZb1VBVERq?=
+ =?utf-8?B?dVV4aFdwQVpBbVVqQ2V0dGRwWHFnQzZ1TmVIN2YrOGE0T3FxNk9GUGFLUGxv?=
+ =?utf-8?B?ek1ienBRUE91TllXdjE3WEVvWlk3UngzNVB5aTBUUjZxVVgrRm5vTVR2OStB?=
+ =?utf-8?B?QmFmTGM3b2F0aUo2TFNSeTVNNnN1bXFnTkw1WmZLZm5UUktvZThhK2tIU1VL?=
+ =?utf-8?B?WGcvbHZEQTBldXdSOFRLbTF0cUZ3MGFJUzBxdzRDUVpQSkdxdXVsQXZQUDVG?=
+ =?utf-8?B?UmpnWHZudWZvUkJoY2FRVFF3UzJlaFd6V2s4bC94RVpHN21hTVNkQ1JWYVhR?=
+ =?utf-8?B?aXU0QThqNGMyMFUxZExuZWhJbG9MVmU3eDkzUjU3SzZnL0RET0VjUURNdHRk?=
+ =?utf-8?B?dk4zdUs1L3ltc3dWQS84bEc2T2ZRTmxHbEZCWWRMRjgvNDh4MVd3S3I0WTNM?=
+ =?utf-8?B?bk9ZWUhMd2g1Mk0yQUNKY2lrWWp2eUJMRndVSUt0cHlwekNNRG5lY2VLbERl?=
+ =?utf-8?B?R2pTcDVwY1I2SndqTUFsWStqMjM5OHNBK01VMXFZZndnOWFlZWM4RVpyM25s?=
+ =?utf-8?B?R3cyMW0wMzRyUnpzNG5uTnNna1RMSXhwb1hLdkxNUitBT3hKTFRHVUFLL0dV?=
+ =?utf-8?B?UEJ4QlorMTM1SHVWT3pJNnhZK3V5amNLQ3JMNkp2czNad09uakFWeUpNTWRq?=
+ =?utf-8?B?b2E4bTlJWERUcnVaR1prd3VOajBzbG9jRk5wSFM2bzE1SVg4N0RCWVdEQ3ZO?=
+ =?utf-8?B?TUVoRGdleXpjV3Nrb2xuTEJhK3hDOHZwejZQSDdZdXZvd0kva0VnbytPMnJr?=
+ =?utf-8?B?cjhOU2c1ZDRxVXRCbGdjTmJtcU45a3M1MVVJVkk2NWZ4QkxEeWNTd1EzNDlo?=
+ =?utf-8?B?UzJ6YjNvY1FPdVJScjNzeGlmR20zcGJ4Zm5SUHUzb050T0VWWDRwejhRVExt?=
+ =?utf-8?B?VUN4aXBiTy9iY0E3a0EyUm50UjdWVG8xd3oyUWNqMm1KaTc4Y0pwd3pyOTJY?=
+ =?utf-8?B?MEorK3VnaTJFWW1oSm1yOVVaYVRUclIrTnBaZVNGMFJ4TjlvUnNQWnZhK3hL?=
+ =?utf-8?B?Tm82RnhUVEZKN0pXWDBwVDBhdzFwRDNQSExOWjdCQVBmd3dzaFhLZVFIR2tB?=
+ =?utf-8?B?aFBVMHdtZmI3Vkw1endiRDNNanNFSDV1eFhMRjIyUTZnVmxPa25PRFVpajlj?=
+ =?utf-8?B?ZXB2aFVwMWx1M2Nsb1NqZG9XRW9veVhRaENMODFXT1p3MlBuUjVLZEttdVRP?=
+ =?utf-8?B?dlpxcTB6ODBRRTNIRk5VQitnYlk5K1RXcVJCTnNnZlIrckhEWTJJRVk3TElF?=
+ =?utf-8?B?QnlHT0x6Rk1DWTFaS0FNUW1Ydms4OWpwWUpSTWtHcEYrT2hQemhVYzN1ekt1?=
+ =?utf-8?B?N3QvSFhHNnFIeE5BUVRxYUlacUt2TXJjMmVTbzNSa1FvZHQzeXo0aEJTSVN4?=
+ =?utf-8?B?ZFRjdzRzamg4Q2c4OCt1MTZjSUY1MUUrN2lVN0U2am9keFVKdGFQTS9uRkhM?=
+ =?utf-8?B?RzVvRHB4WThyb3pFZTJkSzQ3OG9KaGlEWHljK1RsRVoxY3FSazQ3RlZKSU13?=
+ =?utf-8?B?bU5mRWo5UXNVZ2pkRkJLS2pEMmNUMDZLYk9wWHVDQ3FXeHBIRlhPOTBtY0wv?=
+ =?utf-8?B?RjNLcjZla3drWENxZ202bjMwRk5icmZxWWNPVnpiOEQvMVVRemc5MWJNckMy?=
+ =?utf-8?B?SE9aRk9QVHMrbUpmSU9leldPbmkvV3AyNU83alpTOW81K1pTYUI3UGJETnNp?=
+ =?utf-8?B?Q3lpS0gxckdHZTFRcjg1aWxPdkovZVFGWC9WRVpWd1h3aFFTcVpCbzRhemY0?=
+ =?utf-8?B?VWxQZ3M5ZlArdnFnQnp0UndjdC9OVEduVkVKVmpkNkphT0NIWHJudEtXUWd5?=
+ =?utf-8?B?M0hvRlB2Tlh1bmh1bW8rMWVnMGloUVpHMlhKbmZtUWpYMklpdldlYVpValVL?=
+ =?utf-8?B?Z2dHb3lYUDRhbUhwYzVjVXBoYlJQL3NKU0RCNUxJcTlFMC85MDBuNHpHdDBq?=
+ =?utf-8?B?NjRqWUw3dkJMWEtnMUdPMjhFQlJ3NzNONllEdjRMTGZwUk83L3pXelJpMmVk?=
+ =?utf-8?B?OERkQVdtMWhSNWFHMmZMcDRUM1RkcjJIMzRMMXJocGw0QkhMUFRKVkNrK3Ew?=
+ =?utf-8?B?SlRETVZCb2kxbG9TajRGNy9CUG9vOHlSRFZYZklXajZzL0hObnVMblN5eE9z?=
+ =?utf-8?B?UnVpblJnZDlHc2xiUWE0WDcvcGJXVFZIQW1xaTJTUnVTdFlPUTZLZCtXTGZJ?=
+ =?utf-8?B?MzFIS1h5c2Q1UWVPbFY0c3B1OFIyS3pLekdDcmliYm9DT1o0TzZudGJtRHNQ?=
+ =?utf-8?B?dVFrdUtPcERTaWFkRlpPRHJrVWROUU5Sais4U2gvcWtIN1VwSjhSTjhXUUNJ?=
+ =?utf-8?B?NUNFbWtIdm5TeTNyS3BtbHI2aXlYTk9HTTA2TmF0MjFlMWMrcG1ITW5lL29j?=
+ =?utf-8?B?VENKVVBYRy80WE14STFqOW1ESEptS00rTjFKcUQyaUVUSWVOSTYrM2lmTW05?=
+ =?utf-8?B?VzYvdlpRNXdrTDNQbmxDZm1RUHJsN0h4RlVpbWYwYXgxQk5MWHUveElwVmdF?=
+ =?utf-8?B?U0VzK040RDRmNmdJamdzRkFqVXc3bGtya1RydXViVCswSlZvTzhDcTlwTzc2?=
+ =?utf-8?B?b2ViUWdiS3RidnVuc2IzZkh5aXQ1WW8xSXBXWTlSaVdmYzFjUnFpZ2pwUjlN?=
+ =?utf-8?B?MGhTQ3NkVnAxa1BEcDhYRHBhWWg5ODJLNzU1SkNvN2JYRkN2SS9ycGx4OHlh?=
+ =?utf-8?B?RWJoOHhhZG0vbjY3VmQ5REU3RTlzMEhNaXlRT2FNZDFWK2FFbjdBbWZUNzZF?=
+ =?utf-8?B?bUc4Uk8zT1o0RjZTUTNtajF1QjBnanVlY2U0NTAwbmJWNlRrL0h4TVBhUEti?=
+ =?utf-8?B?cmNveGFCNmU5M0FEc3FHTXRkcHRPd3EwZVhoRkJXcVZ6aGwzODBnQmRHVjdz?=
+ =?utf-8?B?bUptK2p3WnJKRjQxV000Wk1CWG0yOUxDMHpvTHF1N1hTdVpIWTMrTlorejl4?=
+ =?utf-8?B?em1lWWQ0RFlyRmhwbUpCSTJOMS9PNEYydmlEaWZYVFZwNy9keHdHMmUwNnVO?=
+ =?utf-8?B?azN1VXFpMnM1QVNWYkxpUzB4ZlJkZ0xPTUh0T2I1SXhwaDVUNVhGZ2prKzlY?=
+ =?utf-8?B?MERKMDNBS0hmYXZnRjNyVnRFN0dkamwvSXVvMEgvV0JDbjBzTTNtVFpvR2kz?=
+ =?utf-8?B?cFczSmNtWW9xWlc2dlQwNHI3S09GM1FCVk1HdHBYWm9YRlRzbFh1L2UwdHhr?=
+ =?utf-8?B?b2o3ZmI3WjAvV2Q3OVhFRlFFNm12bXV0dHlZb0JJaEZzWCs4U3BiaEc1L0R4?=
+ =?utf-8?B?MmgzcllTWFNHSEdENktzWEJWRHozTW8zdXdHQUZVbm5FYjZreEJiUnBrbUEr?=
+ =?utf-8?B?eVNxV1pVQlRaMU9DNWgwRWpEVmVjdTJFMDM4QjJZVXVpS0NtK2FidjMxNGQx?=
+ =?utf-8?B?eTUrY2x6SW82eUdHY2puWEZNWWxMVzdUY3BHR2owamhpRVBaN2hnSzQ2Ulpj?=
+ =?utf-8?B?dFRwNEhsUDNaamhaOHRkY01LYS8yU09zZjB3ZTI1VU9iTHpvU1BaTEtOaUFZ?=
+ =?utf-8?B?YVZpOWZ4SzFaa1o2d2N0TjBwSVNSTGNmMmg3ZlhlYzRSRnZkemhHYU1nYkQ0?=
+ =?utf-8?B?NHRrQStHVUVtRldXaU8vc3JNV2Z2M2dadmVialZkL1MvUUlPa21pWlFjRlZZ?=
+ =?utf-8?B?UVJmT2NJWDNFR0NXTUp4M0QzMkluZlJCOFJmMTUrQ3ZyYUp5d1JraExzVm5L?=
+ =?utf-8?Q?6QKoV1hAVYpXRzY=3D?=
+MIME-Version: 1.0
+
+--00000000000038da8f064a25775f
+Content-Type: text/plain; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+*Dearest Friend And Beloved One,*
+
+
+
+
+
+
+
+
+
+*I am Mark Gelkirchen, a 62 year old man from the Philippines, but fortune
+brought me to the United States Of America where I happened to be the Chief
+Chef and the house caretaker of Late Madam Huguette Clark who died about
+eleven years at the age of 104 years old. Late Madam Huguette Clark was
+born on the 9th of June, 1906 and she died on May 24, 2011 and she was the
+youngest daughter of a former U.S. Senator and industrialist,  William A.
+Clark. She lived a reclusive life after 1930 and her activities were
+virtually unknown to the public. Upon her death in 2011, Madam Huguette
+Clark left behind a vast fortune, most of which was donated to Charity
+homes. Before Madam Huguette Clark died, I was one of the closest persons
+to her every 24 hours of the day till the very moment she died as I was the
+one who was randomly assigned to care for her for more than 20 years. And
+because of my closeness to Madam Huguette Clark, I was able to get some
+important information on her investments and wealth all over the whole of
+America and in some European countries. Late Madam Huguette Clark made me
+to know that she has more than a half a billion dollars in the banks here
+in the United States of America and she also have the sum of $6.9 million
+dollars (Six million nine hundred thousand dollars) in one of the banks in
+one of the European countries, which I wouldn=E2=80=99t want to mention the=
+ name
+yet until I have reached to an agreement.Since the her death of Madam
+Huguette Clark, I have being around her house with few other people and
+with time I began to access to her inner rooms, and recently was opportune
+to see the certificate of deposit of the fund deposited in that bank
+together with a WILL written by her that stated that anyone who finds the
+Certificate Of Deposit of the $6.9 million (Six Million Nine Hundred
+Thousand Dollars), deposited in the bank shall be the beneficiary of the
+fund and he or she should go for the claiming of the fund.So my dearest
+friend, I am writing this message to you in order to create a business
+partnership with you, by using you to claim out the whole fund in the bank,
+as I can not do it by myself because every attention is being focused on me
+now by the American Government and other people here who were also around
+Clark's when she was alive, people like her goddaughter Wanda Styke, her
+attorney Wallace Bock and I don't want them to know about  this fund
+because they have more than enough to gain here. Right now the United
+States of America government is seriously monitoring us on the area of our
+personal properties and transferring of any money within or outside
+America.*
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+*Immediately i receive your reply with an interest to work on this deal
+with me, then i will give you the necessary information on the name of the
+bank and the name of the country where the bank is located and also the
+certificate of deposit which she used in depositing the fund in the bank,
+as she has already made it known to the bank that whosoever that comes with
+the certificate should be the beneficiary of the whole fund. Here below are
+the news line websites which you can open and read to more about of late
+Madam Huguette Clark and her
+wealth;http://www.theatlanticwire.com/national/2011/06/meet-inheritors-hugu=
+ette-clarks-vast-fortune/39168/
+<http://www.theatlanticwire.com/national/2011/06/meet-inheritors-huguette-c=
+larks-vast-fortune/39168/>http://en.wikipedia.org/wiki/Huguette_M._Clark
+<http://en.wikipedia.org/wiki/Huguette_M._Clark>http://news.yahoo.com/s/ybl=
+og_thelookout/20110623/us_yblog_thelookout/reclusive-copper-heiress-leaves-=
+38-million-to-nurse
+<http://news.yahoo.com/s/yblog_thelookout/20110623/us_yblog_thelookout/recl=
+usive-copper-heiress-leaves-38-million-to-nurse>I
+would like you to kindly send your personal information to me while
+replying to this message and also write a reassuring message to assure me
+that you will be dedicated and will not disappoint or betray me in this
+business. And please I want you bear in mind that our terms of  percentage
+in sharing this whole money immediately it is been transferred into your
+account will be 60% for me and 40% for you, after we have mapped out some
+reasonable sum of money to build or give to the charity homes to please the
+spirit and soul of late Madam Huguette Clark. Please remember to keep this
+communication and transaction to yourself and as a top secret between you
+and I, for security reasons. And please all our communication shall be on
+email messages and please there shouldn't be any telephone conversations,
+except when no one is around, to help keep me safe and protect my
+reputation here.I will immediately begin to relocate to your country or
+anywhere you are once this business deal is done and sealed.Yours
+SincerelyMr. Mark GelkirchenFrom The United States Of America.*
+
+--00000000000038da8f064a25775f
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><d=
+iv dir=3D"ltr"><div><br clear=3D"all"></div><div><div dir=3D"ltr" class=3D"=
+gmail_signature" data-smartmail=3D"gmail_signature"><div dir=3D"ltr"><div s=
+tyle=3D"direction:ltr;min-height:270px"><div><b><font face=3D"tahoma, sans-=
+serif">Dearest Friend And Beloved One,</font></b></div><div><div dir=3D"ltr=
+"><div dir=3D"ltr"><b><font face=3D"tahoma, sans-serif"><br>I am Mark Gelki=
+rchen, a 62 year old man from the Philippines, but fortune brought me to th=
+e United States Of America where I happened to be the Chief Chef and the ho=
+use caretaker of Late Madam Huguette Clark who died about eleven years at t=
+he age of 104 years old. Late Madam Huguette Clark was born on the 9th of J=
+une, 1906 and she died on May 24, 2011 and she was the youngest daughter of=
+ a former U.S. Senator and industrialist, &nbsp;William A. Clark. She lived=
+ a reclusive life after 1930 and her activities were virtually unknown to t=
+he public. <br><br>Upon her death in 2011, Madam Huguette Clark left behind=
+ a vast fortune, most of which was donated to Charity homes. Before Madam H=
+uguette Clark died, I was one of the closest persons to her every 24 hours =
+of the day till the very moment she died as I was the one who was randomly =
+assigned to care for her for more than 20 years. And because of my closenes=
+s to Madam Huguette Clark, I was able to get some important information on =
+her investments and wealth all over the whole of America and in some Europe=
+an countries. <br><br>Late Madam Huguette Clark made me to know that she ha=
+s more than a half a billion dollars in the banks here in the United States=
+ of America and she also have the sum of $6.9 million dollars (Six million =
+nine hundred thousand dollars) in one of the banks in one of the European c=
+ountries, which I wouldn=E2=80=99t want to mention the name yet until I hav=
+e reached to an agreement.<br><br>Since the her death of Madam Huguette Cla=
+rk, I have being around her house with few other people and with time I beg=
+an to access to her inner rooms, and recently was opportune to see the cert=
+ificate of deposit of the fund deposited in that bank together with a WILL =
+written by her that stated that anyone who finds the Certificate Of Deposit=
+ of the $6.9 million (Six Million Nine Hundred Thousand Dollars), deposited=
+ in the bank shall be the beneficiary of the fund and he or she should go f=
+or the claiming of the fund.<br><br>So my dearest friend, I am writing this=
+ message to you in order to create a business partnership with you, by usin=
+g you to claim out the whole fund in the bank, as I can not do it by myself=
+ because every attention is being focused on me now by the American Governm=
+ent and other people here who were also around Clark's when she was alive, =
+people like her goddaughter Wanda Styke, her attorney Wallace Bock and I do=
+n't want them to know about &nbsp;this fund because they have more than eno=
+ugh to gain here. Right now the United States of America government is seri=
+ously monitoring us on the area of our personal properties and transferring=
+ of any money within or outside America.</font></b><div><b><font face=3D"ta=
+homa, sans-serif"><br>Immediately i receive your reply with an interest to =
+work on this deal with me, then i will give you the necessary information o=
+n the name of the bank and the name of the country where the bank is locate=
+d and also the certificate of deposit which she used in depositing the fund=
+ in the bank, as she has already made it known to the bank that whosoever t=
+hat comes with the certificate should be the beneficiary of the whole fund.=
+ <br><br>Here below are the news line websites which you can open and read =
+to more about of late Madam Huguette Clark and her wealth;<br><br><a href=
+=3D"http://www.theatlanticwire.com/national/2011/06/meet-inheritors-huguett=
+e-clarks-vast-fortune/39168/" target=3D"_blank">http://www.theatlanticwire.=
+com/national/2011/06/meet-inheritors-huguette-clarks-vast-fortune/39168/</a=
+><br><br><a href=3D"http://en.wikipedia.org/wiki/Huguette_M._Clark" target=
+=3D"_blank">http://en.wikipedia.org/wiki/Huguette_M._Clark</a><br><br><a hr=
+ef=3D"http://news.yahoo.com/s/yblog_thelookout/20110623/us_yblog_thelookout=
+/reclusive-copper-heiress-leaves-38-million-to-nurse" target=3D"_blank">htt=
+p://news.yahoo.com/s/yblog_thelookout/20110623/us_yblog_thelookout/reclusiv=
+e-copper-heiress-leaves-38-million-to-nurse</a><br><br>I would like you to =
+kindly send your personal information to me while replying to this message =
+and also write a reassuring message to assure me that you will be dedicated=
+ and will not disappoint or betray me in this business. And please I want y=
+ou bear in mind that our terms of &nbsp;percentage in sharing this whole mo=
+ney immediately it is been transferred into your account will be 60% for me=
+ and 40% for you, after we have mapped out some reasonable sum of money to =
+build or give to the charity homes to please the spirit and soul of late Ma=
+dam Huguette Clark. <br><br>Please remember to keep this communication and =
+transaction to yourself and as a top secret between you and I, for security=
+ reasons. And please all our communication shall be on email messages and p=
+lease there shouldn't be any telephone conversations, except when no one is=
+ around, to help keep me safe and protect my reputation here.<br><br>I will=
+ immediately begin to relocate to your country or anywhere you are once thi=
+s business deal is done and sealed.<br><br>Yours Sincerely<br>Mr. Mark Gelk=
+irchen<br>From The United States Of America.</font></b></div></div></div></=
+div></div></div></div></div></div>
+
+--00000000000038da8f064a25775f--

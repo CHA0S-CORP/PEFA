@@ -662,7 +662,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
         <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
         <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
-        <div class="topbar-sub">2026-02-07 20:22 UTC</div>
+        <div class="topbar-sub">2026-02-07 20:42 UTC</div>
     </div>
 </div>
 <div class="container">
@@ -677,12 +677,12 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="225.4"
+                            stroke-dasharray="225.4 326.7" data-target-dash="225.4"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:#f97316" data-target="69">0</div>
+                        <div class="gauge-score" style="color:#f97316" data-target="69">69</div>
                         <div class="gauge-label">HIGH</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
@@ -699,10 +699,25 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
     <div class="widget gemini-widget" id="nav-ai">
         <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
         <div class="gemini-content">
-            <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">98%</span></div>
-<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt impersonating DPD, a package delivery service. It tries to trick you into clicking a link to &quot;plan your delivery&quot; but originates from suspicious domains and an unusual source. This email is not safe and should be deleted immediately.</p></div>
+            <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">100%</span></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt impersonating DPD, designed to trick recipients into clicking malicious links. It is not a legitimate delivery notification and poses a significant security risk. Do not interact with this email.</p></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  The email failed DMARC authentication, indicating it was not sent by the legitimate DPD domain, and the `From` domain (`wkXeS1tW.fr`) and `Return-Path` domain</li>
+<li>  The email failed DMARC authentication for the `wkXeS1tW.fr` domain, indicating an unauthorized sender, further evidenced by a Return-Path mismatch to `endcorporalpunishment.com`.</li>
+<li>  The &quot;From&quot; domain `wkXeS1tW.fr` is not the legitimate DPD domain, and all embedded links point to `storage.googleapis.com/abbchopo/abhrefly.html`, which is flagged as a &quot;BRAND LOOKALIKE&quot; and likely hosts a phishing page.</li>
+<li>  The email body contains irrelevant, obfuscated content (e.g., &quot;Thank God I didn&#x27;t go through with that costly skin graft...&quot;) and high character entropy, a common tactic to evade content filters.</li>
+<li>  The email originated from IP `153.25.99.91`, associated with the United States Department of Defense, which is highly anomalous for a legitimate DPD delivery notification.</li>
+</ul></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Brand impersonation, credential harvesting.</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
+<li>  Do not click any links or reply to this email.</li>
+<li>  Delete the email immediately to prevent accidental interaction.</li>
+<li>  Report this email to your organization&#x27;s IT security team.</li>
+<li>  If you have clicked any links, change relevant passwords and monitor your accounts for suspicious activity.</li>
+</ul>
+<p><strong>INDICATORS OF COMPROMISE (IOCs)</strong>:</p>
+<ul class="gemini-list">
+<li>  `wkXeS1tW.fr`</li>
+<li>  `413691.99.25.153jh2g6f5d2e8r2t5e91</li>
 </ul></div></div>
         </div>
     </div>
@@ -802,8 +817,8 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <div class="widget-header"><span class="widget-icon">🔍</span> URLSCAN.IO INTELLIGENCE</div>
         <div class="urlscan-content">
             <div class="urlscan-verdict" style="color:#34d399">✓ NOT FLAGGED (score: 0)</div>
-            <div class="urlscan-detail">Server: cloudflare · IP: 23.227.38.66 · Country: CA</div>
-            <div class="urlscan-link"><a href="https://urlscan.io/result/019c3b7b-a1dc-743f-94ff-b1bf52a11c8b/" style="color:var(--accent);">View full report →</a></div>
+            <div class="urlscan-detail">Server: cloudflare · IP: 172.67.68.13 · Country: —</div>
+            <div class="urlscan-link"><a href="https://urlscan.io/result/019c3b85-1a67-72ca-94c2-b1b8f74e39e3/" style="color:var(--accent);">View full report →</a></div>
         </div>
     </div>
 
@@ -847,7 +862,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
 
 <div class="widget meta-widget" id="nav-metadata"><div class="widget-header"><span class="widget-icon">◇</span> MESSAGE METADATA</div><div class="meta-row"><span class="meta-label">MESSAGE-ID</span><span class="meta-val">&lt;696ac881.df0a0220.38fdae.148bSMTPIN_ADDED_MISSING@mx.google.com&gt;</span></div><div class="meta-row"><span class="meta-label">RETURN-PATH</span><span class="meta-val">&lt;return4136@413691.99.25.153jh2g6f5d2e8r2t5e91.99.25.153h4g2f1d5f8g4r9e291.99.25.153h6g4f6d1f6g1f56.endcorporalpunishment.com&gt;</span></div><div class="meta-row"><span class="meta-label">CONTENT-TYPE</span><span class="meta-val">text/html; charset=&quot;utf-8&quot;</span></div></div>
 
-<div class="envelope" id="nav-envelope"><div class="env-row"><span class="env-label">FROM</span><span class="env-val">DPD &lt;wkXeS1tW@wkXeS1tW.fr&gt;</span></div><div class="env-row"><span class="env-label">TO</span><span class="env-val">melona380@gmail.com</span></div><div class="env-row"><span class="env-label">DATE</span><span class="env-val">_smtpDate . 429428079</span></div><div class="env-row"><span class="env-label">SUBJECT</span><span class="env-val">Votre colis est prêt pour la livraison</span></div></div>
+<div class="envelope" id="nav-envelope"><div class="env-row"><span class="env-label">FROM</span><span class="env-val">DPD &lt;wkXeS1tW@wkXeS1tW.fr&gt;</span></div><div class="env-row"><span class="env-label">TO</span><span class="env-val"><REMOVED></span></div><div class="env-row"><span class="env-label">DATE</span><span class="env-val">_smtpDate . 429428079</span></div><div class="env-row"><span class="env-label">SUBJECT</span><span class="env-val">Votre colis est prêt pour la livraison</span></div></div>
 
 <div class="widget body-widget" id="nav-body"><div class="widget-header"><span class="widget-icon">◇</span> EMAIL BODY (RENDERED)</div><div class="body-highlight-summary"><span class="body-hl-badge body-hl-red">4 suspicious links</span></div><div class="body-section"><iframe sandbox="allow-same-origin" srcdoc="&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;body{margin:0;padding:0;background:transparent;color:#c9d1d9;font-size:14px;line-height:1.7;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;}img{max-width:100%!important;height:auto!important;filter:brightness(0.92);}table{max-width:100%!important;}a{color:#60a5fa;text-decoration:underline;text-decoration-color:rgba(96,165,250,0.3);text-underline-offset:2px;pointer-events:none;cursor:default;}td,th{color:#c9d1d9!important;}p,div,span{color:inherit;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
 &lt;style&gt;
@@ -1270,31 +1285,31 @@ great it turns out.
 
 <div class="widget log-widget" id="nav-logs">
 <div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
-<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:22:26.763] Analyzing links...</div>
-<div class="log-entry">[20:22:26.765] Analyzing sender...</div>
-<div class="log-entry">[20:22:26.765] Scanning urgency patterns...</div>
-<div class="log-entry">[20:22:26.770] Checking attachments...</div>
-<div class="log-entry">[20:22:26.770] Analyzing language...</div>
-<div class="log-entry">[20:22:26.773] Looking up IP: 153.25.99.91</div>
-<div class="log-entry">[20:22:26.837] Checking domain age: wkXeS1tW.fr</div>
-<div class="log-entry">[20:22:27.359] Querying urlscan.io: https://storage.googleapis.com/abbchopo/abhrefly.html#?Z289M...</div>
-<div class="log-entry">[20:22:27.970] Querying MXToolbox (SPF/DKIM/DMARC): wkXeS1tW.fr</div>
-<div class="log-entry">[20:22:28.939] Resolving 2002 → 0.0.7.210</div>
-<div class="log-entry">[20:22:29.022] Resolving endcorporalpunishment.com → 46.225.77.49</div>
-<div class="log-entry">[20:22:29.081] Calculating threat score...</div>
-<div class="log-entry">[20:22:29.082] Sanitizing email body...</div>
-<div class="log-entry">[20:22:29.084] Highlighting body...</div>
-<div class="log-entry">[20:22:29.101] Querying Gemini (gemini-2.5-flash)...</div>
-<div class="log-entry">[20:22:37.913] ✓ Gemini assessment received</div>
-<div class="log-entry">[20:22:37.913] ⚠ Gemini says PHISHING — threat score bumped by +50 to 69</div>
-<div class="log-entry">[20:22:37.913] Consolidating IOCs...</div>
-<div class="log-entry">[20:22:37.913] Found 10 IOC indicators</div>
-<div class="log-entry">[20:22:37.913] Looking up IOC IP: 01.16.15.23</div>
-<div class="log-entry">[20:22:38.019] Looking up IOC IP: 91.99.25.153</div></div></div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:42:31.362] Analyzing links...</div>
+<div class="log-entry">[20:42:31.364] Analyzing sender...</div>
+<div class="log-entry">[20:42:31.364] Scanning urgency patterns...</div>
+<div class="log-entry">[20:42:31.369] Checking attachments...</div>
+<div class="log-entry">[20:42:31.369] Analyzing language...</div>
+<div class="log-entry">[20:42:31.373] Looking up IP: 153.25.99.91</div>
+<div class="log-entry">[20:42:31.412] Checking domain age: wkXeS1tW.fr</div>
+<div class="log-entry">[20:42:31.914] Querying urlscan.io: https://storage.googleapis.com/abbchopo/abhrefly.html#?Z289M...</div>
+<div class="log-entry">[20:42:32.541] Querying MXToolbox (SPF/DKIM/DMARC): wkXeS1tW.fr</div>
+<div class="log-entry">[20:42:33.195] Resolving 2002 → 0.0.7.210</div>
+<div class="log-entry">[20:42:33.276] Resolving endcorporalpunishment.com → 46.225.77.49</div>
+<div class="log-entry">[20:42:33.337] Calculating threat score...</div>
+<div class="log-entry">[20:42:33.337] Sanitizing email body...</div>
+<div class="log-entry">[20:42:33.339] Highlighting body...</div>
+<div class="log-entry">[20:42:33.356] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:42:41.784] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:42:41.784] ⚠ Gemini says PHISHING — threat score bumped by +50 to 69</div>
+<div class="log-entry">[20:42:41.784] Consolidating IOCs...</div>
+<div class="log-entry">[20:42:41.784] Found 10 IOC indicators</div>
+<div class="log-entry">[20:42:41.784] Looking up IOC IP: 01.16.15.23</div>
+<div class="log-entry">[20:42:41.844] Looking up IOC IP: 91.99.25.153</div></div></div>
 </div>
 
 </div>
-<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:22:38 UTC</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:42:41 UTC</div>
 <script>
 (function() {
     // === Print button ===
@@ -1611,7 +1626,7 @@ great it turns out.
 (function(){
     var iframe = document.querySelector('.body-section iframe');
     if (!iframe) return;
-    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (98% confidence)</div></div>';
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Brand impersonation, credential harvesting.</span></div></div>';
     function setup() {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         if (!doc || !doc.body) return;

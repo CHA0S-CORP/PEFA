@@ -1,0 +1,94 @@
+Delivered-To: <REMOVED>
+Received: by 2002:a05:622a:5f09:b0:503:3ab3:6a97 with SMTP id og9csp1621000qtb;
+        Mon, 2 Feb 2026 03:22:09 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCVB2TpgYGULaJU8RIGCZmjejnFriTTHeWnZ6pAM3mTMsK7QJ0VtfjbZQHxuH8zW8un6AAlwyQ0Qmc8=@gmail.com
+X-Received: by 2002:a17:90b:3bcb:b0:34c:37b8:db34 with SMTP id 98e67ed59e1d1-3543b3ecb2emr10104249a91.32.1770031329628;
+        Mon, 02 Feb 2026 03:22:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770031329; cv=none;
+        d=google.com; s=arc-20240605;
+        b=f5dV+C3JA8cqYVhJyTSMI20IkvKkJsQDqatwMo5nTf+AHU50pC4wGMBz9LJaoZwwl/
+         VfY9KX9Fjkq6jrLcgrUOMf5/3RFpzxvMgzu7UfilJOvDFaxOo+hFY10D63HzobOudPC5
+         sGrOU4QzLoHbKXo5B8wUXziNFo07F7zx/1JxN/KBPosvda1NABltr996/SXcefHNVyk+
+         30CQPBcKtNtUy4coH7DdxHx1cTgKuzF5VYfR6Ce9DRAVyZc95PXlyQtj/wUusH+TltG3
+         a7AwK/cyiuiCe9bL7855p2YdqwL6ikY+W53cSlKR3hFM0J3eaSJJnybhVMrs24BlGk4t
+         p/pg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=NMuSe3pHNg4dwECzUAxILPZrxR6e2ePGBGM/4BiYF1A=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=S/pNihRUmnIwjwc5DvZhZfENpU7NN9mW67dq/SJ2qUdodoBZh6yO6iJdBsx9rJHIzm
+         FnAjccyMgEGfig86K1w8MyyZYAsTdkeN8KWj4HgrEb0g+RFdMbSYkqktzRulO7MquWNC
+         YEK5Ldjs3Or3ahAe0Bnz3irxh9YFW2zlyfCa8OdRkwOOX3W6pMb/gp/hzBT892LNCCzq
+         mgJ0T4rhsSZ5QHdUBMpzeYAuNcuNBZ4Zr4xRmHPKTFrkC70XOKnJmsx8PQ/cBPrUq7nq
+         WbuGeSAoVewdnJDhf4E9J5W6CikBRjeE9bjp7PrlT3No0cVCAW6+L0O0dFnNPOtF1pQX
+         JEdg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=ncm71x2I;
+       spf=pass (google.com: domain of takamy@cameo.plala.or.jp designates 60.36.166.40 as permitted sender) smtp.mailfrom=takamy@cameo.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <takamy@cameo.plala.or.jp>
+Received: from msc118.plala.or.jp (msc118.plala.or.jp. [60.36.166.40])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-c642aaf196esi23885341a12.332.2026.02.02.03.22.01
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Mon, 02 Feb 2026 03:22:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of takamy@cameo.plala.or.jp designates 60.36.166.40 as permitted sender) client-ip=60.36.166.40;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=ncm71x2I;
+       spf=pass (google.com: domain of takamy@cameo.plala.or.jp designates 60.36.166.40 as permitted sender) smtp.mailfrom=takamy@cameo.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o06.ake-mailbk.plala.or.jp ([172.23.12.55])
+          by msc118.plala.or.jp with ESMTP
+          id <20260202112201.NJVX3759.msc118.plala.or.jp@mdkim-o06.ake-mailbk.plala.or.jp>;
+          Mon, 2 Feb 2026 20:22:01 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1770031322;
+  x=1801567322;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=NMuSe3pHNg4dwECzUAxILPZrxR6e2ePGBGM/4BiYF1A=;
+  b=ncm71x2IMta8rA4/rhX0QjXw0zsca3/JK51VOIzPQaY1duPhok22ztHr
+   QZDPpoLMXMIJA01Z+ab5lBkB0Ymc7cucgzgLYHj24JWGj+xEntOUcYAgk
+   nUc+dirIqM3bOZW0Vpap7k2/2P/813vfAQtsXiPk8zISQPogAoe52NWTn
+   PloubA+DM1Q/0U8GpueQBIxIP4Mi4T6Gab0nsXbTql9VNNdZ1JfuK6DXY
+   LWAV7dCh9fbnOSiXC0PEcLd6OOTjNDPHuIrQeYoL5ZcGTrshIbi7Y5tqY
+   qlk80q85xjOiQ+rx555nog1dAV/+YVzjiyjHyo8szyG1Ni677/zXDM1gb
+   g==;
+X-CSE-ConnectionGUID: eGIEvzw5RliuS/riqB3DGg==
+X-CSE-MsgGUID: s0hnc/5DTP2btN21BLeGgg==
+Received: from msa14.ake-mailbk.plala.or.jp (HELO msa14.plala.or.jp) ([172.23.12.94])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 02 Feb 2026 20:22:02 +0900
+Received: from mwebp13 ([172.23.13.133]) by msa14.plala.or.jp with ESMTP
+          id <20260202112200.DWIZ13262.msa14.plala.or.jp@mwebp13>;
+          Mon, 2 Feb 2026 20:22:00 +0900
+Date: Mon, 2 Feb 2026 20:22:00 +0900
+From: "Mr. David Freeman" <takamy@cameo.plala.or.jp>
+Reply-To: davidfman001@gmail.com
+Message-ID: <20260202202200.FN8V2.2616.root@mwebp13>
+Subject: URGENT RESPONSE
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac14; Mon, 2 Feb 2026 20:22:01 +0900
+
+I have tried many times sending your emails today regarding the release of your compensation funds valued $1.8 billion USD, And we are ready to register your deliver in UPS or DHL Courier service for fast and secure deliver, all you need is to contact Mr. &#160;David Freeman &#160; with your personal information where your funds will be delivered immediately
+
+Make your Reply with the requested information and I will process the delivery today.
+
+Contact Name: Mr.David Freeman,on Email: (davidfman001@gmail.com) or phone number +1( 917-271-1390) with your &#160;requirements details such as.
+
+
+1 Full name
+2 Phone Number
+3 Current home address
+4 Country
+5 Occupation
+6 Age
+ATTACH ANY GOVT ISSUED ID
+
+For more info Kindly respond
+with the required information
+Mr.David Freeman

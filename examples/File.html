@@ -662,7 +662,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
         <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
         <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
-        <div class="topbar-sub">2026-02-07 20:20 UTC</div>
+        <div class="topbar-sub">2026-02-07 20:40 UTC</div>
     </div>
 </div>
 <div class="container">
@@ -677,12 +677,12 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="163.3"
+                            stroke-dasharray="163.3 326.7" data-target-dash="163.3"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:#f97316" data-target="50">0</div>
+                        <div class="gauge-score" style="color:#f97316" data-target="50">50</div>
                         <div class="gauge-label">HIGH</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
@@ -700,10 +700,19 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
         <div class="gemini-content">
             <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">95%</span></div>
-<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a scam attempting to engage the recipient in a fraudulent scheme. The sender claims to be a former diplomatic guard to Nicolas Maduro, seeking assistance with a sensitive matter. It is not safe to reply or engage with this sender, as this is a classic advance-fee fraud attempt.</p></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt, specifically an advance-fee scam, designed to trick the recipient into believing a fabricated story about a former diplomatic guard seeking assistance. It is not safe and aims to elicit a response to initiate a financial fraud scheme or further social engineering. Do not engage with this email.</p></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  <strong>Suspicious Sender &amp; Reply-To Discrepancy:</strong> The `FROM` address (`anyicoming@gmail.com`) and `REPLY-TO` address (`chaseseens@gmail.com`) are generic Gmail accounts, and the `REPLY-TO` differs from the `FROM`, a common tactic in scams to control communication.</li>
-<li>  <strong>Generic Recipient &amp; Subject:</strong> The email was sent to `undisclosed-recipients:;` with a highly unusual and unprofessional subject line `</li>
+<li>  The email uses generic Gmail addresses for both the `FROM` (`anyicoming@gmail.com`) and `REPLY-TO` (`chaseseens@gmail.com`) fields, which is highly unusual for a legitimate communication of the sensitive nature described. The differing `REPLY-TO` address is a common phishing tactic.</li>
+<li>  The subject line `?` is extremely vague and suspicious, often used in spam or phishing to bypass filters or pique curiosity.</li>
+<li>  The email body employs a classic advance-fee scam (419 scam) narrative, claiming the sender is a &quot;diplomatic guard&quot; in &quot;hiding&quot; with &quot;important information&quot; requiring the recipient&#x27;s &quot;assistance,&quot; designed to create a sense of urgency and importance to solicit a reply.</li>
+<li>  While SPF, DKIM, and DMARC pass for `gmail.com`, this only verifies the email originated from a legitimate Gmail server, not that the content or sender&#x27;s intent is legitimate. Malicious actors frequently leverage free email services for phishing.</li>
+</ul></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-Fee Scam (419 Scam) / Social Engineering</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
+<li>  Do not reply to the email or attempt to contact the sender.</li>
+<li>  Do not click on any links (though none are present in this email).</li>
+<li>  Delete the email immediately from your inbox.</li>
+<li>  Report this email to your organization&#x27;s IT security department or email provider.</li>
 </ul></div></div>
         </div>
     </div>
@@ -831,7 +840,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
 
 <div class="widget meta-widget" id="nav-metadata"><div class="widget-header"><span class="widget-icon">◇</span> MESSAGE METADATA</div><div class="meta-row"><span class="meta-label">MESSAGE-ID</span><span class="meta-val">&lt;CAMGFH6nE7zHVDZsSk-QDiBJBYV14RmTvH4q66SiivVGtw8q4fA@mail.gmail.com&gt;</span></div><div class="meta-row"><span class="meta-label">RETURN-PATH</span><span class="meta-val">anyicoming@gmail.com</span></div><div class="meta-row"><span class="meta-label">MIME</span><span class="meta-val">1.0</span></div><div class="meta-row"><span class="meta-label">CONTENT-TYPE</span><span class="meta-val">multipart/alternative; boundary=&quot;000000000000ab14d1064962ff1b&quot;</span></div></div>
 
-<div class="envelope" id="nav-envelope"><div class="env-row"><span class="env-label">FROM</span><span class="env-val">David &lt;anyicoming@gmail.com&gt;</span></div><div class="env-row"><span class="env-label">TO</span><span class="env-val">undisclosed-recipients:;</span></div><div class="env-row"><span class="env-label">BCC</span><span class="env-val">maxw@chaos.com.co</span></div><div class="env-row"><span class="env-label">REPLY-TO</span><span class="env-val">chaseseens@gmail.com</span></div><div class="env-row"><span class="env-label">DATE</span><span class="env-val">Tue, 27 Jan 2026 10:43:14 -0800</span></div><div class="env-row"><span class="env-label" style="color:var(--accent)">SENDER TIME</span><span class="env-val" style="color:var(--accent)">2026-01-27 10:43:14 (PST)</span></div></div>
+<div class="envelope" id="nav-envelope"><div class="env-row"><span class="env-label">FROM</span><span class="env-val">David &lt;anyicoming@gmail.com&gt;</span></div><div class="env-row"><span class="env-label">TO</span><span class="env-val">undisclosed-recipients:;</span></div><div class="env-row"><span class="env-label">BCC</span><span class="env-val"><REMOVED></span></div><div class="env-row"><span class="env-label">REPLY-TO</span><span class="env-val">chaseseens@gmail.com</span></div><div class="env-row"><span class="env-label">DATE</span><span class="env-val">Tue, 27 Jan 2026 10:43:14 -0800</span></div><div class="env-row"><span class="env-label" style="color:var(--accent)">SENDER TIME</span><span class="env-val" style="color:var(--accent)">2026-01-27 10:43:14 (PST)</span></div></div>
 
 <div class="widget body-widget" id="nav-body"><div class="widget-header"><span class="widget-icon">◇</span> EMAIL BODY (RENDERED)</div><div class="body-section"><iframe sandbox="allow-same-origin" srcdoc="&lt;!DOCTYPE html&gt;&lt;html&gt;&lt;head&gt;&lt;meta charset=&quot;utf-8&quot;&gt;&lt;style&gt;body{margin:0;padding:0;background:transparent;color:#c9d1d9;font-size:14px;line-height:1.7;font-family:Inter,-apple-system,BlinkMacSystemFont,sans-serif;}img{max-width:100%!important;height:auto!important;filter:brightness(0.92);}table{max-width:100%!important;}a{color:#60a5fa;text-decoration:underline;text-decoration-color:rgba(96,165,250,0.3);text-underline-offset:2px;pointer-events:none;cursor:default;}td,th{color:#c9d1d9!important;}p,div,span{color:inherit;}&lt;/style&gt;&lt;/head&gt;&lt;body&gt;
     &lt;style&gt;
@@ -936,31 +945,31 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
 
 <div class="widget log-widget" id="nav-logs">
 <div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
-<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:20:10.961] Analyzing links...</div>
-<div class="log-entry">[20:20:10.962] Analyzing sender...</div>
-<div class="log-entry">[20:20:10.962] Scanning urgency patterns...</div>
-<div class="log-entry">[20:20:10.962] Checking attachments...</div>
-<div class="log-entry">[20:20:10.962] Analyzing language...</div>
-<div class="log-entry">[20:20:10.962] Looking up IP: 2001:4860:4864:20::2e</div>
-<div class="log-entry">[20:20:11.025] Sender local time: 2026-01-27 10:43:14 (PST)</div>
-<div class="log-entry">[20:20:11.025] Checking domain age: gmail.com</div>
-<div class="log-entry">[20:20:11.412] Querying MXToolbox (SPF/DKIM/DMARC): gmail.com</div>
-<div class="log-entry">[20:20:12.284] Looking up hop IP: 2603:10b6:408:f9:cafe::86</div>
-<div class="log-entry">[20:20:12.323] Looking up hop IP: 2603:10b6:408:f9::6</div>
-<div class="log-entry">[20:20:13.111] Calculating threat score...</div>
-<div class="log-entry">[20:20:13.111] Sanitizing email body...</div>
-<div class="log-entry">[20:20:13.112] Highlighting body...</div>
-<div class="log-entry">[20:20:13.118] Querying Gemini (gemini-2.5-flash)...</div>
-<div class="log-entry">[20:20:22.999] ✓ Gemini assessment received</div>
-<div class="log-entry">[20:20:22.999] ⚠ Gemini says PHISHING — threat score bumped by +50 to 50</div>
-<div class="log-entry">[20:20:23.000] Consolidating IOCs...</div>
-<div class="log-entry">[20:20:23.000] Found 8 IOC indicators</div>
-<div class="log-entry">[20:20:23.000] Looking up IOC IP: 2603:10b6:40f:fc02::175</div>
-<div class="log-entry">[20:20:23.041] Looking up IOC IP: 2603:10b6:806:34a::19</div></div></div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:40:17.843] Analyzing links...</div>
+<div class="log-entry">[20:40:17.844] Analyzing sender...</div>
+<div class="log-entry">[20:40:17.844] Scanning urgency patterns...</div>
+<div class="log-entry">[20:40:17.844] Checking attachments...</div>
+<div class="log-entry">[20:40:17.844] Analyzing language...</div>
+<div class="log-entry">[20:40:17.844] Looking up IP: 2001:4860:4864:20::2e</div>
+<div class="log-entry">[20:40:17.892] Sender local time: 2026-01-27 10:43:14 (PST)</div>
+<div class="log-entry">[20:40:17.892] Checking domain age: gmail.com</div>
+<div class="log-entry">[20:40:18.268] Querying MXToolbox (SPF/DKIM/DMARC): gmail.com</div>
+<div class="log-entry">[20:40:19.109] Looking up hop IP: 2603:10b6:408:f9::6</div>
+<div class="log-entry">[20:40:19.177] Looking up hop IP: 2603:10b6:408:f9:cafe::86</div>
+<div class="log-entry">[20:40:19.544] Calculating threat score...</div>
+<div class="log-entry">[20:40:19.545] Sanitizing email body...</div>
+<div class="log-entry">[20:40:19.546] Highlighting body...</div>
+<div class="log-entry">[20:40:19.553] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:40:28.727] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:40:28.727] ⚠ Gemini says PHISHING — threat score bumped by +50 to 50</div>
+<div class="log-entry">[20:40:28.727] Consolidating IOCs...</div>
+<div class="log-entry">[20:40:28.727] Found 8 IOC indicators</div>
+<div class="log-entry">[20:40:28.727] Looking up IOC IP: 2603:10b6:40f:fc02::175</div>
+<div class="log-entry">[20:40:28.762] Looking up IOC IP: 2603:10b6:806:34a::19</div></div></div>
 </div>
 
 </div>
-<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:20:23 UTC</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:40:28 UTC</div>
 <script>
 (function() {
     // === Print button ===
@@ -1277,7 +1286,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
 (function(){
     var iframe = document.querySelector('.body-section iframe');
     if (!iframe) return;
-    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (95% confidence)</div></div>';
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (95% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-Fee Scam (419 Scam) / Social Engineering</span></div></div>';
     function setup() {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         if (!doc || !doc.body) return;

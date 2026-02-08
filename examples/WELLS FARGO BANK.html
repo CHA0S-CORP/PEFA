@@ -662,7 +662,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
         <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
         <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
-        <div class="topbar-sub">2026-02-07 20:22 UTC</div>
+        <div class="topbar-sub">2026-02-07 20:42 UTC</div>
     </div>
 </div>
 <div class="container">
@@ -677,12 +677,12 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="173.2"
+                            stroke-dasharray="173.2 326.7" data-target-dash="173.2"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:#f97316" data-target="53">0</div>
+                        <div class="gauge-score" style="color:#f97316" data-target="53">53</div>
                         <div class="gauge-label">HIGH</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
@@ -700,32 +700,33 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
         <div class="gemini-content">
             <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">100%</span></div>
-<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt designed to impersonate Wells Fargo Bank. It is an advance-fee scam attempting to trick the recipient into paying a fee to release non-existent funds. Do not interact with this email.</p></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a fraudulent attempt to impersonate Wells Fargo Bank and trick the recipient into an advance-fee scam. It claims the recipient is due a large sum of money but requires a &quot;fee&quot; to release the funds. This email is not safe and should be treated as a malicious phishing attempt.</p></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  The email claims to be from &quot;Wells Fargo Bank&quot; but originates from the domain `amber.plala.or.jp`, which is not a legitimate Wells Fargo domain.</li>
-<li>  The `REPLY-TO` address `wellsfargobankonline00@gmail.com` is a generic Gmail account, further indicating impersonation and a lack of official affiliation.</li>
-<li>  The email body employs an advance-fee scam tactic, promising &quot;due Funds (US$4.500,000.00)&quot; but requiring an upfront payment of &quot;$250&quot; to release them.</li>
-<li>  While SPF, DKIM, and DMARC pass for `amber.plala.or.jp`, this only validates the sending server, not the legitimacy of the sender&#x27;s identity or the content, as the sending domain is not `wellsfargo.com`.</li>
-<li>  The email uses excessive capitalization (33 ALL-CAPS words) and includes a generic greeting, common characteristics of low-effort phishing attempts.</li>
+<li>  The `FROM` email address `ko9916@amber.plala.or.jp` does not belong to Wells Fargo Bank, despite the display name &quot;Wells Fargo Bank&quot;.</li>
+<li>  The `REPLY-TO` address `wellsfargobankonline00@gmail.com` is a free Gmail account, not an official Wells Fargo domain, and it explicitly mismatches the `FROM` domain, as noted by `Sender Flags: REPLY-TO MISMATCH`.</li>
+<li>  The email body employs classic advance-fee scam tactics, promising &quot;US$4.500,000.00&quot; in &quot;due Funds&quot; but requesting a &quot;complete fee of $250&quot; for processing.</li>
+<li>  Despite SPF, DKIM, and DMARC passing, these authentication results apply to the sending domain `amber.plala.or.jp`, not the impersonated `wellsfargo.com`, indicating the sender successfully authenticated their own, non-Wells Fargo domain.</li>
+<li>  The `LANGUAGE ANALYSIS` flagged &quot;Excessive capitalization (33 ALL-CAPS words)&quot;, a common characteristic of scam emails designed to create urgency or highlight specific phrases.</li>
 </ul></div></div>
-<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-fee scam, brand impersonation</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-fee scam, Brand impersonation (Wells Fargo)</p></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  Do not reply to the email or attempt to contact the sender.</li>
-<li>  Do not send any money or provide any personal or financial information.</li>
-<li>  Report this email as a phishing attempt to your IT security department.</li>
-<li>  Delete the email immediately to prevent accidental interaction.</li>
+<li>  Do not reply to this email or attempt to contact the sender.</li>
+<li>  Do not provide any personal, financial, or confidential information.</li>
+<li>  Do not click on any embedded links (though none were found in this analysis).</li>
+<li>  Report this email to your organization&#x27;s IT security department.</li>
+<li>  Delete the email immediately.</li>
 </ul>
 <p><strong>INDICATORS OF COMPROMISE (IOCs)</strong>:</p>
 <ul class="gemini-list">
-<li>  `amber.plala.or.jp` (Sending Domain)</li>
-<li>  `wellsfargobankonline00@gmail.com` (Reply-To Address)</li>
-<li>  `60.36.166.33` (Origin IP)</li>
+<li>  `amber.plala.or.jp` (Sender domain)</li>
+<li>  `wellsfargobankonline00@gmail.com` (Reply-To email address)</li>
+<li>  `60.36.166.33` (Origin IP address)</li>
 </ul></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">📚</span> SOURCES &amp; REFERENCES<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  The &quot;FROM&quot; domain `amber.plala.or.jp` does not match the impersonated brand &quot;Wells Fargo Bank&quot;.</li>
-<li>  The &quot;REPLY-TO&quot; address `wellsfargobankonline00@gmail.com` is a public email service, not an official corporate domain, as noted in &quot;Sender Findings: Reply-To (wellsfargobankonline00@gmail.com) differs from From (ko9916@amber.plala.or.jp)&quot;.</li>
-<li>  The email body explicitly requests an advance fee of &quot;$250&quot; for the release of &quot;due Funds (US$4.500,000.00)&quot;, a classic advance-fee fraud scheme.</li>
-<li>  MITRE ATT&amp;CK T1566 (Phishing) for social engineering tactics.</li>
+<li>  `FROM` header `ko9916@amber.plala.or.jp` clearly does not match the impersonated brand &quot;Wells Fargo Bank&quot;.</li>
+<li>  `REPLY-TO` header `wellsfargobankonline00@gmail.com` is a free email address and differs from the `FROM` domain, as noted by `Sender Flags: REPLY-TO MISMATCH`.</li>
+<li>  The email body content explicitly requests a &quot;fee of $250&quot; for &quot;Release/Transfer Notice for your due Funds (US$4.500,000.00)&quot;, characteristic of an advance-fee scam (MITRE ATT&amp;CK T1566.002 Phishing: Spearphishing Link / Social Engineering).</li>
+<li>  DMARC RFC 7489, SPF RFC 7208, DKIM RFC 6376 - While these passed for the sending domain `amber.plala.or.jp`, they do not authenticate the impersonated brand `Wells Fargo Bank`.</li>
 </ul></div></div>
         </div>
     </div>
@@ -878,30 +879,30 @@ MEMBER BOARD OF DIRECTORS, WELLS FARGO BANK, SAN FRANCISCO
 
 <div class="widget log-widget" id="nav-logs">
 <div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
-<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:22:39.286] Analyzing links...</div>
-<div class="log-entry">[20:22:39.286] Analyzing sender...</div>
-<div class="log-entry">[20:22:39.286] Scanning urgency patterns...</div>
-<div class="log-entry">[20:22:39.286] Checking attachments...</div>
-<div class="log-entry">[20:22:39.286] Analyzing language...</div>
-<div class="log-entry">[20:22:39.287] Looking up IP: 60.36.166.33</div>
-<div class="log-entry">[20:22:39.330] Sender local time: 2026-01-30 14:19:19 (JST)</div>
-<div class="log-entry">[20:22:39.330] Checking domain age: amber.plala.or.jp</div>
-<div class="log-entry">[20:22:39.571] Querying MXToolbox (SPF/DKIM/DMARC): amber.plala.or.jp</div>
-<div class="log-entry">[20:22:42.510] Resolving 2002 → 0.0.7.210</div>
-<div class="log-entry">[20:22:42.574] Resolving msa13.plala.or.jp → 60.36.166.13</div>
-<div class="log-entry">[20:22:42.624] Calculating threat score...</div>
-<div class="log-entry">[20:22:42.624] Sanitizing email body...</div>
-<div class="log-entry">[20:22:42.624] Highlighting body...</div>
-<div class="log-entry">[20:22:42.624] Querying Gemini (gemini-2.5-flash)...</div>
-<div class="log-entry">[20:22:49.715] ✓ Gemini assessment received</div>
-<div class="log-entry">[20:22:49.715] ⚠ Gemini says PHISHING — threat score bumped by +50 to 53</div>
-<div class="log-entry">[20:22:49.715] Consolidating IOCs...</div>
-<div class="log-entry">[20:22:49.716] Found 5 IOC indicators</div>
-<div class="log-entry">[20:22:49.716] Looking up IOC IP: 01.29.21.19</div></div></div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:42:43.183] Analyzing links...</div>
+<div class="log-entry">[20:42:43.183] Analyzing sender...</div>
+<div class="log-entry">[20:42:43.183] Scanning urgency patterns...</div>
+<div class="log-entry">[20:42:43.183] Checking attachments...</div>
+<div class="log-entry">[20:42:43.183] Analyzing language...</div>
+<div class="log-entry">[20:42:43.183] Looking up IP: 60.36.166.33</div>
+<div class="log-entry">[20:42:43.239] Sender local time: 2026-01-30 14:19:19 (JST)</div>
+<div class="log-entry">[20:42:43.239] Checking domain age: amber.plala.or.jp</div>
+<div class="log-entry">[20:42:43.482] Querying MXToolbox (SPF/DKIM/DMARC): amber.plala.or.jp</div>
+<div class="log-entry">[20:42:46.232] Resolving 2002 → 0.0.7.210</div>
+<div class="log-entry">[20:42:46.321] Resolving msa13.plala.or.jp → 60.36.166.13</div>
+<div class="log-entry">[20:42:46.376] Calculating threat score...</div>
+<div class="log-entry">[20:42:46.376] Sanitizing email body...</div>
+<div class="log-entry">[20:42:46.376] Highlighting body...</div>
+<div class="log-entry">[20:42:46.376] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:42:54.415] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:42:54.415] ⚠ Gemini says PHISHING — threat score bumped by +50 to 53</div>
+<div class="log-entry">[20:42:54.415] Consolidating IOCs...</div>
+<div class="log-entry">[20:42:54.415] Found 5 IOC indicators</div>
+<div class="log-entry">[20:42:54.415] Looking up IOC IP: 01.29.21.19</div></div></div>
 </div>
 
 </div>
-<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:22:49 UTC</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:42:54 UTC</div>
 <script>
 (function() {
     // === Print button ===
@@ -1218,7 +1219,7 @@ MEMBER BOARD OF DIRECTORS, WELLS FARGO BANK, SAN FRANCISCO
 (function(){
     var iframe = document.querySelector('.body-section iframe');
     if (!iframe) return;
-    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-fee scam, brand impersonation</span></div></div>';
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-fee scam, Brand impersonation (Wells Fargo)</span></div></div>';
     function setup() {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         if (!doc || !doc.body) return;

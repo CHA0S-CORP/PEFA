@@ -1,0 +1,141 @@
+Delivered-To: <REMOVED>
+Received: by 2002:a05:622a:5f09:b0:503:3ab3:6a97 with SMTP id og9csp3535602qtb;
+        Thu, 5 Feb 2026 00:27:05 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCX1vTwQXNVXY2axS5Bv3SKXE8GP8yjamNON4Y+YvpCMq5IH1JZ9Hpjo+qFh1vasokoU7w+z/7AI9CY=@gmail.com
+X-Received: by 2002:a05:6871:8103:b0:3ec:4b7a:7ceb with SMTP id 586e51a60fabf-40a540bb797mr3096836fac.48.1770280025604;
+        Thu, 05 Feb 2026 00:27:05 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1770280025; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=CAEaEUWLB24lSZ2HmT17tuaQw9fYyFho/BbN2OSjN5UiG+j8Lr4e//Um5IxB8VoC3D
+         j3PoElSStjgYUVdMZe9p1m/+Cg7CVk/T4mGUmsaP9m8Ae7Y0l7FDc0YSAePLag+DSyXn
+         OzFX84lpn7Z3SxHltdBTeoacnKw0FGgyitGjmE/HuWiMGpa+8zqD7BXAkMQTDpNHz1CL
+         n1jBvVSONA7gSDr8DutAiccKWCqqf7o5HUYSzoL7Ca5vsq+oYDS3iDq8us+mcvS8IAim
+         GOquA0IN4Vweo552CheDLw/1NV9dmaS9KB67EYZM3fduUnKTklfW62g3azmwHR9cYRZp
+         j6xg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=TyjuW+V5pT5IKA5J6MVPXlRq3oSup8rcU0AAtvuADqI=;
+        fh=Hu6A7QOk4zomhaYc3u3z6tV/01gButSpEPQjpACgg0g=;
+        b=Sb/FDfqtH65kg5VifD7IB9iIWg56/u0arByUCZaWEFfBxZ4tAPiOR1QZ4BaBthgEaA
+         6rboNFEOSlVk66OYsGVSx3yfzjpXH1/ZeasgJuwDifsyvopp4y5gu/2K32FVT9ospV3Y
+         eeRVUAvCPPSKhAXQ6wdWB1ijD3b2ULMddtPqPzQ838WNjHd9anP2tNJnTHKSC3qhaCvu
+         /JzRsM/6OTsOtowx7xaLbsWMheiil+9jX1mZrD8AZUDTQPFzOsEOj+2UkA68iJODeAmW
+         +8T/VEHZVJgZmy1Jn2ysinxgWUyr1SWXnoeKhAzMUUlXAnUWlu71enOVUMUNBQNTy7PG
+         V6Cw==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=DUmUzoDT;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of mrpatrik624@gmail.com designates 209.85.220.65 as permitted sender) smtp.mailfrom=mrpatrik624@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <mrpatrik624@gmail.com>
+Received: from mail-sor-f65.google.com (mail-sor-f65.google.com. [209.85.220.65])
+        by mx.google.com with SMTPS id 586e51a60fabf-40a54430663sor1401295fac.11.2026.02.05.00.27.05
+        for <<REMOVED>>
+        (Google Transport Security);
+        Thu, 05 Feb 2026 00:27:05 -0800 (PST)
+Received-SPF: pass (google.com: domain of mrpatrik624@gmail.com designates 209.85.220.65 as permitted sender) client-ip=209.85.220.65;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=DUmUzoDT;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of mrpatrik624@gmail.com designates 209.85.220.65 as permitted sender) smtp.mailfrom=mrpatrik624@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1770280025; cv=none;
+        d=google.com; s=arc-20240605;
+        b=JPU6V5k741F3YNNqvs1UdbSdSVxX4JZwXXIh95zX4brtb13+op1OandIKYLjrMHnyV
+         s6lU52nIJgaldnJ6Y4Cetr4KK3VSe2UEuoN5bNv+o0DJPweTQjBrnIGnbeAp79XbX47Z
+         1LWXwzZ54g3lH20cPRV8jB6vQ7yAeQkSIYWfUKzce3KblX587uwXQirMXEjRHNiCUzyR
+         AQTesw+e/F7dTUx5JNiTQdJSgh31X50q4cyhwZFHVTZNkqJnppAoYE81sTA583F7rvWZ
+         PB9YCjYXeNWAnNRc9CriUt2MVEMBebVZqIgf2t/Rnzr8sloLa0Ibv2MgeYX4ZcARTkyi
+         4dpg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=TyjuW+V5pT5IKA5J6MVPXlRq3oSup8rcU0AAtvuADqI=;
+        fh=Hu6A7QOk4zomhaYc3u3z6tV/01gButSpEPQjpACgg0g=;
+        b=FeIvR3TB9pc4TPr5pyTgGr7nPQ5lREtu3MZKYSrna9dxJ6hZxah4fllD/5CQezVgr+
+         CyGvugAooTrXW5x6OJXd0iZiWzXMObxMpeYp9ShDvqI36cGFdCZoH5r+yq2R8Lp4oT47
+         8LA4F73b+PAEWtFjK8tm0/niYWNUi/Jo7qRbHGVRj04Z9JcU2zeTAIaHhvfA/wQ3Muv4
+         JJ+ha89EvJQyT2KRrJdKLjasieqYhBjWH2CME9nTG15G4XDdrwgMxvdyF+4v9W/106JO
+         JYRerZGOMSrLAEmgVdDu1lDk7DxEx9GKTLqBCoA4QB8vGCu9XdslBhIciAVxHWc99WBt
+         ULaQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1770280025; x=1770884825; dara=google.com;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=TyjuW+V5pT5IKA5J6MVPXlRq3oSup8rcU0AAtvuADqI=;
+        b=DUmUzoDTdHOrQuh3/RitKfZ9EjGav5cykDSEtmzGESpKNk7f+OGI2k5YJLlgNQX5CD
+         xOBr4HETiriu1SrU5bAB5YXlXkgKB13lis+iBaYpT28gC8IItWweqlvy9cgha+j9GS2X
+         wb6CeK/bObOQVvj28C+xJQF7lS3jNO7hCK8JX5HPxfJJTErv0zKuNFgsciTqt5d4wjv0
+         6mCGVK7aV3STyB8MvNcob0iio6nc5m8WugFb6iQmsD0kag3PCxz/NuG8ISLbBCqCU3sz
+         PjxjyYucsJhVdx8w3Ssyy9njtG50XhC68HA1Kt41oh1L+DMuiiLSNYR6z5kd2Vc9u/jC
+         m4iQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1770280025; x=1770884825;
+        h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=TyjuW+V5pT5IKA5J6MVPXlRq3oSup8rcU0AAtvuADqI=;
+        b=O3/BvDTPyA+79gLrFnXOnqTfIpPUBmlcsIMo4fdGcMaxOds1eVKD77HFGSE6cpPtE6
+         3+sPQTrluztpMYHfycqab5GdGY/MoeWoTUQ4iCdnbQS3AogntTCmeYb8nw1W1ne6VKRe
+         0EzaqxSskaVM1QRNpXXkhcuX1JgFvHMRDSZgqILQa0v9GmEdB3cY5odycpZrVUxqjDJQ
+         Do8UGjOl5Az64hLlLpHpo0Cro7wH+boDMQPBeH/T/lenG8Iuz1E3iYJtgAB2kjYAR82O
+         bWggRftSbDWPD7CJsXvWGyrS1CfA23oHnI5zDDRRr7XEKabeCl49PJX+l49+QhCGn5Y0
+         HrsQ==
+X-Forwarded-Encrypted: i=1; AJvYcCWZEMgMY6vQEEGApYUiVHjYUwyR0DclphRce2rdhckCpklxo4D/m4khA7bhyPNbPNIj8MV95lBIqG8=@gmail.com
+X-Gm-Message-State: AOJu0YyrAWyV1ZsA91Pu/OFs6X6vaoF4J49+0g4FbW656G5YFj0vILdv
+	E1uZT38s928IDOYX6+GtD6zsT86I6is79z81nTjR/wwdYkO3Abbe8FGdhNSaL/MXatlpCJPnFEY
+	TC8AVYLjnBGCTYzhwcL4clrJoHGpWNtY=
+X-Gm-Gg: AZuq6aLuT+dOg99GUZW+c5TNU4+utYH8jMooUmJsqreLIxsG+BkG86f19Kfqnq3tyMY
+	oFlRNkJ0xoKz/ratnLyQDCjqAKTzGvM6wKuouAeaAjLM921yE2ITLfezQX5WBvYCpMluwu7dm4N
+	mEcnZ2OVW6+a6hCCqwjLrZSi4izT7erwOQdFe0K/kQ56lvaHiGXkfDihQEDtW3T3coDxWl3kvd2
+	iEZkH9eaLBMk1qHCIt0Y8DMrP6+fRqyqOXDRDBDgmX1OVCxECzaZCxTvbY9pBsYUBHAJp84psl0
+	AmlFm7wDE3Mzp1iNKQjdmzwlMBX+gtn1Iww=
+X-Received: by 2002:a05:6820:1622:b0:662:ca0e:899b with SMTP id
+ 006d021491bc7-66a20a75d2fmr3028869eaf.24.1770280024046; Thu, 05 Feb 2026
+ 00:27:04 -0800 (PST)
+MIME-Version: 1.0
+Reply-To: stylinosw@gmail.com
+From: Patrick BERGER <mrpatrik624@gmail.com>
+Date: Thu, 5 Feb 2026 09:24:16 +0000
+X-Gm-Features: AZwV_QhyMQpyfVhLe7cZ0mOBmbUkRcud2IEizHKcl4BZ44Vkc54liYp3eAWr6Bg
+Message-ID: <CAAsFH11428=b458sOQ=gx=wOETn2p-jJPnw3CaTMBKGOc0uh=g@mail.gmail.com>
+Subject: HAPPY NEW YEAR!
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="000000000000fc80f3064a0f6f82"
+Bcc: <REMOVED>
+
+--000000000000fc80f3064a0f6f82
+Content-Type: text/plain; charset="UTF-8"
+
+Greetings,
+
+This is the message of good news to you. I am acting on the instructions of
+my directors. You have been selected to receive THREE MILLION USD Via ATM
+Debit Card ($3,000,000.00) from the World Global Compensation Fund. For
+more details, contact our director below;
+
+Name:  Walter Stylianos
+Email: stylanosw@gmail.com
+
+I shall be expecting your immediate reply.
+Regards,
+Patrick Berger
+
+--000000000000fc80f3064a0f6f82
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Greetings,<br><br>This is the message of good news to you.=
+ I am acting on the instructions of my directors. You have been selected to=
+ receive THREE MILLION USD Via ATM Debit Card ($3,000,000.00) from the Worl=
+d Global Compensation Fund. For more details, contact our director below;<b=
+r><br>Name: =C2=A0Walter Stylianos<br>Email: <a href=3D"mailto:stylanosw@gm=
+ail.com">stylanosw@gmail.com</a><br><br>I shall be expecting your immediate=
+ reply.<br>Regards,<br>Patrick Berger<br><br></div>
+
+--000000000000fc80f3064a0f6f82--

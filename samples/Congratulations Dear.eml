@@ -1,0 +1,77 @@
+Delivered-To: <REMOVED>
+Received: by 2002:a05:622a:5f09:b0:503:3ab3:6a97 with SMTP id og9csp401620qtb;
+        Fri, 30 Jan 2026 13:39:59 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUlKTnYaDEDsTWwziNMQkAbFouYU0PN3Ov3/h6zK5wPZPDhfQoBKvfayTdDipPvOui53Jo9GLa02NU=@gmail.com
+X-Received: by 2002:a05:6a21:6f8b:b0:358:dc7d:a2be with SMTP id adf61e73a8af0-392e003b3ddmr4452860637.17.1769809199599;
+        Fri, 30 Jan 2026 13:39:59 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769809199; cv=none;
+        d=google.com; s=arc-20240605;
+        b=fhPZ3uzOiXcdoiQ6UHDos4/JKegeQHEN8fieM7l95HVRGvNWyB4knfPnOOUAIFSedT
+         Ai2nPwve7k6m4Zm4Ce3oAR0sP6jPDp7M0mh2PgCzhg/zSYw7yhcdkAFz9LrVtMrBwgz/
+         ivWsAuZUcuJ0YbPZ8CIacR7mAzDUzyunFiQky4o4hokU2OmVLdJ7vUds9UEsUzyMy8oQ
+         +TOEwFQVKC+p1eUOcskTEtX/KctOYiVRqN0pAcbzyTDlA1noe7LwTBsxBsH6XTdHJ9Xb
+         DEerICXBcUoiFsQMSfCNzAWYM6HMcSbW9+sDypLU2RdSfMU5zcdXKi+fEclgcJUcc/G6
+         ci2g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=K3jFtbrSgUFgFl5dUOh/N572Bt5n3bcLRXYNxx1H5Kg=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=CrxvHC0511nn+U8Thryy4OxeoB3vbRaD6mEMfZa/AL+DtkjH41EMdH2tUhdvcL4KCN
+         vqnlmYCgI7Y3VBI+ciRHtMgT6a5DZ+vPefYiT7TT/e5jbbCMcjn1j2XK1dP4DYZs1SNB
+         ZgvxszIp/0IrrowdipoVqNfYjWNQdZa4Vsgm8MEAOlWj5wVhKD7T/J+IIEykpw0cxlpY
+         tEBLjiN/B19JFApoKiHiVwpvcwAfGAOxfBnCJLHIBSqsuVorVwBc+Dw4v3FBvU+bdCb/
+         svatSz7e0vOYTpuJQ90mmSNepNVQkpjQRP/Q4T0A+klUP2pFrKdj09KRRs5/YxBZt96g
+         iEsQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=lQLuBe6w;
+       spf=pass (google.com: domain of yossy.ono3@gray.plala.or.jp designates 60.36.166.40 as permitted sender) smtp.mailfrom=yossy.ono3@gray.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <yossy.ono3@gray.plala.or.jp>
+Received: from msc118.plala.or.jp (msc118.plala.or.jp. [60.36.166.40])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-c642a714105si16844999a12.290.2026.01.30.13.39.51
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 30 Jan 2026 13:39:59 -0800 (PST)
+Received-SPF: pass (google.com: domain of yossy.ono3@gray.plala.or.jp designates 60.36.166.40 as permitted sender) client-ip=60.36.166.40;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=lQLuBe6w;
+       spf=pass (google.com: domain of yossy.ono3@gray.plala.or.jp designates 60.36.166.40 as permitted sender) smtp.mailfrom=yossy.ono3@gray.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o09.ake-mailbk.plala.or.jp ([172.23.12.58])
+          by msc118.plala.or.jp with ESMTP
+          id <20260130213950.IHAB3759.msc118.plala.or.jp@mdkim-o09.ake-mailbk.plala.or.jp>;
+          Sat, 31 Jan 2026 06:39:50 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1769809191;
+  x=1801345191;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=K3jFtbrSgUFgFl5dUOh/N572Bt5n3bcLRXYNxx1H5Kg=;
+  b=lQLuBe6wp2ZbPoZChiWPVu9k8z47Ot04ulb344baQ8lSx2sKZaaBOzLU
+   ODP8eW7QllwWCKFOGBGB7hIj/46aWA7fel7duvjisd32eyIhuZNjzWrUC
+   eNbNpSzVTi141G7ZUwhZXucmIjxVZSPulF8VCkzf6BPgLkQWCcrKVInaB
+   HdZdq9OF650o+7yb8yrzGV2U/KPqJhxt2ssLQww4KuBGgagOzzJvcvUwR
+   fa5oEwc+YDNV//n0OYp8iwDD2CtfmBLQmPpNaAUHUZEvEJea+/VsNQzdg
+   WCTsXmfrXhFZ0z9jQeNqKthbQfJTgosatSf+V+QzehRwSFJNE3G9WSHB2
+   w==;
+X-CSE-ConnectionGUID: cgkmVdV2RpC4xs2Blxf/oQ==
+X-CSE-MsgGUID: Hwi+88JbQpO8b+0G7uPalQ==
+Received: from msa13.ake-mailbk.plala.or.jp (HELO msa13.plala.or.jp) ([172.23.12.93])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 31 Jan 2026 06:39:49 +0900
+Received: from mwebp11 ([172.23.13.131]) by msa13.plala.or.jp with ESMTP
+          id <20260130213948.PIZH29664.msa13.plala.or.jp@mwebp11>;
+          Sat, 31 Jan 2026 06:39:48 +0900
+Date: Sat, 31 Jan 2026 06:39:48 +0900
+From: IMF OFFICE <yossy.ono3@gray.plala.or.jp>
+Reply-To: imonetaryfund973@gmail.com
+Message-ID: <20260131063948.S82LU.190.root@mwebp11>
+Subject: Congratulations Dear
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac13; Sat, 31 Jan 2026 06:39:48 +0900
+
+Congratulations Dear Lucky Beneficiary, I’m here to informed you about your fund worth of $50 million which had finally been released for a delivery under the custody of International monitoring Fund (IMF) and all the necessary arrangement has been made, In an effort to support individuals affected by such fraudulent activities, the United States government has initiated a program to provide assistance to those who have lost their homes. I am pleased to inform you that a free home has been allocated for you in your state. This initiative aims to alleviate the burden you have endured and help you regain stability in your life. Again to ensure your comfort and mobility, we are also providing you with a brand-new SUV, which will be made available to you upon confirmation of your acceptance of the home and the restitution funds. We understand the importance of rebuilding your life and want to offer comprehensive support during this challenging time. Please be assured that this message is not a scam or a hoax. We have taken extensive measures to verify and authenticate this initiative, and we are committed to providing you with the necessary assistance. To proceed with the process, we kindly request that you provide us with the following information: Full Name: Contact Address: Phone Number: Email Address: Drivers License: Rest assured that your personal information will be handled with utmost confidentiality and used solely for the purpose of facilitating the necessary arrangements. However you’re going to have your fund in any delivery method of your choice A. Cash delivery B.ATM card delivery C. Check D. Online Transfer I waits for your positive response ASAP Thanks

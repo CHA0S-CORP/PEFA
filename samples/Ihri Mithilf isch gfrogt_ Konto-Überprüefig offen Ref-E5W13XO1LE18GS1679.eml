@@ -1,0 +1,813 @@
+Delivered-To: <REMOVED>
+Received: by 2002:ac8:5d52:0:b0:506:3cdf:dddf with SMTP id g18csp784754qtx;
+        Sat, 7 Feb 2026 05:31:09 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWag/onszseInkmX6061EWejb6oJbvyX891hz0ISSuqBjD1IzTFn33RA8DI73HbraZaO0Flb9moLd4=@gmail.com
+X-Received: by 2002:a05:6a21:38c:b0:361:63eb:d024 with SMTP id adf61e73a8af0-393acff54e6mr5143038637.23.1770471069516;
+        Sat, 07 Feb 2026 05:31:09 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770471069; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RQObcOkGmFEADf2368/1lMm6siigkmYDgCpepWs75iD84pIgR7BK5UIN6J/JyLpcsW
+         tza/oCTrDZNeKURCg+PgIQK8vp8ehSch6ky1yMx1O7Fr0j4oR7aucqKUAq4aIus02K1a
+         /Sr2v1G3amRhrdCYsceRwkzOQqHP7MHT7mRyPV11jmoyFa9nLhfT47tVpRUcB1qO2a5A
+         AEenRZUXPjKnlYgAnnm9aWdAKBMU/5uEN6FF7CngDTpXa1SHYbxEO6tTokfqZIs3ZA4R
+         Kc5qs/6J+cg12wU2flENJJrnV7WasJ2TdZat+sWFyLrX38vTjsTRp6dkO9V9NsFr+asi
+         jB/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=feedback-id:sent-on:content-transfer-encoding:subject:references
+         :in-reply-to:message-id:to:reply-to:from:date:mime-version
+         :dkim-signature;
+        bh=HhNY7L0kqkDp/E4aheHVjkeOFTFCD8t67Jvv+NnKcBA=;
+        fh=azshmYGMRz1QDyJuUNteM6zxbnz9Zc5+rUJwL1EMOJo=;
+        b=DPrt5fsVKSLYLkqUCk6VskYwBZtfrcp0ML8oTmXCVusRF5efeo4CTvxedlua17WApB
+         W/0NypqyjNsK8/DZXzZr8sfLcygj0DIHFhDEnbLOTNaCJdKoaCdDQ0lHOXnKlWDQnqsz
+         JvqMD1Q0aKTVaoOGT4jBz1/wXCC1a7CINdvsE0PbK7eATgSlInST+cYjTjs/7m8yngRG
+         ZJH3oQ5/fllJLlZp6PPNES3sb+ftkfW3cZLFL5boudZwDMM8Ds66nGTGbFt8z6o/K6mO
+         fpzsE/gtN3RGZKzDD5XVc7g6ApuyO8xXGYzxHmb7Z+Vi9AumNchY8uLhqw4p7cFLjX/g
+         /qYg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@freshdesk.com header.s=fdindmail header.b=C7lZ42Ni;
+       spf=pass (google.com: domain of bounces+mum.1.2314548.84184-cgvdkycdstuvcfdsyjtfcdsyjdsjyds=dcshgvkfcdfsycds.freshdesk.com@emailind.freshdesk.com designates 65.1.103.164 as permitted sender) smtp.mailfrom="bounces+mum.1.2314548.84184-cgvdkycdstuvcfdsyjtfcdsyjdsjyds=dcshgvkfcdfsycds.freshdesk.com@emailind.freshdesk.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=freshdesk.com
+Return-Path: <bounces+mum.1.2314548.84184-cgvdkycdstuvcfdsyjtfcdsyjdsjyds=dcshgvkfcdfsycds.freshdesk.com@emailind.freshdesk.com>
+Received: from mail-ind31.freshemail.io (mail-ind31.freshemail.io. [65.1.103.164])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-c6dcb7dbfe4si9358068a12.381.2026.02.07.05.31.08
+        for <<REMOVED>>
+        (version=TLS1_3 cipher=TLS_AES_256_GCM_SHA384 bits=256/256);
+        Sat, 07 Feb 2026 05:31:09 -0800 (PST)
+Received-SPF: pass (google.com: domain of bounces+mum.1.2314548.84184-cgvdkycdstuvcfdsyjtfcdsyjdsjyds=dcshgvkfcdfsycds.freshdesk.com@emailind.freshdesk.com designates 65.1.103.164 as permitted sender) client-ip=65.1.103.164;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@freshdesk.com header.s=fdindmail header.b=C7lZ42Ni;
+       spf=pass (google.com: domain of bounces+mum.1.2314548.84184-cgvdkycdstuvcfdsyjtfcdsyjdsjyds=dcshgvkfcdfsycds.freshdesk.com@emailind.freshdesk.com designates 65.1.103.164 as permitted sender) smtp.mailfrom="bounces+mum.1.2314548.84184-cgvdkycdstuvcfdsyjtfcdsyjdsjyds=dcshgvkfcdfsycds.freshdesk.com@emailind.freshdesk.com";
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=freshdesk.com
+DKIM-Signature: v=1; a=rsa-sha256; q=dns/txt; c=relaxed/relaxed; t=1770471069;
+	s=fdindmail; d=freshdesk.com;
+	h=MIME-Version:Date:From:Reply-To:To:Message-ID:In-Reply-To:References:Subject:Content-Type:Content-Transfer-Encoding;
+	bh=HhNY7L0kqkDp/E4aheHVjkeOFTFCD8t67Jvv+NnKcBA=;
+	b=C7lZ42NirSK1yGCsyf4JYcSPq0l/gCBuYEeg7tA9CySg2brmz8J6clBhiHsG7/ZE
+	wO3lwNIBd1uArV5p2gIJGirE6kdWqgo0NR++p2Y4x/Wx0+aUdclhreicoASMIHnKbdW
+	v9BZ/rYlO+F2C/RT1XPQeBvrzKsrHhfhyomzU+BAri66lX6NCaBfNLupa3FmdqGuhq2
+	wfXxa4EWTaAGpBnl4tAZJuIi3bdKo3M5ayRk6pIavmoRg+BQhQ31TvWRHsO0V3oVUMo
+	AC0/kBSO37SRdOkvflPsVDPBITaevir4YvrYF12/LShwTkqbFMcWId8rK29RCyePQuh
+	4K1LsVduEQ==
+Return-Path: bounces+mum.1.2314548.84184-cgvdkycdstuvcfdsyjtfcdsyjdsjyds=dcshgvkfcdfsycds.freshdesk.com@emailind.freshdesk.com
+MIME-Version: 1.0
+X-Received: from ip-10-41-123-106.ap-south-1.compute.internal (EHLO freshdesk.com) ([10.41.123.106])
+          by smtpoutmum.freshdesk.com (Freshworks SMTP Server) with ESMTPA ID 5a991ed5.;
+          Sat, 07 Feb 2026 13:30:46 +0000 (UTC)
+Date: Sat, 07 Feb 2026 13:30:46 +0000
+From: "|Wise;-Inc||" <cgvdkycdstuvcfdsyjtfcdsyjdsjyds@dcshgvkfcdfsycds.freshdesk.com>
+Reply-To: "|Wise;-Inc||" <cgvdkycdstuvcfdsyjtfcdsyjdsjyds@dcshgvkfcdfsycds.freshdesk.com>
+To: melo.mvinicius@gmail.com, 
+ melodi.cowan@gmail.com, 
+ melody.karpinski@gmail.com, 
+ melodylovesplexus@gmail.com, 
+ melodymontejanosoler@gmail.com, 
+ <REMOVED>, 
+ meloniese47@gmail.com, 
+ melonpatchplayers@gmail.com, 
+ meltonotl@gmail.com, 
+ melvin.hernandez7316@gmail.com
+Message-ID: <69873e8630766_1de5fa78556ef.sidekiq-frequent-fd-podapsouth1-main2-blue-844bcb478f-jglnb@forward.freshdesk.com>
+In-Reply-To: <69873e67956bb_2275edf828274.sidekiq-frequent-fd-podapsouth1-main2-blue-844bcb478f-5dtrq@outbound-email.freshdesk.com>
+References: <69873e67956bb_2275edf828274.sidekiq-frequent-fd-podapsouth1-main2-blue-844bcb478f-5dtrq@outbound-email.freshdesk.com>
+Subject: =?UTF-8?Q?Fwd:_Ihri_Mithilf_isch_gfrogt:?=
+ =?UTF-8?Q?_Konto-=C3=9Cberpr=C3=BCefig_offen_Ref-E5W13XO1LE18GS1679?=
+Content-Type: multipart/alternative;
+ boundary="--==_mimepart_69873e863951a_1de5fa785573c";
+ charset=UTF-8
+Content-Transfer-Encoding: 7bit
+sent-on: 2026-02-07 13:30:46 +0000
+X-FUP-PRIORITY: 5
+X-SDS-INFO: X6FGS_r_YnnmFE6tmUI4mYnSj8sybWB4PLMAHft9kLreFrvA1wqs_pfntcs713UWbLcH_rQZtI2hE5K1M2agc58gv3pCCifDrz5Q17Mbfg7cvnOwW9T-Jsegj1M2afLNWq70AjypcM7CQORLHUv1WTMoovl8uNUIrjL-QLZRR3YFDmaCeb4M2oZh-WsyalFz
+Feedback-ID: appId_b_accId_cdbefei:appId_b_accId_cdbefei:appId_b:freshemail
+X-MESSAGEID: ImLVABz/aiX3T97i96DFM0vixXJ0xRyKXiIPOaBF/7UlSUpdF3WQviuv8ZoShF6iMs0ItdBd39kaQkpcu1m4oROvcm6p9ZK4gmaUIfl/NP+vQdsDTrRZhxfEYBwPYnnGvFSl1jXqBQRIzKE1JnG0QJGvqIcrZoMJSUNn4IerF3o=
+
+
+----==_mimepart_69873e863951a_1de5fa785573c
+Content-Type: text/plain;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+Gr=C3=BCezi,           Zur Sicherstellig vo aktuelle Chundedate f=C3=BChr=
+e mir zurzyt e regul=C3=A4ri =C3=9Cberpr=C3=BCefig vo =C3=BCsere Chundeko=
+nte dur. Die Massnahm dient dr erh=C3=B6hte Kontosicherheit.   Mir bitte =
+Sie, Ihri pers=C3=B6nliche Informatione umgehend z=E2=80=99kontrolliere, =
+damit Ihr Konto optimal gsch=C3=BCtzt isch.   Ihri Aagabe ch=C3=B6nd Sie =
+in kurzer Zyt direkt im Chundebereich aktualisiere.                      =
+      =C2=A0                                             Mini Date jetzt =
+=C3=BCberpr=C3=BCefe                                                     =
+        Wichtig: Es erfolgt kei Aapassig ohni Ihri Bewilligung. Isch die =
+Nachricht irrt=C3=BCmlich, bitte ignoriere.                              =
+                                                                         =
+                                                                         =
+                                                                         =
+                                                                         =
+                                                                         =
+                                                                         =
+                                                                         =
+                                                                         =
+                              FEBRUARY 2026    Hello Developer           =
+ T=C3=A9l=C3=A9charger       Introducing agentic coding in=C2=A0Xcode    =
+With Xcode=C2=A026.3, you can harness coding agents like Anthropic=E2=80=99=
+s Claude Agent and OpenAI=E2=80=99s Codex directly in the coding assistan=
+t to build and test projects, search Apple documentation, fix issues, and=
+ more.    View agentic coding in action  Read more on Newsroom           =
+T=C3=A9l=C3=A9charger       THE LEARNING SECTION    Code along with codin=
+g intelligence    In this free online activity, you=E2=80=98ll learn how =
+the coding assistant and Coding Tools can help you write, test, and fix y=
+our codebases.   Sign up now      The Swift Student Challenge is just day=
+s away! Submit your app playgrounds February 6=E2=80=9328.   Accept the C=
+hallenge           T=C3=A9l=C3=A9charger       MEET WITH APPLE    Join us=
+ for new activities    Build great apps with SwiftUI (February=C2=A010): =
+ Whether you=E2=80=99re just starting out or have plenty of experience, t=
+his series of foundational sessions will help sharpen your understanding =
+of core concepts.   Request to join in person  Sign up for the livestream=
+   Fortify your app: Essential strategies to strengthen security (March=C2=
+=A05): Learn to bolster your app=E2=80=99s security and help protect user=
+ data, whether you=E2=80=99re hardening an existing app or starting fresh=
+.   Register to join in person  Sign up for the livestream   Let=E2=80=99=
+s talk Liquid Glass (Throughout February and March): Learn how the new de=
+sign can make your app shine across all Apple platforms.   Browse all des=
+ign activities            NEWS AND UPDATES    New in App Store Connect   =
+ Starting April 28, 2026, apps and games uploaded to App=C2=A0Store=C2=A0=
+Connect must meet minimum requirements.   Learn what this means for you  =
+ Analyze the performance of your foundation models app    Learn how to op=
+timize token consumption and improve response times by profiling your app=
+=E2=80=99s model usage with Instruments.    Read now    Visit the refresh=
+ed health and fitness page    Explore the frameworks and technologies tha=
+t can help you create great privacy-preserving experiences.   View the up=
+dates      DOCS   Create your app icon using Icon=C2=A0Composer  Create a=
+n airline boarding pass using semantic tags  Update: Wallet Passes  Updat=
+ed API: Wallet Passes =E2=80=94 Pass object  Updated API: Wallet Passes =E2=
+=80=94 PassFields  Browse HIG updates for Liquid=C2=A0Glass, Apple=C2=A0P=
+ay, Widgets and Live=C2=A0Activities, and=C2=A0visionOS     Share your th=
+oughts    We=E2=80=99d love to hear from you. If you have suggestions for=
+ activities or stories,  please let=C2=A0us=C2=A0know.                Cop=
+yright =C2=A9 2026 Apple=C2=A0Inc. One=C2=A0Apple=C2=A0Park=C2=A0Way,=C2=A0=
+MS=C2=A0923=E2=80=914DEV, Cupertino,=C2=A0CA=C2=A095014     All Rights Re=
+served=C2=A0=C2=A0|=C2=A0=C2=A0Privacy Policy=C2=A0=C2=A0|=C2=A0=C2=A0Acc=
+ount     You can update your Apple Developer email preferences or unsubsc=
+ribe.=0D
+=0D
+=0D
+=0D
+=0D
+
+----==_mimepart_69873e863951a_1de5fa785573c
+Content-Type: text/html;
+ charset=UTF-8
+Content-Transfer-Encoding: quoted-printable
+
+<div style=3D"font-family:-apple-system, BlinkMacSystemFont, Segoe UI, Ro=
+boto, Helvetica Neue, Arial, sans-serif; font-size:14px;">=0D
+	<div><div><div>=0D
+<div style=3D"margin-left:20px" align=3D"left" dir=3D"ltr">Gr=C3=BCezi,</=
+div>=0D
+<br>        <div style=3D"margin-left:20px" align=3D"left" dir=3D"ltr"><s=
+pan>Z<span>u<span>r<span> <span>S<span>i<span>c<span>h<span>e<span>r<span=
+>s<span>t<span>e<span>l<span>l<span>i<span>g<span> <span>v<span>o<span> <=
+span>a<span>k<span>t<span>u<span>e<span>l<span>l<span>e<span> <span>C<spa=
+n>h<span>u<span>n<span>d<span>e<span>d<span>a<span>t<span>e<span> <span>f=
+<span>=C3=BC<span>h<span>r<span>e<span> <span>m<span>i<span>r<span> <span=
+>z<span>u<span>r<span>z<span>y<span>t<span> <span>e<span> <span>r<span>e<=
+span>g<span>u<span>l<span>=C3=A4<span>r<span>i<span> <span>=C3=9C<span>b<=
+span>e<span>r<span>p<span>r<span>=C3=BC<span>e<span>f<span>i<span>g<span>=
+ <span>v<span>o<span> <span>=C3=BC<span>s<span>e<span>r<span>e<span> <spa=
+n>C<span>h<span>u<span>n<span>d<span>e<span>k<span>o<span>n<span>t<span>e=
+<span> <span>d<span>u<span>r<span>.<span> <span>D<span>i<span>e<span> <sp=
+an>M<span>a<span>s<span>s<span>n<span>a<span>h<span>m<span> <span>d<span>=
+i<span>e<span>n<span>t<span> <span>d<span>r<span> <span>e<span>r<span>h<s=
+pan>=C3=B6<span>h<span>t<span>e<span> <span>K<span>o<span>n<span>t<span>o=
+<span>s<span>i<span>c<span>h<span>e<span>r<span>h<span>e<span>i<span>t<sp=
+an>.</span></span></span></span></span></span></span></span></span></span=
+></span></span></span></span></span></span></span></span></span></span></=
+span></span></span></span></span></span></span></span></span></span></spa=
+n></span></span></span></span></span></span></span></span></span></span><=
+/span></span></span></span></span></span></span></span></span></span></sp=
+an></span></span></span></span></span></span></span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></span></span></span=
+></span></span></span></span></span></span></span></span></span></span></=
+span></span></span></span></span></span></span></span></span></span></spa=
+n></span></span></span></span></span></span></span></span></span></span><=
+/span></span></span></span></span></span></span></span></span></span></sp=
+an></span></span></span></span></span></span></span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></div>=0D
+<br><div style=3D"margin-left:20px" align=3D"left" dir=3D"ltr"><span>M<sp=
+an>i<span>r<span> <span>b<span>i<span>t<span>t<span>e<span> <span>S<span>=
+i<span>e<span>,<span> <span>I<span>h<span>r<span>i<span> <span>p<span>e<s=
+pan>r<span>s<span>=C3=B6<span>n<span>l<span>i<span>c<span>h<span>e<span> =
+<span>I<span>n<span>f<span>o<span>r<span>m<span>a<span>t<span>i<span>o<sp=
+an>n<span>e<span> <span>u<span>m<span>g<span>e<span>h<span>e<span>n<span>=
+d<span> <span>z<span>=E2=80=99<span>k<span>o<span>n<span>t<span>r<span>o<=
+span>l<span>l<span>i<span>e<span>r<span>e<span>,<span> <span>d<span>a<spa=
+n>m<span>i<span>t<span> <span>I<span>h<span>r<span> <span>K<span>o<span>n=
+<span>t<span>o<span> <span>o<span>p<span>t<span>i<span>m<span>a<span>l<sp=
+an> <span>g<span>s<span>c<span>h<span>=C3=BC<span>t<span>z<span>t<span> <=
+span>i<span>s<span>c<span>h<span>.</span></span></span></span></span></sp=
+an></span></span></span></span></span></span></span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></span></span></span=
+></span></span></span></span></span></span></span></span></span></span></=
+span></span></span></span></span></span></span></span></span></span></spa=
+n></span></span></span></span></span></span></span></span></span></span><=
+/span></span></span></span></span></span></span></span></span></span></sp=
+an></span></span></span></span></span></span></span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></span></div>=0D
+<br><div style=3D"margin-left:20px" align=3D"left" dir=3D"ltr"><span>I<sp=
+an>h<span>r<span>i<span> <span>A<span>a<span>g<span>a<span>b<span>e<span>=
+ <span>c<span>h<span>=C3=B6<span>n<span>d<span> <span>S<span>i<span>e<spa=
+n> <span>i<span>n<span> <span>k<span>u<span>r<span>z<span>e<span>r<span> =
+<span>Z<span>y<span>t<span> <span>d<span>i<span>r<span>e<span>k<span>t<sp=
+an> <span>i<span>m<span> <span>C<span>h<span>u<span>n<span>d<span>e<span>=
+b<span>e<span>r<span>e<span>i<span>c<span>h<span> <span>a<span>k<span>t<s=
+pan>u<span>a<span>l<span>i<span>s<span>i<span>e<span>r<span>e<span>.</spa=
+n></span></span></span></span></span></span></span></span></span></span><=
+/span></span></span></span></span></span></span></span></span></span></sp=
+an></span></span></span></span></span></span></span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></span></span></span=
+></span></span></span></span></span></span></span></span></span></span></=
+span></span></span></span></span></span></span></span></span></span></div=
+>=0D
+<table align=3D"left" dir=3D"ltr">  <tbody>    <tr>      <td>      <div s=
+tyle=3D"margin-left:20px" align=3D"left"></div>      <div align=3D"left">=
+=C2=A0</div>      <div align=3D"left">      <table style=3D"text-align:ri=
+ght;background-color:rgb(255,255,255)" align=3D"left" cellpadding=3D"0" c=
+ellspacing=3D"0">        <tbody>          <tr>            <td style=3D"pa=
+dding:20px" align=3D"left">=0D
+<a style=3D"padding:11px 24px;outline:0px;border:0px;font-size:16px;borde=
+r-radius:100px;text-decoration:none;background-color:#9fe870;color:#16330=
+0" href=3D"https://www.bing.com/ck%2Fa%3F%21%26%26p%3D3f4ecfa4ab7d44114c7=
+95e70be16027a2acdb1e04ba0d91719a3e7e48abb9460JmltdHM9MTc3MDQyMjQwMA%26ptn=
+%3D3%26ver%3D2%26hsh%3D4%26fclid%3D35f68de5-c603-648a-00dd-9b15c7d56518%2=
+6u%3Da1aHR0cHM6Ly9ncmVlbmxpbmstcmVnZW4uY29tL2ZlZWQv%26ntb%3D1?gFcu=3DWzqV=
+VL&amp;XUe=3DK0wbiwp&amp;bGg4=3DiKJWMr0MU4GJv&amp;g8ow=3Dx0XSTTElGF0xg&am=
+p;7caq=3Df1ys1n&amp;Qj=3D7KFjy6reBkvy&amp;jf5um=3DPNxxgYDO&amp;wK=3DrwhHx=
+uFHTB&amp;h2P=3DmZb5zgejPqq&amp;v4=3D4KUfITPsna&amp;0xbr=3D2eR70p&amp;uqn=
+q=3DW0PJov&amp;yJq=3DRegq2h&amp;uJu=3Dap5zXNQdXMxI/" rel=3D"noreferrer"><=
+span>M<span>i<span>n<span>i<span> <span>D<span>a<span>t<span>e<span> <spa=
+n>j<span>e<span>t<span>z<span>t<span> <span>=C3=BC<span>b<span>e<span>r<s=
+pan>p<span>r<span>=C3=BC<span>e<span>f<span>e</span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></span></span></span=
+></span></a><br>            <br>            <br>                    <br> =
+           <div dir=3D"ltr"><span>W<span>i<span>c<span>h<span>t<span>i<sp=
+an>g<span>:<span> <span>E<span>s<span> <span>e<span>r<span>f<span>o<span>=
+l<span>g<span>t<span> <span>k<span>e<span>i<span> <span>A<span>a<span>p<s=
+pan>a<span>s<span>s<span>i<span>g<span> <span>o<span>h<span>n<span>i<span=
+> <span>I<span>h<span>r<span>i<span> <span>B<span>e<span>w<span>i<span>l<=
+span>l<span>i<span>g<span>u<span>n<span>g<span>.<span> <span>I<span>s<spa=
+n>c<span>h<span> <span>d<span>i<span>e<span> <span>N<span>a<span>c<span>h=
+<span>r<span>i<span>c<span>h<span>t<span> <span>i<span>r<span>r<span>t<sp=
+an>=C3=BC<span>m<span>l<span>i<span>c<span>h<span>,<span> <span>b<span>i<=
+span>t<span>t<span>e<span> <span>i<span>g<span>n<span>o<span>r<span>i<spa=
+n>e<span>r<span>e<span>.</span></span></span></span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></span></span></span=
+></span></span></span></span></span></span></span></span></span></span></=
+span></span></span></span></span></span></span></span></span></span></spa=
+n></span></span></span></span></span></span></span></span></span></span><=
+/span></span></span></span></span></span></span></span></span></span></sp=
+an></span></span></span></span></span></span></span></span></span></span>=
+</span></span></span></span></span></span></span></span></span></span></s=
+pan></span></span></span></span></span></span></span></span></span></span=
+></span></span></div>            <br>            <br>            </td>   =
+       </tr>        </tbody>      </table>      </div>      </td>    </tr=
+>  </tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table>  <tbody><tr>    <td>=0D
+<br><br>=0D
+</td>  </tr></tbody>=0D
+</table>=0D
+<table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%" al=
+ign=3D"center"><tbody>=0D
+<tr><td><div><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" widt=
+h=3D"100%" align=3D"center"><tbody><tr><td style=3D"text-align:center" al=
+ign=3D"center"><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" wi=
+dth=3D"100%" align=3D"center"><tbody><tr><td style=3D"background-color:#f=
+ff" align=3D"center"><table border=3D"0" cellpadding=3D"0" cellspacing=3D=
+"0" width=3D"700" align=3D"center"><tbody>=0D
+<tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+700" align=3D"center" style=3D"background-color:#f5f5f7"><tbody><tr><td s=
+tyle=3D"background-color:#f5f5f7;vertical-align:top" align=3D"center" val=
+ign=3D"top" width=3D"100%"><table border=3D"0" cellpadding=3D"0" cellspac=
+ing=3D"0" width=3D"100%" align=3D"center"><tbody>=0D
+<tr><td style=3D"text-align:center;padding:32px 50px 0"><div style=3D"col=
+or:#86868b;font-size:16px;font-weight:900;margin:0 auto">FEBRUARY 2026</d=
+iv></td></tr>=0D
+<tr><td style=3D"padding:4px 50px 0;text-align:center;line-height:normal"=
+><h2 style=3D"font-size:40px;letter-spacing:0;line-height:44px;color:#000=
+;font-weight:800">Hello Developer</h2></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+<tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+700" align=3D"center" style=3D"background-color:#f5f5f7"><tbody><tr></tr>=
+</tbody></table></td></tr>=0D
+<tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+700" align=3D"center" style=3D"background-color:#f5f5f7"><tbody><tr><td s=
+tyle=3D"background-color:#f5f5f7;padding-top:24px;vertical-align:middle" =
+align=3D"center" valign=3D"middle" width=3D"600"><table border=3D"0" cell=
+padding=3D"0" cellspacing=3D"0" width=3D"600" align=3D"center"><tbody>=0D=
+
+<tr><td style=3D"padding-top:0;padding-bottom:0;text-align:center;vertica=
+l-align:middle;font-size:0;margin:0;line-height:0" align=3D"center">=0D
+<u></u><u></u><img alt=3D" " width=3D"600" height=3D"339.85714285714283" =
+style=3D"display:block;border-radius:18px 18px 0 0"><div dir=3D"ltr" styl=
+e=3D"opacity:0.01"><span><span></span><span></span><span><span class=3D"n=
+otranslate"></span></span><div></div>=0D
+<div id=3D"m_6748213053853466679tt-c14">T=C3=A9l=C3=A9charger</div></span=
+></div>=0D
+<u></u>=0D
+</td></tr>=0D
+<tr><td align=3D"center"><table border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" width=3D"100%" align=3D"center"><tbody><tr><td style=3D"backgroun=
+d-color:#fff;padding-bottom:36px;padding-left:0;border-bottom-left-radius=
+:18px;border-bottom-right-radius:18px" width=3D"100%"><table border=3D"0"=
+ cellpadding=3D"0" cellspacing=3D"0" width=3D"100%"><tbody>=0D
+<tr><td style=3D"padding:36px 32px 12px;text-align:left;line-height:norma=
+l"><h3 style=3D"font-size:40px;letter-spacing:0;line-height:44px;font-wei=
+ght:700;color:#1d1d1f">Introducing agentic coding in=C2=A0Xcode</h3></td>=
+</tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px 12px"><div style=3D"font-=
+weight:400;color:#1d1d1f">With Xcode=C2=A026.3, you can harness coding ag=
+ents like Anthropic=E2=80=99s Claude Agent and OpenAI=E2=80=99s Codex dir=
+ectly in the coding assistant to build and test projects, search Apple do=
+cumentation, fix issues, and more. </div></td></tr>=0D
+<tr><td style=3D"padding:0 32px 6px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">View agentic coding in <span style=3D"white=
+-space:nowrap">action<img alt=3D" " width=3D"12" height=3D"10" style=3D"f=
+ont-size:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding:0 32px;text-align:left;font-size:17px;line-heigh=
+t:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;color=
+:#06c" rel=3D"noreferrer">Read more on <span style=3D"white-space:nowrap"=
+>Newsroom<img alt=3D" " width=3D"12" height=3D"10" style=3D"font-size:0;d=
+isplay:inline-block;margin:0"></span></a></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+<tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+700" align=3D"center" style=3D"background-color:#f5f5f7"><tbody><tr><td s=
+tyle=3D"background-color:#f5f5f7;vertical-align:middle" align=3D"center" =
+valign=3D"middle" width=3D"600"><table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" width=3D"600" align=3D"center"><tbody>=0D
+<tr><td style=3D"padding-top:36px;text-align:center;vertical-align:middle=
+;font-size:0;margin:0;line-height:0" align=3D"center">=0D
+<u></u><u></u><img alt=3D"A woman in a striped blue and white shirt and a=
+ man in a black shirt and beard sit at a table in an office building look=
+ing at an open MacBook." width=3D"600" height=3D"393.8571428571429" style=
+=3D"display:block;border-radius:18px 18px 0 0"><div dir=3D"ltr" style=3D"=
+opacity:0.01"><span><span></span><span></span><span><span class=3D"notran=
+slate"></span></span><div></div>=0D
+<div id=3D"m_6748213053853466679tt-c16">T=C3=A9l=C3=A9charger</div></span=
+></div>=0D
+<u></u>=0D
+</td></tr>=0D
+<tr><td align=3D"center"><table border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" width=3D"100%" align=3D"center"><tbody><tr><td style=3D"backgroun=
+d-color:#fff;padding-left:0;border-bottom-left-radius:18px;border-bottom-=
+right-radius:18px" width=3D"100%"><table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" width=3D"100%"><tbody>=0D
+<tr><td style=3D"text-align:left;padding:36px 32px 6px"><div style=3D"col=
+or:#86868b;font-size:16px;font-weight:900">THE LEARNING SECTION</div></td=
+></tr>=0D
+<tr><td style=3D"padding:0 32px 12px;text-align:left;line-height:normal">=
+<h4 style=3D"font-size:28px;letter-spacing:0;line-height:32px;font-weight=
+:700;color:#1d1d1f">Code along with coding intelligence</h4></td></tr>=0D=
+
+<tr><td style=3D"text-align:left;padding:0 32px 12px"><div style=3D"font-=
+weight:400;color:#1d1d1f">In this free online activity, you=E2=80=98ll le=
+arn how the coding assistant and Coding Tools can help you write, test, a=
+nd fix your codebases.</div></td></tr>=0D
+<tr><td style=3D"padding:0 32px 36px;text-align:left;font-size:17px;line-=
+height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;=
+color:#06c" rel=3D"noreferrer">Sign up <span style=3D"white-space:nowrap"=
+>now<img alt=3D" " width=3D"12" height=3D"10" style=3D"font-size:0;displa=
+y:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding:0 30px 36px"><table border=3D"0" cellpadding=3D"=
+0" cellspacing=3D"0" align=3D"center"><tbody><tr><td style=3D"border-top-=
+style:solid;border-top-width:1px;font-size:0;line-height:0;margin:0 auto;=
+border-color:#d2d2d7" align=3D"center" valign=3D"top" width=3D"712"></td>=
+</tr></tbody></table></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px 12px"><div style=3D"font-=
+weight:400;color:#1d1d1f">The Swift Student Challenge is just days away! =
+Submit your app playgrounds February 6=E2=80=9328.</div></td></tr>=0D
+<tr><td style=3D"padding:0 32px 36px;text-align:left;font-size:17px;line-=
+height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;=
+color:#06c" rel=3D"noreferrer">Accept the <span style=3D"white-space:nowr=
+ap">Challenge<img alt=3D" " width=3D"12" height=3D"10" style=3D"font-size=
+:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+<tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+700" align=3D"center" style=3D"background-color:#f5f5f7"><tbody><tr><td s=
+tyle=3D"background-color:#f5f5f7;vertical-align:middle" align=3D"center" =
+valign=3D"middle" width=3D"600"><table border=3D"0" cellpadding=3D"0" cel=
+lspacing=3D"0" width=3D"600" align=3D"center"><tbody>=0D
+<tr><td style=3D"padding-top:36px;text-align:center;vertical-align:middle=
+;font-size:0;margin:0;line-height:0" align=3D"center">=0D
+<u></u><u></u><img alt=3D"A woman in a red shirt stands on stage in a the=
+ater in front of a large screen showing lines of code." width=3D"600" hei=
+ght=3D"337.7142857142857" style=3D"display:block;border-radius:18px 18px =
+0 0"><div dir=3D"ltr" style=3D"opacity:0.01"><span><span></span><span></s=
+pan><span><span class=3D"notranslate"></span></span><div></div>=0D
+<div id=3D"m_6748213053853466679tt-c15">T=C3=A9l=C3=A9charger</div></span=
+></div>=0D
+<u></u>=0D
+</td></tr>=0D
+<tr><td align=3D"center"><table border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" width=3D"100%" align=3D"center"><tbody><tr><td style=3D"backgroun=
+d-color:#fff;padding-left:0;border-bottom-left-radius:18px;border-bottom-=
+right-radius:18px" width=3D"100%"><table border=3D"0" cellpadding=3D"0" c=
+ellspacing=3D"0" width=3D"100%"><tbody>=0D
+<tr><td style=3D"text-align:left;padding:36px 32px 6px"><div style=3D"col=
+or:#86868b;font-size:16px;font-weight:900">MEET WITH APPLE</div></td></tr=
+>=0D
+<tr><td style=3D"padding:0 32px 12px;text-align:left;line-height:normal">=
+<h4 style=3D"font-size:32px;letter-spacing:0;line-height:36px;font-weight=
+:700;color:#1d1d1f">Join us for new activities</h4></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px 6px"><div style=3D"font-w=
+eight:400;color:#1d1d1f">=0D
+<b>Build great apps with SwiftUI (February=C2=A010): </b> Whether you=E2=80=
+=99re just starting out or have plenty of experience, this series of foun=
+dational sessions will help sharpen your understanding of core concepts.<=
+/div></td></tr>=0D
+<tr><td style=3D"padding:0 32px 2px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">Request to join in <span style=3D"white-spa=
+ce:nowrap">person<img alt=3D" " width=3D"12" height=3D"10" style=3D"font-=
+size:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding:0 32px 32px;text-align:left;font-size:17px;line-=
+height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;=
+color:#06c" rel=3D"noreferrer">Sign up for the <span style=3D"white-space=
+:nowrap">livestream<img alt=3D" " width=3D"12" height=3D"10" style=3D"fon=
+t-size:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px 6px"><div style=3D"font-w=
+eight:400;color:#1d1d1f">=0D
+<b>Fortify your app: Essential strategies to strengthen security (March=C2=
+=A05): </b>Learn to bolster your app=E2=80=99s security and help protect =
+user data, whether you=E2=80=99re hardening an existing app or starting f=
+resh.</div></td></tr>=0D
+<tr><td style=3D"padding:0 32px 2px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">Register to join in <span style=3D"white-sp=
+ace:nowrap">person<img alt=3D" " width=3D"12" height=3D"10" style=3D"font=
+-size:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding:0 32px 36px;text-align:left;font-size:17px;line-=
+height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;=
+color:#06c" rel=3D"noreferrer">Sign up for the <span style=3D"white-space=
+:nowrap">livestream<img alt=3D" " width=3D"12" height=3D"10" style=3D"fon=
+t-size:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px 6px"><div style=3D"font-w=
+eight:400;color:#1d1d1f">=0D
+<b>Let=E2=80=99s talk Liquid Glass (Throughout February and March): </b>L=
+earn how the new design can make your app shine across all Apple platform=
+s.</div></td></tr>=0D
+<tr><td style=3D"padding:0 32px 32px;text-align:left;font-size:17px;line-=
+height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;=
+color:#06c" rel=3D"noreferrer">Browse all design <span style=3D"white-spa=
+ce:nowrap">activities<img alt=3D" " width=3D"12" height=3D"10" style=3D"f=
+ont-size:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+<tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+700" align=3D"center" style=3D"background-color:#f5f5f7"><tbody><tr><td s=
+tyle=3D"padding-top:36px"><table border=3D"0" cellpadding=3D"0" cellspaci=
+ng=3D"0" width=3D"700" align=3D"center"><tbody><tr><td style=3D"backgroun=
+d-color:#f5f5f7;vertical-align:middle;border-top-left-radius:16px;border-=
+top-right-radius:16px" align=3D"center" valign=3D"middle" width=3D"600"><=
+table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"600" alig=
+n=3D"center"><tbody>=0D
+<tr><td align=3D"center"><table border=3D"0" cellpadding=3D"0" cellspacin=
+g=3D"0" width=3D"100%" align=3D"center"><tbody><tr><td style=3D"backgroun=
+d-color:#fff;padding-left:0;border-radius:18px" width=3D"100%"><table bor=
+der=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"100%"><tbody>=0D
+<tr><td style=3D"text-align:left;padding:24px 32px 12px"><div style=3D"co=
+lor:#86868b;font-size:16px;font-weight:900">NEWS AND UPDATES</div></td></=
+tr>=0D
+<tr><td style=3D"padding:8px 32px 4px;text-align:left;line-height:normal"=
+><h4 style=3D"font-size:17px;letter-spacing:0;line-height:25px;font-weigh=
+t:700;color:#1d1d1f">New in App Store Connect</h4></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px"><div style=3D"font-weigh=
+t:400;color:#1d1d1f">Starting April 28, 2026, apps and games uploaded to =
+App=C2=A0Store=C2=A0Connect must meet minimum requirements.</div></td></t=
+r>=0D
+<tr><td style=3D"padding:8px 32px 32px;text-align:left;font-size:17px;lin=
+e-height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25p=
+x;color:#06c" rel=3D"noreferrer">Learn what this means for <span style=3D=
+"white-space:nowrap">you<img alt=3D" " width=3D"12" height=3D"10" style=3D=
+"font-size:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding-right:32px;padding-bottom:4px;padding-left:32px;=
+text-align:left;line-height:normal"><h4 style=3D"font-size:17px;letter-sp=
+acing:0;line-height:25px;font-weight:700;color:#1d1d1f">Analyze the perfo=
+rmance of your foundation models app</h4></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px"><div style=3D"font-weigh=
+t:400;color:#1d1d1f">Learn how to optimize token consumption and improve =
+response times by profiling your app=E2=80=99s model usage with Instrumen=
+ts. </div></td></tr>=0D
+<tr><td style=3D"padding:8px 32px 32px;text-align:left;font-size:17px;lin=
+e-height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25p=
+x;color:#06c" rel=3D"noreferrer">Read now <span style=3D"white-space:nowr=
+ap"><img alt=3D" " width=3D"12" height=3D"10" style=3D"font-size:0;displa=
+y:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding-right:32px;padding-bottom:4px;padding-left:32px;=
+text-align:left;line-height:normal"><h4 style=3D"font-size:17px;letter-sp=
+acing:0;line-height:25px;font-weight:700;color:#1d1d1f">Visit the refresh=
+ed health and fitness page</h4></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px"><div style=3D"font-weigh=
+t:400;color:#1d1d1f">Explore the frameworks and technologies that can hel=
+p you create great privacy-preserving experiences.</div></td></tr>=0D
+<tr><td style=3D"padding:8px 32px 0;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">View the <span style=3D"white-space:nowrap"=
+>updates<img alt=3D" " width=3D"12" height=3D"10" style=3D"font-size:0;di=
+splay:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding:36px 32px"><table border=3D"0" cellpadding=3D"0"=
+ cellspacing=3D"0" align=3D"center"><tbody><tr><td style=3D"border-top-st=
+yle:solid;border-top-width:1px;font-size:0;line-height:0;margin:0 auto;bo=
+rder-color:#d2d2d7" align=3D"center" valign=3D"top" width=3D"712"></td></=
+tr></tbody></table></td></tr>=0D
+<tr><td style=3D"text-align:left;padding:0 32px 6px"><div style=3D"color:=
+#86868b;font-size:16px;font-weight:900">DOCS</div></td></tr>=0D
+<tr><td style=3D"padding:0 32px 8px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">Create your app icon using <span style=3D"w=
+hite-space:nowrap">Icon=C2=A0Composer<img alt=3D" " width=3D"12" height=3D=
+"10" style=3D"font-size:0;display:inline-block;margin:0"></span></a></td>=
+</tr>=0D
+<tr><td style=3D"padding:0 32px 8px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">Create an airline boarding pass using seman=
+tic <span style=3D"white-space:nowrap">tags<img alt=3D" " width=3D"12" he=
+ight=3D"10" style=3D"font-size:0;display:inline-block;margin:0"></span></=
+a></td></tr>=0D
+<tr><td style=3D"padding:0 32px 8px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">Update: Wallet <span style=3D"white-space:n=
+owrap">Passes<img alt=3D" " width=3D"12" height=3D"10" style=3D"font-size=
+:0;display:inline-block;margin:0"></span></a></td></tr>=0D
+<tr><td style=3D"padding:0 32px 8px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">Updated API: Wallet Passes =E2=80=94 Pass <=
+span style=3D"white-space:nowrap">object<img alt=3D" " width=3D"12" heigh=
+t=3D"10" style=3D"font-size:0;display:inline-block;margin:0"></span></a><=
+/td></tr>=0D
+<tr><td style=3D"padding:0 32px 8px;text-align:left;font-size:17px;line-h=
+eight:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;c=
+olor:#06c" rel=3D"noreferrer">Updated API: Wallet Passes =E2=80=94 <span =
+style=3D"white-space:nowrap">PassFields<img alt=3D" " width=3D"12" height=
+=3D"10" style=3D"font-size:0;display:inline-block;margin:0"></span></a></=
+td></tr>=0D
+<tr><td style=3D"padding:0 32px 36px;text-align:left;font-size:17px;line-=
+height:25px"><a style=3D"font-size:17px;font-weight:400;line-height:25px;=
+color:#06c" rel=3D"noreferrer">Browse HIG updates for Liquid=C2=A0Glass, =
+Apple=C2=A0Pay, Widgets and Live=C2=A0Activities, <span style=3D"white-sp=
+ace:nowrap">and=C2=A0visionOS<img alt=3D" " width=3D"12" height=3D"10" st=
+yle=3D"font-size:0;display:inline-block;margin:0"></span></a></td></tr>=0D=
+
+</tbody></table></td></tr></tbody></table></td></tr>=0D
+<tr><td style=3D"padding-top:32px;padding-bottom:8px;text-align:center;li=
+ne-height:normal"><h6 style=3D"font-size:19px;letter-spacing:0;line-heigh=
+t:23px;font-weight:700;color:#1d1d1f">Share your thoughts</h6></td></tr>=0D=
+
+<tr><td style=3D"text-align:center;padding:0 0 36px"><div style=3D"font-s=
+ize:14px;font-weight:400;line-height:20px;margin:0 auto;color:#1d1d1f">We=
+=E2=80=99d love to hear from you. If you have suggestions for activities =
+or stories, <br>please <a style=3D"color:#06c;font-style:normal;font-weig=
+ht:400;text-decoration:none" rel=3D"noreferrer">let=C2=A0us=C2=A0know</a>=
+.</div></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr></tbody></table></td>=
+</tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr></tbody></table></div=
+></td></tr>=0D
+<tr><td><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"=
+100%" style=3D"background-color:#fff;background-color:#fff"><tbody><tr><t=
+d><table border=3D"0" cellpadding=3D"0" cellspacing=3D"0" width=3D"736" a=
+lign=3D"center" style=3D"background-color:#fff;background-color:#fff"><tb=
+ody><tr><td style=3D"padding:0 20px"><table border=3D"0" cellpadding=3D"0=
+" cellspacing=3D"0" width=3D"660" align=3D"center" style=3D"background-co=
+lor:#fff"><tbody>=0D
+<tr><td style=3D"font-size:12px;line-height:16px;border-top-width:0;borde=
+r-top-style:none;border-top-color:currentcolor" align=3D"center"></td></t=
+r>=0D
+<tr><td style=3D"padding:10px 0 9px;text-align:center"><div style=3D"font=
+-size:12px;line-height:16px;color:#6e6e73"> Copyright =C2=A9 2026 Apple=C2=
+=A0Inc. One=C2=A0Apple=C2=A0Park=C2=A0Way,=C2=A0MS=C2=A0923=E2=80=914DE<w=
+br>V, Cupertino,=C2=A0CA=C2=A095014 </wbr>=0D
+</div></td></tr>=0D
+<tr><td style=3D"padding:0 0 9px;font-size:12px;line-height:16px;color:#4=
+24245;text-align:center"><div style=3D"color:#424245;margin:0 auto;font-s=
+ize:12px;line-height:16px">=0D
+<a style=3D"border:0;outline:0;text-decoration:none;color:#424245" rel=3D=
+"noreferrer">All Rights Reserved</a>=C2=A0=C2=A0<span style=3D"color:#6e6=
+e73">|</span>=C2=A0=C2=A0<a style=3D"border:0;outline:0;text-decoration:n=
+one;color:#424245" rel=3D"noreferrer">Privacy Policy</a>=C2=A0=C2=A0<span=
+ style=3D"color:#6e6e73">|</span>=C2=A0=C2=A0<a style=3D"border:0;outline=
+:0;text-decoration:none;color:#424245" rel=3D"noreferrer">Account</a> </d=
+iv></td></tr>=0D
+<tr><td style=3D"padding:0 0 56px;text-align:center"><div style=3D"font-s=
+ize:12px;line-height:16px;color:#6e6e73">You can <a style=3D"border:0;out=
+line:0;text-decoration:none;color:#86868b" rel=3D"noreferrer">update your=
+ Apple Developer email preferences</a> or <a style=3D"border:0;outline:0;=
+text-decoration:none;color:#86868b" rel=3D"noreferrer">unsubscribe</a>.</=
+div></td></tr>=0D
+</tbody></table></td></tr></tbody></table></td></tr></tbody></table></td>=
+</tr>=0D
+</tbody></table>=0D
+</div></div></div>=0D
+=0D
+<br/>=0D
+=0D
+=0D
+=0D
+=0D
+=0D
+<span title=3D"fd_tkt_identifier" style=3D'font-size:0px; font-family:"fd=
+tktid"; min-height:0px; height:0px; opacity:0; max-height:0px; line-heigh=
+t:0px; color:#ffffff'>84184:2314548</span>=0D
+=0D
+</div>=
+
+----==_mimepart_69873e863951a_1de5fa785573c--

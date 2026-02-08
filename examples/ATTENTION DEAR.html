@@ -662,7 +662,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
         <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
         <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
-        <div class="topbar-sub">2026-02-07 20:19 UTC</div>
+        <div class="topbar-sub">2026-02-07 20:39 UTC</div>
     </div>
 </div>
 <div class="container">
@@ -677,12 +677,12 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="189.5"
+                            stroke-dasharray="189.5 326.7" data-target-dash="189.5"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:#f97316" data-target="58">0</div>
+                        <div class="gauge-score" style="color:#f97316" data-target="58">58</div>
                         <div class="gauge-label">HIGH</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
@@ -700,31 +700,31 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
         <div class="gemini-content">
             <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">100%</span></div>
-<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing scam attempting to trick you into believing you are receiving a large sum of money from United Bank Of Africa. It is designed to harvest your personal information and likely solicit fraudulent fees. This email is not safe and should be deleted immediately.</p></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a scam attempting to trick you into believing you are receiving a large sum of money from United Bank Of Africa. It is not legitimate and is designed to steal your personal information and potentially demand advance payments. Do not reply or provide any requested details.</p></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  The email impersonates &quot;United Bank Of Africa&quot; but originates from `agate.plala.or.jp` and uses a `REPLY-TO` address of `unitedbankofafrica293@gmail.com`, clearly indicating a brand impersonation and sender spoofing attempt.</li>
-<li>  The email body describes a &quot;60 Million Dollars&quot; payment via an &quot;ATM Master card&quot; and demands &quot;Tax/Stamp Duty&quot; for delivery, which are classic hallmarks of an advance-fee fraud (419 scam).</li>
-<li>  Despite passing SPF, DKIM, and DMARC for the sending domain (`agate.plala.or.jp`), these authentication results do not validate the legitimacy of the &quot;United Bank Of Africa&quot; identity, highlighting a lack of DMARC alignment for the impersonated brand.</li>
-<li>  The subject line &quot;ATTENTION DEAR&quot; and phrases like &quot;MOST IMPORTANT&quot; combined with requests to &quot;re-confirm your information&quot; are social engineering tactics designed to create urgency and manipulate the recipient into divulging personal data.</li>
+<li>  <strong>From Domain Mismatch</strong>: The email claims to be from &quot;United Bank Of Africa&quot; but originates from `agate.plala.or.jp`, a Japanese ISP domain, which is not the legitimate domain for UBA.</li>
+<li>  <strong>Reply-To Spoofing</strong>: The `REPLY-TO` address is `unitedbankofafrica293@gmail.com`, a generic Gmail account, which is a clear mismatch with the `FROM` domain and the purported sender, indicating an attempt to bypass sender reputation checks and receive replies to a controlled address.</li>
+<li>  <strong>Advance-Fee Scam Pattern</strong>: The email body discusses a large sum of &quot;60 Million Dollars,&quot; an &quot;ATM Master card,&quot; and demands for &quot;Tax/Stamp Duty&quot; and personal information (Full Names, Current Delivery Address, Phone Number), which are hallmarks of an advance-fee (419) scam.</li>
+<li>  <strong>Authentication Misalignment</strong>: While SPF, DKIM, and DMARC pass for `agate.plala.or.jp`, these only validate the technical sending domain, not the legitimacy of the &quot;United Bank Of Africa&quot; display name or the `REPLY-TO` address, which are clearly spoofed.</li>
 </ul></div></div>
-<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Brand impersonation, Advance-Fee Fraud, Information Harvesting</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-fee fraud (419 scam) combined with brand impersonation and information harvesting.</p></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  Do not reply to this email or provide any requested personal information.</li>
-<li>  Do not click on any links, if present (none in this case).</li>
-<li>  Mark this email as phishing or spam and delete it from your inbox.</li>
-<li>  Report this email to your organization&#x27;s IT security department.</li>
+<li>  Do not reply to the email or provide any personal information requested.</li>
+<li>  Delete the email immediately and block the sender&#x27;s email address (`igaya-s.m.k@agate.plala.or.jp`) and the reply-to address (`unitedbankofafrica293@gmail.com`).</li>
+<li>  Report the email to your IT security department or email provider.</li>
+<li>  Be vigilant for similar scam attempts, especially those promising large sums of money or requiring advance payments.</li>
 </ul>
 <p><strong>INDICATORS OF COMPROMISE (IOCs)</strong>:</p>
 <ul class="gemini-list">
-<li>  `agate.plala.or.jp` (Sending domain used for impersonation)</li>
-<li>  `unitedbankofafrica293@gmail.com` (Malicious Reply-To email address)</li>
+<li>  `unitedbankofafrica293@gmail.com` (Reply-To email address)</li>
+<li>  `agate.plala.or.jp` (Sender domain, used for malicious purposes)</li>
 <li>  `60.36.166.33` (Origin IP address)</li>
 </ul></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">📚</span> SOURCES &amp; REFERENCES<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  <strong>Sender Findings</strong>: &quot;Reply-To (unitedbankofafrica293@gmail.com) differs from From (igaya-s.m.k@agate.plala.or.jp)&quot; clearly indicates a mismatch used for deception.</li>
-<li>  <strong>Email Body Content</strong>: The mention of &quot;60 Million Dollars,&quot; &quot;ATM Master card,&quot; and &quot;Tax/Stamp Duty&quot; are classic indicators of an advance-fee scam, aligning with MITRE ATT&amp;CK T1566 (Phishing).</li>
-<li>  <strong>From Display Name vs. From Domain</strong>: The &quot;From Display Name: United Bank Of Africa&quot; does not align with the &quot;From Domain: agate.plala.or.jp&quot;, demonstrating brand impersonation.</li>
-<li>  <strong>Urgency / Social Engineering</strong>: &quot;Keywords: confirm identity&quot; and &quot;Excessive capitalization (11 ALL-CAPS words)&quot; contribute to the social engineering aspect, aligning with NIST SP 800-177 (Trustworthy Email) principles for identifying deceptive content.</li>
+<li>  <strong>Sender Findings</strong>: &quot;Reply-To (unitedbankofafrica293@gmail.com) differs from From (igaya-s.m.k@agate.plala.or.jp)&quot; clearly indicates a spoofing attempt and a key indicator of phishing.</li>
+<li>  <strong>Automated Threat Score</strong>: The &quot;REPLY-TO MISMATCH (+8)&quot; factor contributed significantly to the overall threat score, confirming suspicion.</li>
+<li>  <strong>Email Body Content</strong>: The narrative of &quot;60 Million Dollars,&quot; &quot;ATM Master card,&quot; and &quot;Tax/Stamp Duty&quot; aligns with known advance-fee fraud schemes (MITRE ATT&amp;CK T1566.002 - Phishing: Spearphishing Link, leveraging social engineering).</li>
+<li>  <strong>RFC 5322 (Internet Message Format)</strong>: The discrepancy between the &quot;From&quot; display name and the actual sending domain, coupled with the &quot;Reply-To&quot; mismatch, violates the spirit of sender identity as understood by recipients.</li>
 </ul></div></div>
         </div>
     </div>
@@ -884,30 +884,30 @@ UBA PLC
 
 <div class="widget log-widget" id="nav-logs">
 <div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
-<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:19:15.522] Analyzing links...</div>
-<div class="log-entry">[20:19:15.522] Analyzing sender...</div>
-<div class="log-entry">[20:19:15.522] Scanning urgency patterns...</div>
-<div class="log-entry">[20:19:15.524] Checking attachments...</div>
-<div class="log-entry">[20:19:15.524] Analyzing language...</div>
-<div class="log-entry">[20:19:15.525] Looking up IP: 60.36.166.33</div>
-<div class="log-entry">[20:19:15.643] Sender local time: 2026-02-07 00:54:49 (JST)</div>
-<div class="log-entry">[20:19:15.643] Checking domain age: agate.plala.or.jp</div>
-<div class="log-entry">[20:19:15.910] Querying MXToolbox (SPF/DKIM/DMARC): agate.plala.or.jp</div>
-<div class="log-entry">[20:19:18.972] Resolving 2002 → 0.0.7.210</div>
-<div class="log-entry">[20:19:19.048] Resolving msa13.plala.or.jp → 60.36.166.13</div>
-<div class="log-entry">[20:19:19.098] Calculating threat score...</div>
-<div class="log-entry">[20:19:19.099] Sanitizing email body...</div>
-<div class="log-entry">[20:19:19.099] Highlighting body...</div>
-<div class="log-entry">[20:19:19.099] Querying Gemini (gemini-2.5-flash)...</div>
-<div class="log-entry">[20:19:27.845] ✓ Gemini assessment received</div>
-<div class="log-entry">[20:19:27.846] ⚠ Gemini says PHISHING — threat score bumped by +50 to 58</div>
-<div class="log-entry">[20:19:27.846] Consolidating IOCs...</div>
-<div class="log-entry">[20:19:27.846] Found 5 IOC indicators</div>
-<div class="log-entry">[20:19:27.846] Looking up IOC IP: 02.06.07.54</div></div></div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:39:23.441] Analyzing links...</div>
+<div class="log-entry">[20:39:23.441] Analyzing sender...</div>
+<div class="log-entry">[20:39:23.441] Scanning urgency patterns...</div>
+<div class="log-entry">[20:39:23.443] Checking attachments...</div>
+<div class="log-entry">[20:39:23.443] Analyzing language...</div>
+<div class="log-entry">[20:39:23.444] Looking up IP: 60.36.166.33</div>
+<div class="log-entry">[20:39:23.528] Sender local time: 2026-02-07 00:54:49 (JST)</div>
+<div class="log-entry">[20:39:23.528] Checking domain age: agate.plala.or.jp</div>
+<div class="log-entry">[20:39:24.946] Querying MXToolbox (SPF/DKIM/DMARC): agate.plala.or.jp</div>
+<div class="log-entry">[20:39:28.182] Resolving 2002 → 0.0.7.210</div>
+<div class="log-entry">[20:39:28.316] Resolving msa13.plala.or.jp → 60.36.166.13</div>
+<div class="log-entry">[20:39:28.366] Calculating threat score...</div>
+<div class="log-entry">[20:39:28.366] Sanitizing email body...</div>
+<div class="log-entry">[20:39:28.366] Highlighting body...</div>
+<div class="log-entry">[20:39:28.366] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:39:37.426] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:39:37.426] ⚠ Gemini says PHISHING — threat score bumped by +50 to 58</div>
+<div class="log-entry">[20:39:37.426] Consolidating IOCs...</div>
+<div class="log-entry">[20:39:37.427] Found 5 IOC indicators</div>
+<div class="log-entry">[20:39:37.427] Looking up IOC IP: 02.06.07.54</div></div></div>
 </div>
 
 </div>
-<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:19:27 UTC</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:39:37 UTC</div>
 <script>
 (function() {
     // === Print button ===
@@ -1224,7 +1224,7 @@ UBA PLC
 (function(){
     var iframe = document.querySelector('.body-section iframe');
     if (!iframe) return;
-    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Brand impersonation, Advance-Fee Fraud, Information Harvesting</span></div></div>';
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-fee fraud (419 scam) combined with brand impersonation and information h</span></div></div>';
     function setup() {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         if (!doc || !doc.body) return;

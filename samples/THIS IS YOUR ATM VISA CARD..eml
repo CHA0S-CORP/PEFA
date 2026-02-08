@@ -1,0 +1,157 @@
+Delivered-To: <REMOVED>
+Received: by 2002:ac8:794b:0:b0:503:3ab3:6a97 with SMTP id r11csp587592qtt;
+        Thu, 29 Jan 2026 03:01:25 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCUu/BgQS8iidCFCsBM9rd5sT9285FwNj1lW49Gp3165e/0nLA4chs5HJnmfMB9oXhURKF70U8BFUu4=@gmail.com
+X-Received: by 2002:a05:7300:ac82:b0:2ae:5e93:b6d with SMTP id 5a478bee46e88-2b78da58bcfmr4916197eec.38.1769684485174;
+        Thu, 29 Jan 2026 03:01:25 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769684485; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=C4c8w6Awfl1kleT9sDiRouM6sp0SpXPu/RxsTZ8GPC5IrQPzAAweYhc9smfZ6sY380
+         6bHG7B4yh7o43DN7+FVO3fFc+bN/3lrW29YmFkth5eLXVf156TWH+OavUWZ4zK71qt/n
+         kF36/nFY9xN4HRXwTL6rzat2tBPcyNULwNT87dQ+CFQ9ka/N0ByD1WVRgtf5LEfN0mZK
+         CcEAjsgUfWRcVmCczI76OU8owXrovwM7hFheS72lpgMSERR5sV+RaWlt014ihcyUrQ7c
+         BaRjALJbG/XKpbflcQOrxV8sVcXGN4YXtlFjLokNtSOcPEBrLsUnHFSto1Sq7XU487V3
+         I1Uw==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=nh62zDT9PPm7w8Lce+uCGHW9LOtGvAL9K++kiRATNqs=;
+        fh=ICuCF1cLtGeC8BNvRtHo8qQdys5J3tPkC4/5orVng0Q=;
+        b=VIuHdcsj6cmqjwcThSzI7axUX/DQcRwd1CWvpT3tVrBqDBlYmSAqspI8tsCPnWqJqS
+         6EMFtXoz8amL61ps2ltWmH4Us+xQvls0G5YCfvUneZME4IKhpZLKms9n3afJnZ9VCLXG
+         pV2oUw2mPU78QxKfNYvN5iEDMbXa+UlJHHuS5mM/++BxJaT1UasiHJqemDLbK9+Ose8c
+         k2HMvQPbqoZW/TYvCe0lx52U1KqVEkKg3oaR79pSvbyMvxHr4HiOmnvuDG8GYgVWYGYv
+         dBYk/pCY2FMugIRFTQquDquWT2Pbd0qww7JNEo3osC23xV4/owtv50q3vQ5EwNUKp7Bb
+         GYLg==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=lzmoWtAN;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of officepard315@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=officepard315@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+Return-Path: <officepard315@gmail.com>
+Received: from mail-sor-f41.google.com (mail-sor-f41.google.com. [209.85.220.41])
+        by mx.google.com with SMTPS id 5a478bee46e88-2b79c3c00a3sor1021832eec.13.2026.01.29.03.01.25
+        for <<REMOVED>>
+        (Google Transport Security);
+        Thu, 29 Jan 2026 03:01:25 -0800 (PST)
+Received-SPF: pass (google.com: domain of officepard315@gmail.com designates 209.85.220.41 as permitted sender) client-ip=209.85.220.41;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@gmail.com header.s=20230601 header.b=lzmoWtAN;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of officepard315@gmail.com designates 209.85.220.41 as permitted sender) smtp.mailfrom=officepard315@gmail.com;
+       dmarc=pass (p=NONE sp=QUARANTINE dis=NONE) header.from=gmail.com;
+       dara=pass header.i=@gmail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1769684485; cv=none;
+        d=google.com; s=arc-20240605;
+        b=T2QkPtQQn0bhc4GkC8xGdMg2RfU+zequM4ddHuQFJfXW9p5Ah8oof17Imd2Lfvdqm5
+         ZxEZPhNbuQq9H3j0CpMMWFD+a1KP8L1Ti59HU/docpNIQw0lquVZ3G93KsHnntyES/B1
+         dA/VTlUDb2QONYjerVY0cWskVdvUXdoOfq7kQyxfVQE45/7w4WxtIoX3l9sZ3DVRIZbZ
+         GgI3ytO6H6W6cdBUN44z0/cs/IFOrJnp97u5eOn6rL1eMc2SG5iaBYjtpOA6eFJvsMsl
+         IBIGyxyvW7oe9IHHXIMq53E05VlPvzJB7XiGMWj9WPxQzMt6Fpf6yYKxxV9/QlGWCIPT
+         oxmQ==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=nh62zDT9PPm7w8Lce+uCGHW9LOtGvAL9K++kiRATNqs=;
+        fh=ICuCF1cLtGeC8BNvRtHo8qQdys5J3tPkC4/5orVng0Q=;
+        b=JGU3oSUVONeaz/744hEuQjhpwMmm634ocf9uOUVAQPIt5EeIa1aSM0yXilzhPe8l+a
+         PTIOLoohb0BaBuxCvicLeYYwv1UPYutHw5bE5nmgJe1HzUVus1qy2XsmaX44aTE3m43F
+         pAhzhZ86uX/nTBPAgytksTWf9Xdo8iMlDJFoV8PAS4YnA9Gomfhofp3G4VIdtdfXiIx7
+         kZrw3rlGffBQGfvOFl7rrxmYgBMQQG6vouM51Xe4qjvp7nq9QrwdNJrcgSTSCQ1NnM2s
+         +zCfldxC8DMj5K+SCxb/dxTbojTj16HlbOZlXxIGR2ZTiySgSEJFgrRMXzV0tXMvSgQV
+         3O9g==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1769684485; x=1770289285; dara=google.com;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=nh62zDT9PPm7w8Lce+uCGHW9LOtGvAL9K++kiRATNqs=;
+        b=lzmoWtANNjJW96U+43gmxeINiXzzCe3KDfnWhAy/3pkUtjmZ8HQ1aosBrOqaA8ACfk
+         n9W3Kanqw/2Lx6j6uVMQkfbmFgaCl9KiHO8AKKzmGTtbqQVdw+9jW+JqxNZTLAP47DCb
+         nYn5zQ777djbsCtDOnEAhrIkkgLb2RXk0Xa1nnFOmeeDRMup96egsLT/V8GhwsnmS46Z
+         Cfai4vy6fuoYzAaSqGKqIqnGPixtSqQAk0RJ6/do7Us/H1MlMhpeU1mPZqckuaSElcNr
+         +Vg73et3qfX5Y23n7Q+NYVmMQlXnoLnG2PaANet/gbxFey/OutbyIhBBPcqHLq4w53X6
+         HgiQ==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769684485; x=1770289285;
+        h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=nh62zDT9PPm7w8Lce+uCGHW9LOtGvAL9K++kiRATNqs=;
+        b=vC+zF+Rl7o2i3gdWcYU3pLfEs3EnyM6g3YDthlVgpQFEWQKt1RsYShuip0gHETwiXO
+         ElmYj3G8E6+/2XQ31QB69io/P8cFK+o+BAzjQYZ0CBjUsEYXpk6ugju1ndjPC8ZDN1/X
+         W5DE8y835/5tgkApiFLeLpCpWoSghZCDr4Vzj+bxuRTtsY3QnEIsZZEhQeY4LMGlikx+
+         CKlKiXhJYNWjcajOr5eEV5aOVhCtYir9aYuwu/oGLEmD5hsXbGu961KlxCtzUOVUtgur
+         rVBrXskNAEUaqsI1BlOZfewYsnynVKSetV6daEqkKhp9T1hCxEdXJvAlRjwiQKo2BT/w
+         E26w==
+X-Forwarded-Encrypted: i=1; AJvYcCWjHbgFWkGHEqDFpWdqsK1YX2vggKFjZlyJUHQjcb9LnGM2fX43+KM5e0nuWJfg9/V1G7iR5+r8NpQ=@gmail.com
+X-Gm-Message-State: AOJu0YwpPMXXEl0OorLzOaBp+FkPtA3WsBkNDAdnIGQFp0UdXlli5aII
+	3zOFGVVoB49UFT00hsb/balz2rKhmHa50vMaq/DhRIyZ1BtaErtYjaOlHxMYI5zDG4mKUVdHFif
+	bdWsTqaoL/w3xaH1kqMylrIwuHRO7UEI=
+X-Gm-Gg: AZuq6aLZDW+7ks8HACFQO92a+4VXBSlWu5gEpBgHMQ5CpP6dtHPznVT2GX4YMjeoINh
+	JnRKnq12/N7PdrxCZjnNX/SmIw3w5F/klreMSrI6PE+Sn3xsjk2kK10z6bvIYj5lJWaKT5wUo8s
+	fD5ra1Kx27zXT86A9YLZiEPR8lYzzIQd4YpAku32S653yORFUf0Gys7MSQbRDxCRKzgW35bpRM1
+	pgVDmCQ2GW9QhhNmNeK5zrbY+fiR3CI0khSiaGDYEzsRr3oJp7/uVGP/9CrhZ6W5gvoCHtMemfp
+	1PTSSiS5UagYSjMBUWBbKKZ/Q/uo3yCY7S4bjo5JG3U=
+X-Received: by 2002:a05:7300:dc14:b0:2a4:3592:c60b with SMTP id
+ 5a478bee46e88-2b78d9fdb94mr5060700eec.28.1769684482462; Thu, 29 Jan 2026
+ 03:01:22 -0800 (PST)
+MIME-Version: 1.0
+Reply-To: dhlc74931@gmail.com
+From: Robinson <officepard315@gmail.com>
+Date: Thu, 29 Jan 2026 03:01:10 -0800
+X-Gm-Features: AZwV_QiK2RK4ud2wxVta-R8fZL2QGxaWAVlUYX4wl9GFh_BZeOH0-xlFBg01lOo
+Message-ID: <CAGyHYBt5Wy0_2L6GisA5ebqqAm1eK6LiBrji2xo9o6ku0hJtbw@mail.gmail.com>
+Subject: THIS IS YOUR ATM VISA CARD.
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="000000000000f11a93064984c60d"
+Bcc: <REMOVED>
+
+--000000000000f11a93064984c60d
+Content-Type: text/plain; charset="UTF-8"
+
+Dear Beneficiary,
+
+This is to bring to your notice that we have credited your total sum of
+$16.500,000.00USD into an ATM VISA card and we have deposited it with DHL
+Express Company to deliver it to you. We paid all the necessary charges
+such as Company registration and delivery fee.
+
+The only money you will send to them is the security keeping charges of
+your ATM VISA card $50 dollars. We tried to pay, but they complained that
+they don't know when you will contact them for the delivery and the demur
+rage might have increased by then. I deposited it on 27/01/2026. Therefore,
+contact Person Director DHL Express Mr William Betha E-mail Address:
+dhlc74931@gmail.com And Whats-app Phone Number Direct Line
++234-808-172-6190 now with Your full Information Such As Listed.
+
+Your Full Name........
+Your Country............
+Your City Airport........
+Your Home Address........
+Telephone Number.........
+
+Mr Robinson Lazak.
+
+--000000000000f11a93064984c60d
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">Dear Beneficiary,<br><br>This is to bring to your notice t=
+hat we have credited your total sum of $16.500,000.00USD into an ATM VISA c=
+ard and we have deposited it with DHL Express Company to deliver it to you.=
+ We paid all the necessary charges such as Company registration and deliver=
+y fee.<br><br>The only money you will send to them is the security keeping =
+charges of your ATM VISA card $50 dollars. We tried to pay, but they compla=
+ined that they don&#39;t know when you will contact them for the delivery a=
+nd the demur rage might have increased by then. I deposited it on 27/01/202=
+6. Therefore, contact Person Director DHL Express Mr William Betha E-mail A=
+ddress: <a href=3D"mailto:dhlc74931@gmail.com">dhlc74931@gmail.com</a> And =
+Whats-app Phone Number Direct Line +234-808-172-6190 now with Your full Inf=
+ormation Such As Listed.<br><br>Your Full Name........<br>Your Country.....=
+.......<br>Your City Airport........<br>Your Home Address........<br>Teleph=
+one Number.........<br><br>Mr Robinson Lazak.<br><br><br></div>
+
+--000000000000f11a93064984c60d--

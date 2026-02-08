@@ -1,0 +1,236 @@
+Delivered-To: <REMOVED>
+Received: by 2002:a05:622a:5f09:b0:503:3ab3:6a97 with SMTP id og9csp97736qtb;
+        Fri, 30 Jan 2026 04:59:54 -0800 (PST)
+X-Forwarded-Encrypted: i=3; AJvYcCVqXPvxZmPmbsCkHif/uLa3SmxeY9EbZbca1pgLCB8p9DFhhH8eNaRVmHM72mpW5q1mje+CR4+YOsE=@gmail.com
+X-Received: by 2002:a17:906:ef06:b0:b87:2d79:61c with SMTP id a640c23a62f3a-b8dff56f324mr147991266b.8.1769777994390;
+        Fri, 30 Jan 2026 04:59:54 -0800 (PST)
+ARC-Seal: i=2; a=rsa-sha256; t=1769777994; cv=pass;
+        d=google.com; s=arc-20240605;
+        b=kTcQV7zvt1YyI+wLEoQ1V35oWA9NUlmoJB3rDz+tab4mmQOyuE6F2LMHhdfQugfSuz
+         KoJlbxln9ygypDbEPqkVEwyxV9fVC7ttmR3xbf7T9TSOixSZHXNHjGz8E0bk/PyYLPY1
+         uJQbCUiY5ZR785124rBJ44ZRoy5X37ZCTrI93TWP6/7rc1J2skbwo9X8D7HlfBMzaoU4
+         x6GfJA/pGmfT5IV/ZBn5HtnfSPVaO9jjvQ+oDNlqg7AcKGcYJjfKeSI3SCvE2KGojcNt
+         EgaCUs+VD8DMwYRQDUfjx5lr6UAYDhOQVz4ubF4TLjt+rE0onTwZApJFO8DqCzReaxaG
+         zqRg==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=OiGVeKBprdT2dVu1u+8MYmIy4TvMk9R+H9YGAfhMAk4=;
+        fh=Hoe3asyXFNj0vclD97wSyJlUp/p+xM6lFfbakaa+Wfk=;
+        b=TOxXGu97wzSGOpj5b1GJ5x6iXa+M6prT7b90l8UWTL9X1d6EEl91p6TFtAC9793zs7
+         AGlG8dlufsZ52IDcCe0/HuHOt4BE0UtwCdOXCO+LWSqkM2l0ArpmCfqk2jssllJJQ3Ps
+         28qxbnpZsKnD1jqJsYaRz90Lpexoq7TKKM2A91CXYB074U+tMCESrfxC4k56sV/liSiY
+         dQgaHzdP4XgsSV5M9pKP+n9klWVTCHBYpYpxlL2t2/KQ3ZmapZAwv125Lkq/TtyZdVl0
+         Mxwjx5cg6avo52d5/hntww3AEtWdn813lburXxHiD2MbMakcHVyztup6VzJIVA2Xdnax
+         3rVg==;
+        dara=google.com
+ARC-Authentication-Results: i=2; mx.google.com;
+       dkim=pass header.i=@noun.edu.ng header.s=google header.b=fJArsNQ8;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of nou244332364@noun.edu.ng designates 209.85.220.65 as permitted sender) smtp.mailfrom=nou244332364@noun.edu.ng;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=noun.edu.ng;
+       dara=pass header.i=@gmail.com
+Return-Path: <nou244332364@noun.edu.ng>
+Received: from mail-sor-f65.google.com (mail-sor-f65.google.com. [209.85.220.65])
+        by mx.google.com with SMTPS id a640c23a62f3a-b8dbf1d4511sor186761766b.18.2026.01.30.04.59.54
+        for <<REMOVED>>
+        (Google Transport Security);
+        Fri, 30 Jan 2026 04:59:54 -0800 (PST)
+Received-SPF: pass (google.com: domain of nou244332364@noun.edu.ng designates 209.85.220.65 as permitted sender) client-ip=209.85.220.65;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@noun.edu.ng header.s=google header.b=fJArsNQ8;
+       arc=pass (i=1);
+       spf=pass (google.com: domain of nou244332364@noun.edu.ng designates 209.85.220.65 as permitted sender) smtp.mailfrom=nou244332364@noun.edu.ng;
+       dmarc=pass (p=NONE sp=NONE dis=NONE) header.from=noun.edu.ng;
+       dara=pass header.i=@gmail.com
+ARC-Seal: i=1; a=rsa-sha256; t=1769777994; cv=none;
+        d=google.com; s=arc-20240605;
+        b=NPHSPpqr4TFf6Xqubwy+JPZXPmaaO2Z0bBY5/IifZ0MnnHBN5Sn+NzEGWW5HY672xe
+         iZX+nOA9SH1ORO0sFlUEznHFwwpeync3O9UB8cXMAki03z3LuLKaQnzEZeZHmwIV8lj8
+         WjKNUITUCgv1NUeZup58dLToVi+nyk24800/CGYQidXDqLqYqsUFfkGxHYJLdk2Vt9gT
+         xQpbEMMMnVAS7zV7JFjgcGcbGp0g/IqLKoX7bWR1lQPMw4SkP65Z2FC22FWmMYyTGMXx
+         aA9iwRatSCl8A9T3MzkwHlwxfRe09VobULQqwD/Fbp0wVvz9vLkwjE+fjphzxRQJJTGV
+         hi/g==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:reply-to:mime-version
+         :dkim-signature;
+        bh=OiGVeKBprdT2dVu1u+8MYmIy4TvMk9R+H9YGAfhMAk4=;
+        fh=Hoe3asyXFNj0vclD97wSyJlUp/p+xM6lFfbakaa+Wfk=;
+        b=SWfgh+2XLNcBEzvWYTO0EnML9OmLQ7yaZIxTQhdlJbEtU/CamuRyKkTCDbuEACviNG
+         iw+3j14/RirJKEs1ofBcuqE9kkw8pcdBc/F55m04CyDk9Kji0bR9R/qaCjvKV4rJS6/6
+         2UQCE8kjtybhkkWGAK1UxHjBhMf5VIY4afGdEnkWPemBnndn6zXprIdgqeXU+5AjAU5/
+         RVJ3mo4yk4RmeOnUBY1hBirCaGkmoxbJdqSesFAL6PN8RutpmKjlWzATOkDeEVIW3aVf
+         jNaemurI0P04H2OXRoEZWVEbFnkf4jJt5ahe5ZXZ7snVFufIomrSnnKN3jTls0ItGHf/
+         6rAg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=noun.edu.ng; s=google; t=1769777994; x=1770382794; dara=google.com;
+        h=to:subject:message-id:date:from:reply-to:mime-version:from:to:cc
+         :subject:date:message-id:reply-to;
+        bh=OiGVeKBprdT2dVu1u+8MYmIy4TvMk9R+H9YGAfhMAk4=;
+        b=fJArsNQ8V8uvb3uEgsoGaEfI4fCetbjn8UrebWMZKnWvT5r2yaKOcgbolKcSLFrm4L
+         nhL9fyVyfw5lVccEjDxSQtW82I3a7R/OVIEozU6stMQ8Srrp1PquZROEwXeQUrupzzC+
+         EAs4fHjP7Rhqq/Kwy+HxtMCYnOcpu+K0C/kyHjSSG/fpGtLRPkWQcCJBTQQfBShiOC+A
+         oolip2INi6JKtSMGP5+5PhEWHaKQuG3I7R2tz3M9EBwgbvRWJFmOoZLer+PnHsShyPxC
+         9lf/vGJ2Ip7BCMiF+ZokqLF9AkLzpLA4iovMarXCmdMbW32B2gKP9hh8jb0/6LIJwoTL
+         q1DA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1769777994; x=1770382794;
+        h=to:subject:message-id:date:from:reply-to:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=OiGVeKBprdT2dVu1u+8MYmIy4TvMk9R+H9YGAfhMAk4=;
+        b=biXsSOGuVw54JYhAfcbhTJcTw1KO+qoJJhkASmtR8Gt1c1straZNINZCCoX0nrc1eD
+         aOF4772YnBv+8ifOnKhDZgtB121gcy8ObMhWwIFZd1H/u1hoFzq1xSxwJjNOuYdeN2Ek
+         pIsMwc8pAn6OEsmhqd2pyH2HSSm9PuilGaMGbP2ZP/hyqdmC/uuKNpi2Yi22jstdtGH1
+         qWS7hzYwY/4T1RrWTg8E4jrQRxWm9deDb7LHHBNB3GuzdpM4EiKhS5EDLt9f6QYiGP4L
+         Tyi2rfYbV+KVsxai1/HmikVGLSfOQ3fMq6bvpnrN4zN9ZjxisD/f5YWhW0+Dzr+ASeCd
+         YAHg==
+X-Forwarded-Encrypted: i=1; AJvYcCWXh+PSKjdEF7+RGuNXabMk3oq0qvzhHec1aBbslzx+EZlT81J63ptqmCn0CA+mlD7Or/3s2rPTRCs=@gmail.com
+X-Gm-Message-State: AOJu0YyCN3CvnBBiL81MaNHxq6qI7F74CXJtHLa+/HUsMYU7LHj4ptkl
+	y9QOPTdNxE4GH/7vZAJADOFMCJNUffJgE+zxs0Yqf21pg9wBRx1AGqhaYjrjN8yVtEd6TxRDQ6i
+	t/Bjd/eYHkjQmARwVkCZPfPN7kEufrpWOQssv/KCjaA==
+X-Gm-Gg: AZuq6aLoiX7ywkyGhlSIvp5Ns0R6morFGLwI0vumonjj7KfyBqae2Hf+mJMs9abN3hK
+	H+jlSLb+8QltkiLMGCRnQeEuUXkOuGJikprYj4uRuipxZb4o7TGcC8s3uUVXVHv4dwbIgm2ijbg
+	e6mKaK2GNGjwZzhDF8IoYUSoZQ6EawB4ctF0WMRh382FDqrxsS8YCP2t3ZMsSfuA9w9ugprr/AL
+	SXvZG4J14zBvO3UP2uxiYXpsrBIDYsYmNwHdF8oiHuHbMcUBOoNM13ABWFXH/26VYeHy6NHSg+T
+	+a2D2CdMWnZcPfimJFaoFvF9SRvGs5Tovvk=
+X-Received: by 2002:a17:906:9fc1:b0:b80:149b:badd with SMTP id
+ a640c23a62f3a-b8dff72cf3cmr155290166b.37.1769777992280; Fri, 30 Jan 2026
+ 04:59:52 -0800 (PST)
+MIME-Version: 1.0
+Reply-To: fbi-deputy-christo@currently.com
+From: =?UTF-8?Q?Federal_Bureau_of_Investigation=28FBI=29=C2=AE?= <nou244332364@noun.edu.ng>
+Date: Fri, 30 Jan 2026 15:59:38 +0300
+X-Gm-Features: AZwV_QhK9rGM1W6SMxoOvc_C6LZAzkJxvYnLZmqGA7VqJQMI89xPmQnmJhyubp0
+Message-ID: <CAC9EdTbg6BhvSHea8z=0JTQ+a63YNOk+ui5FhmsQEYSYKz=q7g@mail.gmail.com>
+Subject: Your Funds Update!
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="0000000000008fc09906499a8c91"
+Bcc: <REMOVED>
+
+--0000000000008fc09906499a8c91
+Content-Type: text/plain; charset="UTF-8"
+
+FBI headquarters in Washington, D.C.
+Federal bureau of investigation
+J. Edgar hoover building
+935 Pennsylvania Avenue,
+NW Washington, D.C. 20535-0001
+Federal bureau of investigation (FBI)
+
+
+Attention,
+
+I am Kash Patel the FBI director.After proper investigations we discovered
+that your impending payment that have been withheld by impostors claiming
+to be bank officers in Africa, none existing officials of any real bank, UK
+winning lottery, Andy Lear of HSBC bank, Coca-Cola winning lottery and
+among a list of others is now under our custody with the help of the
+cyber-crimes commission (ccc) and the local police force.
+
+Investigations revealed that you have spent a lot on your personal earned
+money just to conclude the successful transfer of your funds to your
+nominated bank account by obtaining transfer documents as requested by the
+impostors, costing you a lot of money but all to no avail the FBI had to
+send some financial crime investigators from our head office in new york
+field to Africa, UK and Asia in other to carry out proper investigation
+
+The new FBI has giving authority to the international monetary funds (IMF)
+to assist the federal ministry of finance and all the organization involved
+such as the central bank, zenith bank, and legit lottery organizations to
+immediately commence with the compensation of all the beneficiaries
+awaiting the successful transfer of their funds with the help of some of
+the best internet investigators attached to the FBI, we traced your
+information from the internet as one of the beneficiaries awaiting the
+successful transfer of funds to your nominated account.
+
+I am pleased to inform you that a meeting was held as regards the best way
+to carry out with the compensation exercise for transparency and most
+especially to avoid re-occurrence of the delay in transferring your funds
+and the high cost of procuring transfer documents and came to a final
+conclusion as all head of organizations involved was duly represented.
+
+It was approved to be issued to you as a valid international ATM card
+cash-able at any ATM machine designation in the world. The ATM account has
+already been credited with your Three million United States dollars.
+($3,000 000.00 USD),with a daily limit of withdrawal of five thousand
+united states dollars.($5000.00 USD) the ATM card has already been packaged
+and approved to be delivered to your doorstep via a courier delivery
+service.
+Contact The FBI deputy director Christopher Gilbert Raia at email (
+fbi-deputy_christo@currently.com) our FBI ATM rep. At the ATM payment
+center and reconfirm your delivery information as stated below and your
+security code with Four digit (ATM 2571) number has to be submitted
+alongside with your delivery information for security reasons
+
+Delivery information
+Full name:
+Delivery address:
+Cell phone number:
+
+A reliable and trusted courier company has been contacted to deliver your
+package to your destination as soon as you contact FBI deputy director Dan
+Bongino he will update you with the courier company contact address in
+order to avoid any undue delay of your ATM card. We also advise that you
+stop further communications with those impostors and forward any
+correspondence / proposal you receive from them to Mr. Dan Bongino in order
+for the FBI to bring justice to those still at large.
+
+Director of the federal bureau of investigation (FBI).
+Kash Patel .
+
+--0000000000008fc09906499a8c91
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<div dir=3D"ltr">FBI headquarters in Washington, D.C.<br>Federal bureau of =
+investigation<br>J. Edgar hoover building<br>935 Pennsylvania Avenue,<br>NW=
+ Washington, D.C. 20535-0001<br>Federal bureau of investigation (FBI)<br><b=
+r><br>Attention,<br><br>I am Kash Patel the FBI director.After proper inves=
+tigations we discovered that your impending payment that have been withheld=
+ by impostors claiming to be bank officers in Africa, none existing officia=
+ls of any real bank, UK winning lottery, Andy Lear of HSBC bank, Coca-Cola =
+winning lottery and among a list of others is now under our custody with th=
+e help of the cyber-crimes commission (ccc) and the local police force.<br>=
+<br>Investigations revealed that you have spent a lot on your personal earn=
+ed money just to conclude the successful transfer of your funds to your nom=
+inated bank account by obtaining transfer documents as requested by the imp=
+ostors, costing you a lot of money but all to no avail the FBI had to send =
+some financial crime investigators from our head office in new york field t=
+o Africa, UK and Asia in other to carry out proper investigation<br><br>The=
+ new FBI has giving authority to the international monetary funds (IMF) to =
+assist the federal ministry of finance and all the organization involved su=
+ch as the central bank, zenith bank, and legit lottery organizations to imm=
+ediately commence with the compensation of all the beneficiaries awaiting t=
+he successful transfer of their funds with the help of some of the best int=
+ernet investigators attached to the FBI, we traced your information from th=
+e internet as one of the beneficiaries awaiting the successful transfer of =
+funds to your nominated account.<br><br>I am pleased to inform you that a m=
+eeting was held as regards the best way to carry out with the compensation =
+exercise for transparency and most especially to avoid re-occurrence of the=
+ delay in transferring your funds and the high cost of procuring transfer d=
+ocuments and came to a final conclusion as all head of organizations involv=
+ed was duly represented.<br><br>It was approved to be issued to you as a va=
+lid international ATM card cash-able at any ATM machine designation in the =
+world. The ATM account has already been credited with your Three million Un=
+ited States dollars. ($3,000 000.00 USD),with a daily limit of withdrawal o=
+f five thousand united states dollars.($5000.00 USD) the ATM card has alrea=
+dy been packaged and approved to be delivered to your doorstep via a courie=
+r delivery service.<br>Contact The FBI deputy director Christopher Gilbert =
+Raia at email (<a href=3D"mailto:fbi-deputy_christo@currently.com">fbi-depu=
+ty_christo@currently.com</a>) our FBI ATM rep. At the ATM payment center an=
+d reconfirm your delivery information as stated below and your security cod=
+e with Four digit (ATM 2571) number has to be submitted alongside with your=
+ delivery information for security reasons<br><br>Delivery information<br>F=
+ull name:<br>Delivery address:<br>Cell phone number:<br><br>A reliable and =
+trusted courier company has been contacted to deliver your package to your =
+destination as soon as you contact FBI deputy director Dan Bongino he will =
+update you with the courier company contact address in order to avoid any u=
+ndue delay of your ATM card. We also advise that you stop further communica=
+tions with those impostors and forward any correspondence / proposal you re=
+ceive from them to Mr. Dan Bongino in order for the FBI to bring justice to=
+ those still at large.<br><br>Director of the federal bureau of investigati=
+on (FBI).<br>Kash Patel .</div>
+
+--0000000000008fc09906499a8c91--

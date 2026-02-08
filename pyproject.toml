@@ -37,12 +37,12 @@ classifiers = [
     "Typing :: Typed",
 ]
 dependencies = [
-    "beautifulsoup4",
-    "requests",
-    "python-whois",
-    "playwright",
-    "legacy-cgi",
-    "nh3",
+    "beautifulsoup4>=4.12",
+    "requests>=2.28",
+    "python-whois>=0.9",
+    "playwright>=1.40",
+    "legacy-cgi>=2.6",
+    "nh3>=0.2.14",
 ]
 
 [project.urls]
@@ -53,5 +53,8 @@ Issues = "https://github.com/CHA0S-CORP/PEFA/issues"
 [project.scripts]
 pefa = "pefa.cli:main"
 
+[tool.setuptools.packages.find]
+include = ["pefa*"]
+
 [tool.setuptools.package-data]
-pefa = ["templates/css/*.css", "templates/js/*.js"]
+pefa = ["templates/**/*.css", "templates/**/*.js"]

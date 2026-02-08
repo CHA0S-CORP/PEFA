@@ -1,0 +1,89 @@
+Delivered-To: <REMOVED>
+Received: by 2002:a05:622a:5f09:b0:503:3ab3:6a97 with SMTP id og9csp3564299qtb;
+        Thu, 5 Feb 2026 01:38:46 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCUhIRyNi/mPH4dkU9x+sf7UkgGXHa6ZJptlCytI0WSDmArNH/jpq9n04YcCUoHM3DtHORAwvmHj7Cw=@gmail.com
+X-Received: by 2002:a05:6a21:880a:b0:37e:3979:8cf8 with SMTP id adf61e73a8af0-3938f974d25mr1991357637.10.1770284326429;
+        Thu, 05 Feb 2026 01:38:46 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770284326; cv=none;
+        d=google.com; s=arc-20240605;
+        b=RInlVhNIe0iNQKZTINvhL71DjZc4FFl/J7Ugt6pDPE5Q5IEc19ICl+tio3yXJx0kAn
+         pkt9siY6IP+BeNTNHAnDlu6NWLwOmjdIIcWuNb0T4BFZloMr6vOe2O8wg6DKqzU09DY9
+         qJ82EypYIiyUB4h2fyGjp6R01rm0nmoLNom7+8oSzUs57Z+3ioMetoE5LEwXf5QK2Qh2
+         DfrTh3U9fVpHfC1MrEuj5nMbV2hTmSMloj2mvRQ9gQoowflwL/VZGZ9ujkQgV7PV1D4E
+         xj0rHMp+xAPc2GfORNIZHUbmxh3sYK+XYsXTsRqOTNYMhUW/NatGTkNji7ORmCVRbC66
+         7UFA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=egvRqkx6j4++PSZBhTkMuTwJ+ptXlNURBmebdfaNG94=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=eyDzpHXM6QtVa+zfWX+AM4lhjEuiE2w9KzzPcFkUNG8bmSqmPPesBArwf6D79TLa90
+         8TSI1DZaN97LwxlF/sjXwoFnXp3bPLbWRpXAz2mK1NTUSn1fHoj5EYuFZKLGWaHoBHMI
+         /7ysshNGTsv6dx+DD2AkMiaYskt592AWn+jAtB/HXUfqx1CgGTwSW9sICKe6W25NCj3m
+         zixPDRRB+fHvlKtF2PVLrlkspluTxXLa4ZSAUI17eNEFoMeI23KfK1k72Y4o8PDIbHnR
+         Vhu2/Jb4qJLhclug79M9p7+moyV9BzMpppSd/fAV1u0S1QSPYqHz2wuwxgbTpdpnL0oO
+         PupQ==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=R6dAzhC1;
+       spf=pass (google.com: domain of k-hayashi@blue.plala.or.jp designates 60.36.166.39 as permitted sender) smtp.mailfrom=k-hayashi@blue.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <k-hayashi@blue.plala.or.jp>
+Received: from msc117.plala.or.jp (msc117.plala.or.jp. [60.36.166.39])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-c6c863dfd22si6873085a12.314.2026.02.05.01.38.39
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Thu, 05 Feb 2026 01:38:46 -0800 (PST)
+Received-SPF: pass (google.com: domain of k-hayashi@blue.plala.or.jp designates 60.36.166.39 as permitted sender) client-ip=60.36.166.39;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=R6dAzhC1;
+       spf=pass (google.com: domain of k-hayashi@blue.plala.or.jp designates 60.36.166.39 as permitted sender) smtp.mailfrom=k-hayashi@blue.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o07.ake-mailbk.plala.or.jp ([172.23.12.56])
+          by msc117.plala.or.jp with ESMTP
+          id <20260205093839.EEHW3766.msc117.plala.or.jp@mdkim-o07.ake-mailbk.plala.or.jp>;
+          Thu, 5 Feb 2026 18:38:39 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1770284319;
+  x=1801820319;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=egvRqkx6j4++PSZBhTkMuTwJ+ptXlNURBmebdfaNG94=;
+  b=R6dAzhC1bHDd6RHS73kMaTUPfCVru0iVpp0VFsZK0CvfS/5lsrT4pZu6
+   IlidGo3muDllEj1bUUN53VE6eYimRoTxJK7bRr0zN+uQcX+Mh3yejh/x5
+   bMCrk9Y0e7EojsnvXyG1dtIgKyT54tnHPKZ+IwM2K4nEDNuaC7u8g74Vk
+   5R8wOVDEzbMQ1xt5w/RqdZCt+u4dxRILYbePJ9V//pUjXUk+jxJ1gPQSP
+   q114TWFEppQAhIs9hLhWY69T6vytZpju/zfSTNekRpIFHLi8O9ibesD0E
+   OK14kLOfXOQkTkGxdfBrPYPF61RzSp3o7Oq2VU1nPKlEgPciLARtbeRGX
+   A==;
+X-CSE-ConnectionGUID: QTCbbvcETxGH8m+YWBlnqQ==
+X-CSE-MsgGUID: eDi2EAwFQmuqBsOG2fVL7g==
+Received: from msa14.ake-mailbk.plala.or.jp (HELO msa14.plala.or.jp) ([172.23.12.94])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 05 Feb 2026 18:38:39 +0900
+Received: from mweb12 ([172.23.13.122]) by msa14.plala.or.jp with ESMTP
+          id <20260205093838.ILRA13262.msa14.plala.or.jp@mweb12>;
+          Thu, 5 Feb 2026 18:38:38 +0900
+Date: Thu, 5 Feb 2026 18:38:38 +0900
+From: Annabelle E Mares <k-hayashi@blue.plala.or.jp>
+Reply-To: annamares5870@gmail.com
+Message-ID: <20260205183838.MSDYK.97.root@mweb12>
+Subject: Greetings to you,
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac14; Thu, 5 Feb 2026 18:38:38 +0900
+
+Greetings to you,
+
+I know you will be surprised reading from me today but consider this a divine intervention. My name is Mrs. Annabelle E Mares, a widow from the United States battling cancer.
+
+I came across your email in my search for someone that can assist and use my money for charity, helping the poor and needy because my days are numbered according to the doctors.
+
+I desire to entrust USD28,000,000 Million United States Dollars in your care. It is my last wish to use this money for charity hence I seek a person who shares the same views to actualize this because my health no longer permits me.
+
+Please reply for further details about this charity project.
+
+Remain Blessed,
+
+Annabelle E Mares.

@@ -1,0 +1,88 @@
+Delivered-To: <REMOVED>
+Received: by 2002:a05:622a:5f09:b0:503:3ab3:6a97 with SMTP id og9csp871193qtb;
+        Sat, 31 Jan 2026 12:18:29 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU6BGGJNKc0yTK24xOHtkxkJr/IHlTg3e9T1SgBn1aJ6tUhjc8df5xXrF+cAhEtOzZIWxPo4/C0EkQ=@gmail.com
+X-Received: by 2002:a05:6a00:1c90:b0:81f:9907:e503 with SMTP id d2e1a72fcca58-823ab67e71cmr6388203b3a.16.1769890709527;
+        Sat, 31 Jan 2026 12:18:29 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1769890709; cv=none;
+        d=google.com; s=arc-20240605;
+        b=K4hiB4WX30rH1pYto4eejVDioXQ4b+bhEQaRO5VhVrf30bZLniYnDcyajru0eVp1tT
+         SrPii4Dxp+jsBD8QmNaQXP3w7SiemOjcuvfpM0JceFEKqJs1zKFA9e8oCW9CMURo1ogI
+         ZtOnpYzvitGLGe2ZaEFN1DgjYHpy+N/8gc9v0vO7kfWypykbmQXB57vRLPcx2dm8WLq+
+         vYXj3/xEsuO+Vk2ewK2ezZf85SqQN+dWjrvWCep4twww9MFa0WSbx90UGtg8Cv+/xamh
+         B42uPEN1p3kDPNQFLc4ygfCSAObJPZL7KKxxSJS8SplYd2lDzENrYXf+kk2xduMo2Bw4
+         eMCg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=jmVDtOuyeeNRBLaP1C3+/gTSYHfp4rsrA3sTTvYvgOE=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=B32uMarpcrQt4Zr5/ULL2J8M3qCKuEU3RC6Dw5IWSrakWZHbY7l8J+eXeAJI8xIXXM
+         gZPryLEzqM7q5FTJ7CcLU7Xwf85qFdkDmnRiCDscc5ZwMm8D0yp71gQx34wEJTJw+Hzf
+         ZxQIduNWbJZMmNjjFLaJYkf73t9nqi1005adWn7/CBI05c/RMk0KsMHSBTcxq72Vkp7Q
+         b/n7zZYpHZH+oAcEIErQvr5rV/Xd7B1QpEF9YT/Zz88PxztvV2uwmzOahrG+F1Nj/1M9
+         aC9sKx+ny9rz9amSlqg4+DO/3YuJ49Yz9ouWJcJV92NK6fnnhTLAMHmA9FBEdw9SMeVv
+         zshg==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=Muyrba95;
+       spf=pass (google.com: domain of fff@sea.plala.or.jp designates 60.36.166.34 as permitted sender) smtp.mailfrom=fff@sea.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <fff@sea.plala.or.jp>
+Received: from msc112.plala.or.jp (msc112.plala.or.jp. [60.36.166.34])
+        by mx.google.com with ESMTPS id d2e1a72fcca58-82379c86952si19624755b3a.221.2026.01.31.12.18.22
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 31 Jan 2026 12:18:29 -0800 (PST)
+Received-SPF: pass (google.com: domain of fff@sea.plala.or.jp designates 60.36.166.34 as permitted sender) client-ip=60.36.166.34;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=Muyrba95;
+       spf=pass (google.com: domain of fff@sea.plala.or.jp designates 60.36.166.34 as permitted sender) smtp.mailfrom=fff@sea.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o06.ake-mailbk.plala.or.jp ([172.23.12.55])
+          by msc112.plala.or.jp with ESMTP
+          id <20260131201821.RPEU4066.msc112.plala.or.jp@mdkim-o06.ake-mailbk.plala.or.jp>;
+          Sun, 1 Feb 2026 05:18:21 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1769890702;
+  x=1801426702;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=jmVDtOuyeeNRBLaP1C3+/gTSYHfp4rsrA3sTTvYvgOE=;
+  b=Muyrba95TEjYD/XHWXFaGpeYmUXc/4R6LrTA68GAe/M1OLdoWQp9GoMH
+   YT/HQZFvBtGuHBWUkHFs81IQej55rzJ6F5TKHFu/Kf1kYrxPB9ihA15FU
+   dZGblGcJnl6NhzNjAq/Cch9GgzkhAWmiVEd2Vax7/3tokteEG4HINDsxH
+   C6deuBPPr/QIAdq2sCP2vctR+OeaFEmb0Nb//AO+EhotslbaOXrVM5Rqg
+   tqCJJVo+djuKd1VX3KZvdG4vFAwgrdEV7Oj3Pvmbzxe2ssKtRvCtzJ1sU
+   l/05a4gizqTbuWBWD18T6ZIqU6JUjiboTWYGkjWLfGSjYgO3K2EuUk49/
+   w==;
+X-CSE-ConnectionGUID: 4YYeGZQdS/izoibE9iA58Q==
+X-CSE-MsgGUID: 65ZMaxYxSvakxlWcEMFzZg==
+Received: from msa13.ake-mailbk.plala.or.jp (HELO msa13.plala.or.jp) ([172.23.12.93])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 01 Feb 2026 05:18:17 +0900
+Received: from mweb12 ([172.23.13.122]) by msa13.plala.or.jp with ESMTP
+          id <20260131201816.QQUQ29664.msa13.plala.or.jp@mweb12>;
+          Sun, 1 Feb 2026 05:18:16 +0900
+Date: Sun, 1 Feb 2026 05:18:16 +0900
+From: BOA <fff@sea.plala.or.jp>
+Reply-To: onlinebanking579@gmail.com
+Message-ID: <20260201051816.CSTE6.4341.root@mweb12>
+Subject: Online Bank Of Africa
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac13; Sun, 1 Feb 2026 05:18:16 +0900
+
+Dear Beneficiary,
+
+I wish to inform you that your compensation and settlement funds/payment total sum of $8.5 million dollars has been deposited in this bank by the United Nations and the Africa's Fund settlement Committee (AFSC), we have been instructed to release this funds to you as soon as possible and after our meeting today we have agreed to pay you via online bank transfer by opening an offshore account in your name in this bank, after that we will credit your total funds into your offshore account and send the login details to you.
+
+Get back to us as soon as possible for the offshore account opening form.
+
+Regards
+
+Mr. Arthur Isiko
+CEO, Bank of Africa Uganda
+Email: onlinebanking579@gmail.com
+Phone: +256 743324632

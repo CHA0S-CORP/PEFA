@@ -1,0 +1,297 @@
+Received: from CH5PR01MB8861.prod.exchangelabs.com (::1) by
+ CO6PR01MB7467.prod.exchangelabs.com with HTTPS; Sun, 18 Jan 2026 01:38:53
+ +0000
+ARC-Seal: i=2; a=rsa-sha256; s=arcselector10001; d=microsoft.com; cv=pass;
+ b=DUB7YWJHia3XFLT0IelCMHXpaHSTJREyLYqL05pGtvW8so/kXav/Pno07SgpP0ylO9BpHevIKpCujhIIILR+9BRjfQQ7JJD5RT/Ew35X9OAnF/xmdhU1jGwekukFx1q7a2CNadRiMy/XG6FEtuaZWtkNdy9/rRYokqadzzOEDqenX6WyqzVNEPDZyrybOFsGUg0G0k0bQVHSXSaNLOr5A/H2F5ShMnBhOIUdiH88wNqgexWFodeuJR+vmbGB/qp8PFJEVvh3/MK4UUi01diH2HKQuskE4PlOHFJf5DTKQdeGDmbGiyhwyjzqru2aw7RsStffhlGHLe6D+CgQBIpPOQ==
+ARC-Message-Signature: i=2; a=rsa-sha256; c=relaxed/relaxed; d=microsoft.com;
+ s=arcselector10001;
+ h=From:Date:Subject:Message-ID:Content-Type:MIME-Version:X-MS-Exchange-AntiSpam-MessageData-ChunkCount:X-MS-Exchange-AntiSpam-MessageData-0:X-MS-Exchange-AntiSpam-MessageData-1;
+ bh=irDheiwCzo3fu8U4KposuGa/cqKxO3SsP/Fb6KIAx9s=;
+ b=CLoGRZ26gKF8o0pfcmy4aOFTfCDZGB0NaM9w4CKxKZlICIy+rImPIeZT9hBf0QBs6dmcmqSf2NFb3dgQab1ZJLpzcaLnlQWXsSMWKNhxhbUGDsuosMaapa/PZor3ZqWyvcsHOnFHCFYZo23sg5IOukcs3Dt1bpQgvc+ceWsOQI4XofbA4U71qm0wiI9n6vlKwcIdBCgZ7OiV7n9H/GlS9PjRITF3iTlCzppZgItkUkzSNfxJuZNvjEOI+Ob/IyKf1XaECxEHBpZRxtddHd8Z5ncO1xxwI93+0Z7If0sZPhZEwPLlao4m3l0rGEQPh9ie+2kqomg4a/cputWeuaPIMg==
+ARC-Authentication-Results: i=2; mx.microsoft.com 1; spf=pass (sender ip is
+ 2a00:1450:4864:20::12a) smtp.rcpttodomain=<REMOVED>
+ smtp.mailfrom=gmail.com; dmarc=pass (p=none sp=quarantine pct=100)
+ action=none header.from=gmail.com; dkim=pass (signature was verified)
+ header.d=gmail.com; arc=pass (0 oda=0 ltdi=1)
+Received: from SJ0PR05CA0055.namprd05.prod.outlook.com (2603:10b6:a03:33f::30)
+ by CH5PR01MB8861.prod.exchangelabs.com (2603:10b6:610:20e::10) with Microsoft
+ SMTP Server (version=TLS1_2, cipher=TLS_ECDHE_RSA_WITH_AES_256_GCM_SHA384) id
+ 15.20.9520.5; Sun, 18 Jan 2026 01:38:51 +0000
+Received: from BY1PEPF0001AE18.namprd04.prod.outlook.com
+ (2603:10b6:a03:33f:cafe::1b) by SJ0PR05CA0055.outlook.office365.com
+ (2603:10b6:a03:33f::30) with Microsoft SMTP Server (version=TLS1_3,
+ cipher=TLS_AES_256_GCM_SHA384) id 15.20.9520.4 via Frontend Transport; Sun,
+ 18 Jan 2026 01:38:50 +0000
+Authentication-Results: spf=pass (sender IP is 2a00:1450:4864:20::12a)
+ smtp.mailfrom=gmail.com; dkim=pass (signature was verified)
+ header.d=gmail.com;dmarc=pass action=none header.from=gmail.com;compauth=pass
+ reason=100
+Received-SPF: Pass (protection.outlook.com: domain of gmail.com designates
+ 2a00:1450:4864:20::12a as permitted sender) receiver=protection.outlook.com;
+ client-ip=2a00:1450:4864:20::12a; helo=mail-lf1-x12a.google.com; pr=C
+Received: from mail-lf1-x12a.google.com (2a00:1450:4864:20::12a) by
+ BY1PEPF0001AE18.mail.protection.outlook.com (2603:10b6:a0f:fc02::164) with
+ Microsoft SMTP Server (version=TLS1_3, cipher=TLS_AES_256_GCM_SHA384) id
+ 15.20.9542.4 via Frontend Transport; Sun, 18 Jan 2026 01:38:50 +0000
+Received: by mail-lf1-x12a.google.com with SMTP id 2adb3069b0e04-598f8136a24so3776163e87.3
+        for <<REMOVED>>; Sat, 17 Jan 2026 17:38:49 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1768700328; cv=none;
+        d=google.com; s=arc-20240605;
+        b=LNDPVhuas5HbszOP6i2cfgm0QAReQh7o+/Ep1nU2nvOarvw/rezOzL4amVYxjJfBux
+         Hhsnb9jPJQyARbioew2Pt0jf2MQuhpEZcWACypjerDRq6DuaV6RqHiz6EjFfrCd4Frzp
+         A/cwg+52g843qQLW70uQDY+GeaT1u3ufU7qTQR88uZQvi+TQIKelQ/OlEeTlBWJIFXRf
+         YkFxwydTkLyJSBAhdSCFcxy9srEEIXdXRTRtL/TX8qKD4Dg62wJbocZxcvHtf5znnV78
+         Yhd4bCJr7MXLMomY3aLv0DWG90gLL4xX2x/Vh7oa+hKMXYFujtxyb9Tpi2zQm8AP5+4+
+         aoQg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=to:subject:message-id:date:from:mime-version:dkim-signature;
+        bh=irDheiwCzo3fu8U4KposuGa/cqKxO3SsP/Fb6KIAx9s=;
+        fh=kOakgSe/1LniCmkRUfgOFhjQZ3tGGWMYV2vGcCb90LE=;
+        b=NCMBWb9OAXUGYzcZ9wy5Z03zSiTwcY/m2Wo0PHE+ztIZAm5MNkmN6Gd3Loyq10N84u
+         vWbbQXAHgjDa0h2BocFoeb7jugCokY3IX0R8VVxc18b5XpBNZf3uX2r6DJyv+NCGf53O
+         XHjQoRiGVesT17nm/xL3uYodiI3qwKSs89fCFiJkys5o9G9FTNz1G0V8TSF4z6CJh6al
+         RO9q/tpIzmGJjnWSw7M1QcSDjNWJPBEVFQsAw25hHbg2UmmU945vKl5CV7UPbiov9Ig4
+         D7+kzt3kNqTuq2wkf/SP9znwkIqrfKwUCWmiQxmaOugvK4EOS/jptLPYaqG7rSKtritC
+         LXBg==;
+        darn=<REMOVED>
+ARC-Authentication-Results: i=1; mx.google.com; arc=none
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=gmail.com; s=20230601; t=1768700328; x=1769305128; darn=<REMOVED>;
+        h=to:subject:message-id:date:from:mime-version:from:to:cc:subject
+         :date:message-id:reply-to;
+        bh=irDheiwCzo3fu8U4KposuGa/cqKxO3SsP/Fb6KIAx9s=;
+        b=OKZBIGeAzSXRtQx1MKdWCvcwql0UBJvuwnmzuLcECO03leu/NSA+9e0J+IAeSC6VOK
+         tgZSjR5edS5ju/fOMKBigJsMeSEaBKyFt9frcqnr5uEbVuHt31xj6kQdRAVlPZNtwJnA
+         LwYuKzPPdoEEQg/+L0OeuHS0NcuGmjrELCW27bUaYAkgrI8XzNVR9fJ3li6V9fkY+PUx
+         WYDFq130f94SW5d52WixrJpKYwcY9zd0zoQksJt8RJvdlKq32aGesowTNih1QdtgyaAH
+         ay7NvHLM7+QwqhRVKIkvYA/wywWye7BEH7pVs0c3Spe8tw6X5Qaeixw1mOaUJ0bA/k5H
+         5wwA==
+X-Google-DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+        d=1e100.net; s=20230601; t=1768700328; x=1769305128;
+        h=to:subject:message-id:date:from:mime-version:x-gm-gg
+         :x-gm-message-state:from:to:cc:subject:date:message-id:reply-to;
+        bh=irDheiwCzo3fu8U4KposuGa/cqKxO3SsP/Fb6KIAx9s=;
+        b=rfncglf8nM/9EKgWq9musGSAuSlCvGdopdnH5S2XqeUJX6y6JiNktYkAm7ihjoraTW
+         fpJIQzxIAsrlwmxfWID47kFdfuJqaPs2G4vXpTxhF1dAgdX/3xNg4Oai26b7Oe8We9YX
+         6LgSJze0M2EIAc5KNjyDLRuxKs/Qb6WDQVZbVZrAp0s73uZYrYHRLacEfj6lVQnvomKE
+         dOb5VxECQDkmCZr0irXq3/Y6M4TpQMIf/niPv7wsg8Nvh8UuIrORX40poUjMQOU71nMe
+         DN+nL+TZ00IMp8KQNO0uZ/9o1hxsrN25iPB9eDsE1We7sV1kfaSwbihaLja8u5C5zUpj
+         pElg==
+X-Forwarded-Encrypted: i=1; AJvYcCVC9DdmBlJYzaQTwF4xOhhN8ih0uGLzJeteYK/P2hSPEgnrS6RdG8514AHCIEXQIBO4joc6@<REMOVED>
+X-Gm-Message-State: AOJu0Yw9jGzqa1r1L4+rYGwInXcBe/QQcc0XQPfz/AmXPBk6Oqz7hNxb
+	qKvj2xiLpqyskpAPg+8jJ2oWIhmc/BRVQFo/CD+5H+zvPmCCusRDSEiDmrwh6Ptpq1TVpIhnqv6
+	QkT1u90H/jTW20GwfdBYKlMOzj/KqpS0=
+X-Gm-Gg: AY/fxX5uplbqC43R3chyIIB2/5q1UtCKXPRg3JTeNqYF3yDnunjBbLlkyQA8474C0Bx
+	nCNzHU/iQK8p7ejdGpJQF1N+IRZ/4RAGlRE4zNrxmmZ6ZoQ8mm12oJJ7s0UwT+vLa8fOwbCA+eF
+	A8PpaabrDOKTQMvB53c7vVKxKLWxNqxeyFbHkWNLznkNH7Blf18Vd9syYkg6JIGrurg/H9eqVcd
+	MEEIHZ/UjlRpCjEsoEC9BqfRMSD3gRucCZBmC4shr0LGc4bdzzKyQ8HAkXvpUtNKwkUkfCDGcZ1
+	oHcsKNB7oaJhGMv2RNGQm3XcryXt02jy
+X-Received: by 2002:a05:6512:251f:b0:59c:b78e:a678 with SMTP id
+ 2adb3069b0e04-59cb78eab0bmr958508e87.48.1768700327757; Sat, 17 Jan 2026
+ 17:38:47 -0800 (PST)
+From: Olena Shevchenko <shaggy051981@gmail.com>
+Date: Sat, 17 Jan 2026 17:38:35 -0800
+X-Gm-Features: AZwV_QiO6lKsELRygQ9Xg9CKeqMPExCdaoe6BFtSy_Vw3Kq3-CoJySJxW3WIFG4
+Message-ID: <CAC4S=hRxZe5vCjos6CN=UQv0rEGQffdN8-BNabU=EvK7Lx6KfA@mail.gmail.com>
+Subject: Dear Friend
+To: undisclosed-recipients:;
+Content-Type: multipart/alternative; boundary="000000000000c00c4406489fa20e"
+BCC: <<REMOVED>>
+Return-Path: shaggy051981@gmail.com
+X-MS-Exchange-Organization-ExpirationStartTime: 18 Jan 2026 01:38:50.6165
+ (UTC)
+X-MS-Exchange-Organization-ExpirationStartTimeReason: OriginalSubmit
+X-MS-Exchange-Organization-ExpirationInterval: 1:00:00:00.0000000
+X-MS-Exchange-Organization-ExpirationIntervalReason: OriginalSubmit
+X-MS-Exchange-Organization-Network-Message-Id: dc343382-03a6-4f5e-0629-08de563254ea
+X-EOPAttributedMessage: 0
+X-EOPTenantAttributedMessage: 3a46f788-6ced-4002-b220-02d8147f37f4:0
+X-MS-Exchange-Organization-MessageDirectionality: Incoming
+X-MS-PublicTrafficType: Email
+X-MS-TrafficTypeDiagnostic: BY1PEPF0001AE18:EE_|CH5PR01MB8861:EE_|CO6PR01MB7467:EE_
+X-MS-Exchange-Organization-AuthSource: BY1PEPF0001AE18.namprd04.prod.outlook.com
+X-MS-Exchange-Organization-AuthAs: Anonymous
+X-MS-Office365-Filtering-Correlation-Id: dc343382-03a6-4f5e-0629-08de563254ea
+X-MS-Exchange-Organization-SCL: 5
+X-Forefront-Antispam-Report: CIP:2a00:1450:4864:20::12a;CTRY:;LANG:en;SCL:5;SRV:;IPV:NLI;SFV:SPM;H:mail-lf1-x12a.google.com;PTR:mail-lf1-x12a.google.com;CAT:PHISH;SFS:(13230040)(2092899012)(7093399015)(3072899012)(12012899012)(8096899003)(54012099003)(4102299003)(72566003);DIR:INB;
+X-Microsoft-Antispam: BCL:0;ARA:13230040|2092899012|7093399015|3072899012|12012899012|8096899003|54012099003|4102299003|72566003;
+X-MS-Exchange-CrossTenant-OriginalArrivalTime: 18 Jan 2026 01:38:50.2709
+ (UTC)
+X-MS-Exchange-CrossTenant-Network-Message-Id: dc343382-03a6-4f5e-0629-08de563254ea
+X-MS-Exchange-CrossTenant-Id: 3a46f788-6ced-4002-b220-02d8147f37f4
+X-MS-Exchange-CrossTenant-AuthSource: BY1PEPF0001AE18.namprd04.prod.outlook.com
+X-MS-Exchange-CrossTenant-AuthAs: Anonymous
+X-MS-Exchange-CrossTenant-FromEntityHeader: Internet
+X-MS-Exchange-Transport-CrossTenantHeadersStamped: CH5PR01MB8861
+X-MS-Exchange-Transport-EndToEndLatency: 00:00:03.3643905
+X-MS-Exchange-Processed-By-BccFoldering: 15.20.9520.006
+X-Microsoft-Antispam-Mailbox-Delivery:
+	ucf:0;jmr:0;auth:0;dest:J;OFR:SpamFilterAuthJ;ENG:(910005)(944506478)(944626604)(4710137)(4715077)(4999163)(920097)(930201)(3100021)(140003)(1310096);RF:JunkEmail;
+X-Microsoft-Antispam-Message-Info:
+	=?utf-8?B?Sjd2MUJZdjlHM3ZuWlQ3QWVjNktNQ3NTaEFITm5xenB6bVR1Um03U2Y0c2NG?=
+ =?utf-8?B?cmFJNUJhS1ZGUHdaci8zenlzUUZ5a3NaRnB2L1NCNWM4K3dYdXh5eVJVeXA1?=
+ =?utf-8?B?M2RqQndXb1BleHpwdU1Cd3NMOW05cFozQVFVREJaQ04xeG9TL1VjSWs1VTNp?=
+ =?utf-8?B?R0FMRUtUVG1TS0J6c0kwZ2lkVXJnYjFhZmlBb0k3ejd5MTZ2WUszWFdBNDlE?=
+ =?utf-8?B?aEZTeGxaYm02aG9aMG1DK1NtL1lnSjRQSWRRamxTVVdBMUQ0Z3V6YWs0STAr?=
+ =?utf-8?B?M3FmRnNwMFQxNUlMZTZ3d3FHYWtVQWVUSi94czkwSFc1blJRSlo5NDM0RERJ?=
+ =?utf-8?B?L01pMDhDdTdwcjZqckxhNXZQc2FoS0JwalpWS040U29iU1NUSW5BS2EyY3ly?=
+ =?utf-8?B?ZTZwMUpPVUltd1BselFaL0VwUnBKMmNVd2dQNzBFSFVJM1hPQnVZR0Z1NEZi?=
+ =?utf-8?B?cDlVRytac2FNUk1Ca0dXaVhKanRHcCs0bVgvL0M0UkR4K2RHbldpbndaYnRO?=
+ =?utf-8?B?TTBEeFIxRXZyT0g2Z2U5aUs0R0xDZzRTR3JWZXRLQy9wcTU5V2tKbHpsanV3?=
+ =?utf-8?B?dWhMcDZqbXpRSGdmYW1uTEh2T1hTc3UzcDZEVEFmdmI4U2U5azdNRkJpK1Z2?=
+ =?utf-8?B?WFFTRHZMb0Fzc2Q3YU1SR3hQOU5DdnExZDB0Rmp6ZUxHb3dzbHRtL2RGajFu?=
+ =?utf-8?B?ZmtDcE1BQTlMWjRBT3l5OGNKT0E2elRjaHBmMUxIVlBmSjdzRlBydzJJSzFu?=
+ =?utf-8?B?WVpUbHhkd1hQYXgzdEQ0YnFzbis1RkE1VXlFQVJaRnFHMjI2YWtYaWx3U2hO?=
+ =?utf-8?B?TGVBSFl4RW5GR2s4RGw5OXowVW9SV0wyMi9JakNQSDYrYWJaKy9vMDR2RVFn?=
+ =?utf-8?B?d1FER3JxdlZaS28vVDZKV3JjeVlhRXpUZ2x3R0orYTd2UWhLRHdpVUVaYzU5?=
+ =?utf-8?B?ZzBMSkNrbmFjVkVseHF0R3VsMTk2UHViL2pNRTRqSU4zT3ZTaC9US29aTGlx?=
+ =?utf-8?B?R3NBbWpQUjVQTWJGc0FOSmttSGNjQXpIWGhHWERpdkNueFVsM3YxcHNuWlhZ?=
+ =?utf-8?B?WEJFOE9zckVvMVZyTkt4Smp2VFhxRkxEQ1hycThnd0loVE1naEFRWVZiWTQ0?=
+ =?utf-8?B?YjgwTnZxaS9nY2djWWZuKzFrNUVkKzJWWnJXQ3lUaWJiQ3BGYmRFcm5nUlZ4?=
+ =?utf-8?B?ZGlOZHZrajhFL3RoazA1Um9GYkxNQlUzOW53TnhsbmRLSnA5YlcvY1NVSEFO?=
+ =?utf-8?B?WmJERDVRTFBFSkg2bHZseFcwVnpielFSSFNXaUYrd0VCWUZJTWFuVExsSjFm?=
+ =?utf-8?B?MCtUL0w3UnJHWmQwWk5mYWJXeTBveDVTZ2F1YVNpdUlJblpjRFVhUlp0YVg3?=
+ =?utf-8?B?WVowODlvS0Q1ZzVpVHRrSXVIWnl5cXhiK2ZPSndGMWFaNmpiNGFqYk5oREJH?=
+ =?utf-8?B?VWx4MFRkRDhYQzZxNU5DeTVZdHFkSWduQWpXSkFWR29FR09yck5TR1UwTTRJ?=
+ =?utf-8?B?UGpnWW94b3VKSVRwYmhpVVk3Y2c5S2tWNEFYcHJIKzB4TG5ONUtXUjJCcWNB?=
+ =?utf-8?B?aGFmRmF6akxKKzBnSGhlOHBVcFoyNEpuZVo4VjRlQ0c0N0RicFNva0lkYUhj?=
+ =?utf-8?B?MEV5dVozRmpBRE1kTmJUQVBXL1ZxTVpja1ZBUXJKZjh5SnZVUkZLMS9sWXRP?=
+ =?utf-8?B?TWtQWklueWtSc1VXNWt5djN4V0ZUWGZZWm0zdzliMmc1U3dYMGtLcENwRzI2?=
+ =?utf-8?B?SDN4SE94UXlUckd0SG5IWHplbFpYc1N1cTRScDFzUTJxOE8yZ2trWWZkc0JL?=
+ =?utf-8?B?alVVcVVIUjc5RjlJVW9vNk05bEdaOEdXdUJiWUMrNGZLTU9qNUtvVklVZ0Zh?=
+ =?utf-8?B?T1NNQU9Ld2FJa2d3Mm9FZ0swQldxUmxOdEpxSVJEYyt5bUhRazR5ZmVxTGdC?=
+ =?utf-8?B?OEM2Q1cwZ2pveDZtQ0ErWkFEOXl0Rjc5Sm5FV3pXVE9DbkhmY3pFdkRieG5P?=
+ =?utf-8?B?eVRHcytvVnl1N3NJSmF1djg5bG4zN21xU3puWmZIUFVVNEVwek92SDNCTDI4?=
+ =?utf-8?B?a3kzancwOGpOazN0dWtCaStoZTFlbzBCU1JnTFh6QkdQVzBGOExhN3J6ZzFk?=
+ =?utf-8?B?Sm82MmE2REFCYmpPSGtVeVdjQzBwZ2N0TEVUNDJhYTUxTytUc2xaeFhqeGtG?=
+ =?utf-8?B?R05PSnpVSXBEbUtSY1VVcWt6S1RtbUdjWjl3dnpRTk42SkUzSHFxemhFeTJt?=
+ =?utf-8?B?Tzc1Y1BOUGtlNFlUcG1yRDJzbVlmei9ubnpHbnE3Mi9WZDRDWkt3QTMxTEJH?=
+ =?utf-8?B?QldPSWsyd0xvWEdsNWwrUWYxSUprSWJReWtud2F2S2dXaWNGNkRGT0VWVnF4?=
+ =?utf-8?B?UFpmUlpjcmRYU082Y0M2S1ZxZWtjRm82bzNTWE1oSnBWTGhUZ21vOWtLN1Rt?=
+ =?utf-8?B?VGZrNlNtV2RPUFRKcmZXQnFBMGxqc0c3K25zWDliVW81aUdJaFhvMy9CRm9L?=
+ =?utf-8?B?V2Z6MFFldWJUTkJlcDB1K0I3STZ4RmxaSysxNUFub3dXZHVqTjVIbjJqcERP?=
+ =?utf-8?B?cFhnT1pYUmVlb1g1emJNd3VKaU1nSUZ2YlFTbWJJYXZJZ29lMUVzRXUxWkh5?=
+ =?utf-8?B?QnYyelBuY1Z2NWZZQXhzSGM3VWhMc0xLNU9ENjIvM1o0WmRvRlFrcXdEZ1BL?=
+ =?utf-8?B?b2RMWDFFQ005UGJybTk5Z3lOcEl1MmFTOGdNZWZmYmM3eTNEK2s5OXAyTlpv?=
+ =?utf-8?B?dTR4bHFOTFFTdFZYQXNsVW0zRFFLR1VuQy9OdjJBQko5bHhrRkpzMnNIQVBE?=
+ =?utf-8?B?MmQzN0ROa29paEwwdko5TWNLMXhCSjRYQk1VYWNYZTFlMWVCMXp0RzAxcGMr?=
+ =?utf-8?B?czcyYXpLUllMR2QrRzVaV2w3TDVMM1ZXem9KQ1ZjUC9CcUUrYjFuTWhoVXRw?=
+ =?utf-8?B?R2luOHNVTWE2SkxKcVlRbjRlZ2JRZEdpeXNwYkIwUEpqVEhIWUJ6ZVhjdHB2?=
+ =?utf-8?B?aFpObE9rejVZOVpNOWEvM1RENlF5cTdFdWdUUmgyUUpQK3orZDVsY1hRRW13?=
+ =?utf-8?B?em05cFFQOWtJSElJMDVWRUxXN0F6dXZkWFVKVUpYWHdZWm1QTUdZN3RXdjFZ?=
+ =?utf-8?B?ZGx6NitZZmlEaDQ3TTB6aHNzV2pZK0ZWalZha05rek44d29IVDMxOHIrMUlD?=
+ =?utf-8?B?L0lvc3FrUUR5NWVYQndnWWt5amdXTGpjOWhadFVDNXdIOEZmTDVOc3VTN0Fy?=
+ =?utf-8?B?L3lsQ1UwczRtdGRzSTBiTTcvTHVFNGpTVDYxaURUV0x6dUd0aStWb291eFZQ?=
+ =?utf-8?B?U21rS0JPNnZ4bHB6Qllsand0Qjc1MExLem5NTVdrRGEvUkR6dnhxd1A5TnJT?=
+ =?utf-8?B?NkFUbmhLb3RVMC9uOGlHR3lVOWdBRDFpVmJEOEhYWDhiQkxIbGYzVHhhdkVH?=
+ =?utf-8?B?V25GYUJpZDhQbEVFbWJyUDd0TE9sV2tQT0x2dXlaMEtaZnRLalFFOE5YT2lJ?=
+ =?utf-8?B?M1pmVm9aZVI4UGNBK3BXcmhjak5LcUVoeGxBbTVYakp6ejhqekR3QmdmblBG?=
+ =?utf-8?B?NmhjSkgyZEh2MDVibThQYWZkMUYrK0Zoa2JtYWhRSmNGZW1XTWNjRGowY1Br?=
+ =?utf-8?B?R3UyaDE5ajZ3Q2dhdWM3Qjk4aFlEb1EyQkpmYStEeXBLUWtFY0x3TTZka2xr?=
+ =?utf-8?B?TG9yYktQQUR4MkRPVDBaOVNuK2tKM0lCUDkvdmUzYUtLWVlRMzhEYmVoMkhQ?=
+ =?utf-8?B?M1BGN054MTVIRzVJYzd4WEtmV3F5ZlpYeEZNaVhxNFZPZnYzbGkwOFFrRDRY?=
+ =?utf-8?B?WTdrakNBSGJkUnlpTUsyV0g5a0R5RkQyaldkNXFESzZ3WTU0SkRYazg5V1R6?=
+ =?utf-8?B?TytTOHE1TmhibjV6bjBzN1V1K3JDTEpWTENRb3RmWDdwN29LY1NBUjcxRjNk?=
+ =?utf-8?B?WVZ1blNlR0tiOGpPWWkxc1NqR0RwSlRmVXBzcmRxM2N0RHRDUUZTOHAyRTR4?=
+ =?utf-8?B?TjhZZHRRdGJFdjhhemFLSjRTa1k4Rks1bXVFbUkvL3FCRXVxUkhhbW1vU25U?=
+ =?utf-8?B?dGw5ejd2OW1XQTgvTm9EaHFVSDVXRVUvRmV1R0pLdjBSMzdsMEVZMXlNUUFO?=
+ =?utf-8?B?blo2MEt5T0YxTDNDcytTRnlxZ05mRUtsNUMyMDVQd3Y3UTRKNHpWRVhCQWt2?=
+ =?utf-8?B?Z3NUVmdVREJRRW9aQktaTDJITGNJVHl3NUtEb1BJSFVzbzZYZ3l1V2llMzBm?=
+ =?utf-8?B?N1o0NVdydkVqbEEzaFp2aDVBMGR2NzVLYmdMajF4UzVaTGJ4TlQ2SEtmZFJo?=
+ =?utf-8?B?c3RaczllbVJUbWNPb01mUEMvRHJ3VC9SQ2VVeVVxTXZGVkJ1SEFKcjhGS3Fr?=
+ =?utf-8?B?RzhxZ2xNN1ZMQ2tHM0hlTmY1YlNTRHFtV3hjZzIxWkFPYk9GMDE3a2hVaWE4?=
+ =?utf-8?B?YzVMMVNab3N3L2FobWNOY0dpUnRFMDhJa0Vzak9oVlhUK2RMb3B1QUJndlV3?=
+ =?utf-8?B?L0llbndJVVNCL2NNeXk1NmF5SXBmSjlsSllsMWpnUHBNVFVHOVlRZzRIWHFQ?=
+ =?utf-8?B?S254VXRBbVFxVTNnSkUramZvSEM5SHpyay9xNHdtNm4yYjUrdTBkMVQ4WUU0?=
+ =?utf-8?B?OU5mOEtHODRPVVo5WnFTbzBZVmpRRWNMUUl5V3poR0pwWmkyb0RrbWw5MGZZ?=
+ =?utf-8?B?L3NWeTNycWVjVkVydjFmb0FpS2YxZVFrM0h3dXdlbkFrUnVGS2dSOFhnS2g2?=
+ =?utf-8?B?ZmJDRloya3B4ck15Y01FS1FXczFTeW5GMVNic1hOSEY0MmJZbzdBMWtTWURq?=
+ =?utf-8?B?R0xTOXRUWjk3RFpYcC9nWjNTSEg1b25JVGhYejlOWHc0SEl1ejhpY2NkaEhi?=
+ =?utf-8?B?T21aUFRGU1JjbFh3LzRZWTgwTEFZS2dkNU1RSk5zUjdSTnJHRlcxdElzWnVO?=
+ =?utf-8?Q?l/+bpzoDfgZyRsgA+Blo8R68kXM=3D?=
+MIME-Version: 1.0
+
+--000000000000c00c4406489fa20e
+Content-Type: text/plain; charset="UTF-8"
+
+Dear Friend
+I want to use this channel of communication to ask for your permission to
+be my business partner in your country, My name is Olena Shevchenko from
+Ukraine. For your kind information, I lost my dear husband in the war front
+here in our country Ukraine. My late husband worked in the Oil and Gas
+sector before his death and left behind five million euros, wealth under my
+care. Due to the war and the sudden death of my husband, Yurris Shevchenko,
+I want to relocate and invest in the Real Estate sector, Travel & Tourism,
+Hotel Management and other interesting sectors in your country and I will
+need you to arrange it for me. If you know or have knowledge of any other
+profitable business that I can establish there in your country apart from
+real estate, then please recommend such a business to me so I can invest in
+it. I will be relying on your advice and guidance in this transaction if
+you agree to work with me.
+Awaiting your quick response.
+Olena Shevchenko
+Please respond back to me through this email address
+OlenaShevchenko0581@outlook.com
+
+--000000000000c00c4406489fa20e
+Content-Type: text/html; charset="UTF-8"
+Content-Transfer-Encoding: quoted-printable
+
+<meta http-equiv=3D"Content-Type" content=3D"text/html; charset=3Dutf-8"><d=
+iv dir=3D"ltr"><div style=3D"border:0px;font-variant-numeric:inherit;font-v=
+ariant-east-asian:inherit;font-variant-alternates:inherit;font-stretch:inhe=
+rit;font-size:12pt;line-height:inherit;font-family:Aptos,Aptos_EmbeddedFont=
+,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size-adjust:inherit;=
+font-kerning:inherit;font-feature-settings:inherit;margin:1em 0px;padding:0=
+px;vertical-align:baseline;color:black">Dear Friend</div><div style=3D"bord=
+er:0px;font-variant-numeric:inherit;font-variant-east-asian:inherit;font-va=
+riant-alternates:inherit;font-stretch:inherit;font-size:12pt;line-height:in=
+herit;font-family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helv=
+etica,sans-serif;font-size-adjust:inherit;font-kerning:inherit;font-feature=
+-settings:inherit;margin:1em 0px;padding:0px;vertical-align:baseline;color:=
+black">I want to use this channel of communication to ask for your permissi=
+on to be my business partner in your country, My name is Olena Shevchenko f=
+rom Ukraine. For your kind information, I lost my dear husband in the war f=
+ront here in our country Ukraine. My late husband worked in the Oil and Gas=
+ sector before his death and left behind five million euros, wealth under m=
+y care. Due to the war and the sudden death of my husband, Yurris&nbsp;Shev=
+chenko, I want to relocate and invest in the Real Estate sector, Travel &am=
+p; Tourism, Hotel Management and other interesting sectors in your country =
+and I will need you to arrange it for me. If you know or have knowledge of =
+any other profitable business that I can establish there in your country ap=
+art from real estate, then please recommend such a business to me so I can =
+invest in it. I will be relying on your advice and guidance in this transac=
+tion if you agree to work with me.</div><div style=3D"border:0px;font-varia=
+nt-numeric:inherit;font-variant-east-asian:inherit;font-variant-alternates:=
+inherit;font-stretch:inherit;font-size:12pt;line-height:inherit;font-family=
+:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;=
+font-size-adjust:inherit;font-kerning:inherit;font-feature-settings:inherit=
+;margin:1em 0px;padding:0px;vertical-align:baseline;color:black">Awaiting y=
+our quick response.</div><font color=3D"#888888"><font color=3D"#888888"><f=
+ont color=3D"#888888"><font color=3D"#888888"><div style=3D"border:0px;font=
+-variant-numeric:inherit;font-variant-east-asian:inherit;font-variant-alter=
+nates:inherit;font-stretch:inherit;font-size:12pt;line-height:inherit;font-=
+family:Aptos,Aptos_EmbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-=
+serif;font-size-adjust:inherit;font-kerning:inherit;font-feature-settings:i=
+nherit;margin:1em 0px;padding:0px;vertical-align:baseline;color:black">Olen=
+a Shevchenko</div><div style=3D"border:0px;font-variant-numeric:inherit;fon=
+t-variant-east-asian:inherit;font-variant-alternates:inherit;font-stretch:i=
+nherit;font-size:12pt;line-height:inherit;font-family:Aptos,Aptos_EmbeddedF=
+ont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size-adjust:inher=
+it;font-kerning:inherit;font-feature-settings:inherit;margin:1em 0px;paddin=
+g:0px;vertical-align:baseline;color:black">Please respond back to me throug=
+h this email address</div><div style=3D"border:0px;font-variant-numeric:inh=
+erit;font-variant-east-asian:inherit;font-variant-alternates:inherit;font-s=
+tretch:inherit;font-size:12pt;line-height:inherit;font-family:Aptos,Aptos_E=
+mbeddedFont,Aptos_MSFontService,Calibri,Helvetica,sans-serif;font-size-adju=
+st:inherit;font-kerning:inherit;font-feature-settings:inherit;margin:1em 0p=
+x;padding:0px;vertical-align:baseline;color:rgb(17,85,204)"><a title=3D"mai=
+lto:OlenaShevchenko0581@outlook.com" id=3D"m_4546437688547855688m_-80817098=
+16932192240m_3668676872807173007m_3790343161731977160m_4091585489372067675m=
+_8706176848904866592m_-5002749828169639440gmail-OWAb95b5cc1-a28d-df44-ed25-=
+3dc1082365f1" href=3D"mailto:OlenaShevchenko0581@outlook.com" target=3D"_bl=
+ank" style=3D"border:0px;font:inherit;margin:0px;padding:0px;vertical-align=
+:baseline">OlenaShevchenko0581@outlook.com</a></div></font></font></font></=
+font></div>
+
+--000000000000c00c4406489fa20e--

@@ -1,0 +1,92 @@
+Delivered-To: <REMOVED>
+Received: by 2002:ac8:5d52:0:b0:506:3cdf:dddf with SMTP id g18csp233166qtx;
+        Fri, 6 Feb 2026 07:54:58 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCXN/oruenwKyKyVKSEQNiV9RvmH8Pv/RphQ40tQFjI1rMklAsY9/GrPA7+RMeeCL3r4EZ0U6MfQBmA=@gmail.com
+X-Received: by 2002:a05:6a20:d523:b0:366:14ac:e1e2 with SMTP id adf61e73a8af0-393ad3b318amr3284222637.72.1770393297777;
+        Fri, 06 Feb 2026 07:54:57 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770393297; cv=none;
+        d=google.com; s=arc-20240605;
+        b=TdUVFLQ034OX1Y3YIgvlyIi/Pc5TiJfMy4lcT1IyZ4XXqK8wUx7QDuIaeUSKBHGf5F
+         /0s27ZFg8JU0U9KuJtilfFxFIVlbm23GCUD/9EwfbRyTaFwP29ZEy0PEIOCVl4QiKKVD
+         GcWdF/w1OV3TiRs59QhMd/zh7y7W/9K13wZ4riftHlnzxV8lwXyxs8tDIh2MdhW1R1vF
+         IMNtJclEEFy78P7vfhDhoGs7NhEPB8LRG0FSxj2bSNKq3YKB0zpiT/9gxsc88biOxKrP
+         gXjtmc6AfG7I1jxVYPJwpUVvCH2WR9vyNPuhjvFertSoK5jymsEDiXWXOCxd+uabqOX1
+         aw9w==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=CfL0fodowWXjFU4sVjfW7XoJ1rtN7NhecDzIwRYOeWw=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=Q1Rjdhy4+iLqZKS2+CRf6P8Y2rt7qybpKMOQF+oTKeoA/Nbj6KDdJWSjxmsxMVODkw
+         Tn5xeZ8jL70RO/5B71MUXktdqh+cLZO2skU5wOOIykmC8ef4Oqz4hWJNiyNGWYCaxT/h
+         zzFjUTH2CHkA7KBFb0cVHAeUcUpkTXuctDtIZhSi5oFkfcyRxriWGpFf23WoAkpMm1a7
+         0VhKL/Dje7pfspOszjYi0stQaJBlHBmaIM/EF5D0yP5mhC5SZQO6Wc84U6h431plltE6
+         LZveMCJWsA7vhplKSL3W8OAemKOfG8IKYE3N0gbl1x9SoAARd4Ba8ACjXs4ItB4uWD80
+         YD7g==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=EL3+MrS6;
+       spf=pass (google.com: domain of igaya-s.m.k@agate.plala.or.jp designates 60.36.166.33 as permitted sender) smtp.mailfrom=igaya-s.m.k@agate.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <igaya-s.m.k@agate.plala.or.jp>
+Received: from msc111.plala.or.jp (msc111.plala.or.jp. [60.36.166.33])
+        by mx.google.com with ESMTPS id 41be03b00d2f7-c6dcb7996ebsi4269825a12.284.2026.02.06.07.54.50
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 06 Feb 2026 07:54:57 -0800 (PST)
+Received-SPF: pass (google.com: domain of igaya-s.m.k@agate.plala.or.jp designates 60.36.166.33 as permitted sender) client-ip=60.36.166.33;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=EL3+MrS6;
+       spf=pass (google.com: domain of igaya-s.m.k@agate.plala.or.jp designates 60.36.166.33 as permitted sender) smtp.mailfrom=igaya-s.m.k@agate.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o03.ake-mailbk.plala.or.jp ([172.23.12.52])
+          by msc111.plala.or.jp with ESMTP
+          id <20260206155450.YKVX3944.msc111.plala.or.jp@mdkim-o03.ake-mailbk.plala.or.jp>;
+          Sat, 7 Feb 2026 00:54:50 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1770393291;
+  x=1801929291;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=CfL0fodowWXjFU4sVjfW7XoJ1rtN7NhecDzIwRYOeWw=;
+  b=EL3+MrS6Be5ZSX5MDmvHlyt5PxMGF8cw1yKaRgIxk4K7D8HL8GKM7xmo
+   LX6uA/OkhxH3MkerTpFc76RGyECd/ghUy+XIMs6RsTc5WZNHGwg7QQpgy
+   EPvN3KaPW9f2OEHeeUWFKbX52WjDmO7C71/PbX5QmBIZV3l5I23LG27od
+   Y7zJKohpbaTFJIQvV7qNTYY8CJs2LurVSZ7z03G7CM9Ioo1z4gQzPuvQH
+   iQ7wxhwJOp8pJv5SxqICNKDZzLXl+0Nsw5a7C7j1wq5S1ma6SZ8ZQIIOU
+   jzkITn0Dh3AFPZSv/CPWe14XojjOHsznHutyCwbYcfblo1E7Q+IzjexAR
+   Q==;
+X-CSE-ConnectionGUID: FppzL/7HRxuZl+G4Rlfu/A==
+X-CSE-MsgGUID: OAwBer2vTgSzRxh/ygJimA==
+Received: from msa13.ake-mailbk.plala.or.jp (HELO msa13.plala.or.jp) ([172.23.12.93])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 07 Feb 2026 00:54:50 +0900
+Received: from mweb11 ([172.23.13.121]) by msa13.plala.or.jp with ESMTP
+          id <20260206155449.LEXK29664.msa13.plala.or.jp@mweb11>;
+          Sat, 7 Feb 2026 00:54:49 +0900
+Date: Sat, 7 Feb 2026 00:54:49 +0900
+From: United Bank Of Africa <igaya-s.m.k@agate.plala.or.jp>
+Reply-To: unitedbankofafrica293@gmail.com
+Message-ID: <20260207005449.FAEMN.551.root@mweb11>
+Subject: ATTENTION DEAR
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac13; Sat, 7 Feb 2026 00:54:49 +0900
+
+We have reviewed the 60 Million Dollars and your inability to meet up with some charges levied against you due to the past transfer options. We the Board of Directors of United Bank For Africa (UBA) has Ordered our Foreign Payment Remittance Unit to issue you a ATM Master card where your payment will be uploaded and today it came to our notice that your Payment has been uploaded into this Master card ATM CARD and also have registered it for delivery to you.
+
+For your information, The delivery Fee has been paid and they were supposed to have shipped your ATM CARD but they insisted that you must re-confirm your information to ensure accurate Delivery and also to avoid wrong delivery.
+
+MOST IMPORTANT: Due to the content of the package, A Tax/Stamp Duty MUST be procured according to the New Customs Creed as Federal government mandated and the essence of such Document is to ensure a hitch-free delivery.
+
+Therefore re-confirm the following details:
+
+1. Full Names.
+2. Current Delivery Address.
+3. Phone Number.
+
+Yours Faithfully
+Dr. Oliver Alawuba
+Director General
+UBA PLC

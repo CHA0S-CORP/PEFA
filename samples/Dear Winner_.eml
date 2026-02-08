@@ -1,0 +1,84 @@
+Delivered-To: <REMOVED>
+Received: by 2002:ac8:5d52:0:b0:506:3cdf:dddf with SMTP id g18csp687503qtx;
+        Sat, 7 Feb 2026 01:20:14 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCU9cMML911YlglUP4k7xB4uMU+KIzRqPgzzSfqCOaqf5iiNHVaafq3xyec2oXkUWuDjcvmtHfvlGm8=@gmail.com
+X-Received: by 2002:a05:6a00:158e:b0:81f:4c37:7647 with SMTP id d2e1a72fcca58-824417a9046mr4054066b3a.68.1770456014096;
+        Sat, 07 Feb 2026 01:20:14 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770456014; cv=none;
+        d=google.com; s=arc-20240605;
+        b=ONT6SoAPsgxZrk7fskTauTeZhili5CzfRso8ZmWZQbkyFJsXw5iilWJcNkhbNYsPvZ
+         PGNCWEEMoNnG+sxgv8eXP72DDajYIzXz247tyL0q4SH3ZR+e/UZ/Dmrx+BjIXHx3JZHv
+         agkfP3zodVTmOU7EHub0R0JpkAQmwmrfwxcASMawcsc8Ie285LQzDxQIXW7hNpXbsIAj
+         3eln/BDAkvEYjEUy13mNX6eqERJ1V8uEJLXx283q43EDMux8xzRbqV9IfwSMIiX8vHru
+         TXTrrv38ldVmY6la9yrFx4ZN+S4I/PSSSO44i7Ap/hVnFXpkbtWy8VuKQ97MLbsmX0Gi
+         gbVg==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=qh5zqy0/Zij2dmtvCYe2tmxK/PRGL7tuL87rxHBwoh8=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=DTcL48cLsAhpx26hUOn3WeBLTHRfqnlRGra5Lw6WfUV3jcfbNYFHo/ZYkQo/kq4g+w
+         q1EQbqyPiVPy44rvd7LuPb35tGTwL122aevOCBKPWC4DZMTlZS6Xhfo9Nr09BmYPnqqI
+         5ne/drKDKnAfCEQtPIzfkYfzaoL4PvfGB7QcaYU6QtjfUhDCOMDzSeedBqItQggZ92w1
+         lLQOKgIVcHeQHvjUiPh2blunUlzsVL/em3hUz6JJ+tn/rP5F5f00tkIRsqueHGmbk4tZ
+         o1RlIEzw9xh1ID8aEIWvtABJ2Ph1UMxhO1pLhFzadq6j8RMAVygPBg3aatnhBxW+sbdf
+         VpwA==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=usJB2OkT;
+       spf=pass (google.com: domain of fff@sea.plala.or.jp designates 60.36.166.34 as permitted sender) smtp.mailfrom=fff@sea.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <fff@sea.plala.or.jp>
+Received: from msc112.plala.or.jp (msc112.plala.or.jp. [60.36.166.34])
+        by mx.google.com with ESMTPS id d2e1a72fcca58-82441698058si8182031b3a.70.2026.02.07.01.20.06
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Sat, 07 Feb 2026 01:20:14 -0800 (PST)
+Received-SPF: pass (google.com: domain of fff@sea.plala.or.jp designates 60.36.166.34 as permitted sender) client-ip=60.36.166.34;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=usJB2OkT;
+       spf=pass (google.com: domain of fff@sea.plala.or.jp designates 60.36.166.34 as permitted sender) smtp.mailfrom=fff@sea.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o01.ake-mailbk.plala.or.jp ([172.23.12.50])
+          by msc112.plala.or.jp with ESMTP
+          id <20260207092005.JSVU4066.msc112.plala.or.jp@mdkim-o01.ake-mailbk.plala.or.jp>;
+          Sat, 7 Feb 2026 18:20:05 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1770456007;
+  x=1801992007;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=qh5zqy0/Zij2dmtvCYe2tmxK/PRGL7tuL87rxHBwoh8=;
+  b=usJB2OkTuo60ffEM5crEswG2i33fV6DnHGXhywFp47MCz2UYAKp9vn2p
+   +kNp7Hx8qwGQTjlBuAHuf3t56VALEmsg7wsBDyo6g6oW4QbM7qQXU0rYg
+   lSM8ryLGER01IffvuJxJSZ7aMK4V5omhJjn4qyWOFT14xFbBdpxGRV4GV
+   TPYJKhzMN7EaJdvytEySDh008JlCVH0OhNAEFgnkYuAWsJAFG1bjYfPjT
+   6ghIPq/4nDmKSWYUft0HzOM3QoF9yV4D3IcL0BrVIp7n5/Abq9Lu8BAFX
+   weJs0sdR3MTurvZni/+XsUvDhzGUJdfHp+c/YOX+ggy82mPzv9uTGe4zg
+   A==;
+X-CSE-ConnectionGUID: wOBeZbnFTtmhNNdQWS1w3w==
+X-CSE-MsgGUID: ffx4bDUwQuah4WN1leN6NQ==
+Received: from msa13.ake-mailbk.plala.or.jp (HELO msa13.plala.or.jp) ([172.23.12.93])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 07 Feb 2026 18:20:07 +0900
+Received: from mweb12 ([172.23.13.122]) by msa13.plala.or.jp with ESMTP
+          id <20260207092005.MHVC29664.msa13.plala.or.jp@mweb12>;
+          Sat, 7 Feb 2026 18:20:05 +0900
+Date: Sat, 7 Feb 2026 18:20:05 +0900
+From: "Mr. Warren Edward Buffett" <fff@sea.plala.or.jp>
+Reply-To: Officemanagement1@gmx.com
+Message-ID: <20260207182005.TAPU5.15130.root@mweb12>
+Subject: Dear Winner?
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac13; Sat, 7 Feb 2026 18:20:05 +0900
+
+Congratulation
+
+My name is Warren E. Buffet, an American business magnate, investor and philanthropist. I am the most successful investor in the world. I believe strongly in giving while living’ I had one idea that never changed in my mind, that you should use your wealth to help people and I have decided to give Two Million Five Hundred Thousand United Dollars to randomly selected individuals worldwide. On receipt of this email, you should count yourself as the lucky individual because Your email address was chosen online while searching at random. Kindly get back to me at your earliest convenience before I travel to the UK for my treatment ,so I know your email address is valid.
+
+Thank you for accepting our offer, we are indeed grateful You Can Google my name for more information: Warren Edward Buffett is an American businessman, investor, and philanthropist who currently serves as the chairman and CEO of Berkshire Hathaway.
+
+God bless you.
+Mr. Warren Edward Buffett

@@ -662,7 +662,7 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
         <button class="topbar-btn download-html-btn" title="Download HTML report">&#10515; HTML</button>
         <button class="topbar-btn download-png-btn" title="Download PNG report">&#10515; PNG</button>
         <button class="topbar-btn print-btn" title="Print report (Ctrl+P)">&#9113; PRINT</button>
-        <div class="topbar-sub">2026-02-07 20:21 UTC</div>
+        <div class="topbar-sub">2026-02-07 20:41 UTC</div>
     </div>
 </div>
 <div class="container">
@@ -677,12 +677,12 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#f97316"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="173.2"
+                            stroke-dasharray="173.2 326.7" data-target-dash="173.2"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px rgba(249,115,22,0.3));"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:#f97316" data-target="53">0</div>
+                        <div class="gauge-score" style="color:#f97316" data-target="53">53</div>
                         <div class="gauge-label">HIGH</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, rgba(249,115,22,0.3) 0%, transparent 70%);"></div>
@@ -699,33 +699,31 @@ body.interactive .envelope.visible { animation: fadeInUp 0.5s ease forwards; }
     <div class="widget gemini-widget" id="nav-ai">
         <div class="widget-header"><span class="widget-icon">🤖</span> AI PHISHING ASSESSMENT — GEMINI-2.5-FLASH</div>
         <div class="gemini-content">
-            <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">98%</span></div>
-<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt, specifically an advance-fee scam, designed to trick the recipient into believing they are due a large sum of money. It is not safe and attempts to impersonate a bank to solicit a response for fraudulent purposes. Do not interact with this email.</p></div>
+            <div class="gemini-verdict-banner" style="border-color:#ef4444;background:rgba(239,68,68,0.12);"><span class="gemini-verdict-icon">⛔</span><span class="gemini-verdict-text" style="color:#ef4444;">phishing</span><span class="gemini-confidence" style="background:rgba(239,68,68,0.12);color:#ef4444;">100%</span></div>
+<div class="gemini-summary"><div class="gemini-summary-label">EXECUTIVE SUMMARY</div><p>This email is a phishing attempt designed to trick you into believing you are entitled to a large sum of money. It attempts to impersonate a bank and the United Nations to gain your trust and steal personal information or funds through an advance-fee fraud scheme. Do not respond to this email or provide any personal information.</p></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🔬</span> TECHNICAL ANALYSIS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  The `REPLY-TO` address (`onlinebanking579@gmail.com`) is a free email service and does not match the `FROM` domain (`sea.plala.or.jp`), indicating an attempt to direct replies to an attacker-controlled address.</li>
-<li>  The email impersonates &quot;Bank of Africa&quot; and its CEO, Mr. Arthur Isiko, but originates from `sea.plala.or.jp`, a Japanese ISP, which has no legitimate association with the claimed organization.</li>
-<li>  The email body employs classic advance-fee scam social engineering, promising a large sum of &quot;compensation and settlement funds&quot; ($8.5 million) and requesting urgent action to open an &quot;offshore account.&quot;</li>
-<li>  Despite passing SPF, DKIM, and DMARC for `sea.plala.or.jp`, these authentication results are irrelevant to the impersonation of &quot;Bank of Africa&quot; and do not validate the sender&#x27;s true identity or intent.</li>
+<li>  <strong>Sender Impersonation</strong>: The &quot;From&quot; display name &quot;BOA&quot; and subject &quot;Online Bank Of Africa&quot; attempt to impersonate a legitimate bank, but the actual sending domain `sea.plala.or.jp` is not associated with Bank of Africa.</li>
+<li>  <strong>Reply-To Mismatch</strong>: The `Reply-To` address `onlinebanking579@gmail.com` is a generic Gmail address, which significantly differs from the `From` domain `sea.plala.or.jp`, indicating an attempt to bypass sender reputation checks and direct replies to an untrusted source.</li>
+<li>  <strong>Social Engineering (Advance-Fee Fraud)</strong>: The email body uses classic advance-fee fraud (419 scam) tactics, promising a large sum ($8.5 million) from the &quot;United Nations and the Africa&#x27;s Fund settlement Committee&quot; and requesting the recipient to &quot;Get back to us as soon as possible for the offshore account opening form.&quot;</li>
+<li>  <strong>Authentication Discrepancy</strong>: While SPF, DKIM, and DMARC pass for `sea.plala.or.jp`, these only validate the technical sender, not the legitimacy of the *impersonated* entity (Bank of Africa). The `REPLY-TO MISMATCH` flag correctly identifies a critical anomaly despite passing authentication.</li>
 </ul></div></div>
-<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-fee scam (419 scam)</p></div></div>
+<div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🎯</span> ATTACK TECHNIQUE<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><p>Advance-fee fraud (419 scam), Brand impersonation, Social Engineering</p></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">🛡️</span> RECOMMENDED ACTIONS<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  Do not reply to the email or attempt to contact the sender via any provided details.</li>
-<li>  Delete the email immediately to prevent accidental interaction.</li>
-<li>  Report this email to your organization&#x27;s IT security team.</li>
-<li>  Block the sender&#x27;s email address and domain at your email gateway if possible.</li>
+<li>  Delete this email immediately without responding or clicking any links.</li>
+<li>  Report this email to your IT security department or email provider as a phishing attempt.</li>
+<li>  Be wary of unsolicited emails promising large sums of money, especially those requiring personal information or upfront fees.</li>
+<li>  Block the sender&#x27;s email address (`fff@sea.plala.or.jp`) and the `Reply-To` email address (`onlinebanking579@gmail.com`) to prevent future attempts.</li>
 </ul>
 <p><strong>INDICATORS OF COMPROMISE (IOCs)</strong>:</p>
 <ul class="gemini-list">
-<li>  fff@sea.plala.or.jp</li>
-<li>  onlinebanking579@gmail.com</li>
-<li>  sea.plala.or.jp</li>
-<li>  60.36.166.34</li>
+<li>  `fff@sea.plala.or.jp`</li>
+<li>  `sea.plala.or.jp`</li>
+<li>  `onlinebanking579@gmail.com`</li>
+<li>  `60.36.166.34`</li>
 </ul></div></div>
 <div class="gemini-section"><div class="gemini-section-header gemini-section-toggle"><span class="gemini-section-icon">📚</span> SOURCES &amp; REFERENCES<span class="gemini-chevron">▾</span></div><div class="gemini-section-body"><ul class="gemini-list">
-<li>  `REPLY-TO` mismatch between `fff@sea.plala.or.jp` and `onlinebanking579@gmail.com` as a strong indicator of malicious intent.</li>
-<li>  Impersonation of &quot;Bank of Africa&quot; and its CEO, Mr. Arthur Isiko, while sending from an unrelated domain `sea.plala.or.jp`.</li>
-<li>  The email body&#x27;s use of advance-fee scam (419 scam) narrative, promising large sums of money for &quot;offshore account&quot; setup.</li>
-<li>  MITRE ATT&amp;CK T1566 (Phishing) and T1566.001 (Spearphishing: Social Engineering).</li>
+<li>  `REPLY-TO MISMATCH` flag identified in Sender Findings, indicating a deliberate attempt to obscure the true reply destination.</li>
+<li>  Email body content explicitly details an advance-fee fraud (41</li>
 </ul></div></div>
         </div>
     </div>
@@ -871,30 +869,30 @@ Phone: +256 743324632
 
 <div class="widget log-widget" id="nav-logs">
 <div class="widget-header"><span class="widget-icon">◇</span> ANALYSIS LOG</div>
-<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:21:06.316] Analyzing links...</div>
-<div class="log-entry">[20:21:06.316] Analyzing sender...</div>
-<div class="log-entry">[20:21:06.316] Scanning urgency patterns...</div>
-<div class="log-entry">[20:21:06.316] Checking attachments...</div>
-<div class="log-entry">[20:21:06.316] Analyzing language...</div>
-<div class="log-entry">[20:21:06.317] Looking up IP: 60.36.166.34</div>
-<div class="log-entry">[20:21:06.362] Sender local time: 2026-02-01 05:18:16 (JST)</div>
-<div class="log-entry">[20:21:06.362] Checking domain age: sea.plala.or.jp</div>
-<div class="log-entry">[20:21:06.612] Querying MXToolbox (SPF/DKIM/DMARC): sea.plala.or.jp</div>
-<div class="log-entry">[20:21:09.432] Resolving 2002 → 0.0.7.210</div>
-<div class="log-entry">[20:21:09.669] Resolving msa13.plala.or.jp → 60.36.166.13</div>
-<div class="log-entry">[20:21:09.732] Calculating threat score...</div>
-<div class="log-entry">[20:21:09.732] Sanitizing email body...</div>
-<div class="log-entry">[20:21:09.732] Highlighting body...</div>
-<div class="log-entry">[20:21:09.732] Querying Gemini (gemini-2.5-flash)...</div>
-<div class="log-entry">[20:21:18.167] ✓ Gemini assessment received</div>
-<div class="log-entry">[20:21:18.168] ⚠ Gemini says PHISHING — threat score bumped by +50 to 53</div>
-<div class="log-entry">[20:21:18.168] Consolidating IOCs...</div>
-<div class="log-entry">[20:21:18.168] Found 5 IOC indicators</div>
-<div class="log-entry">[20:21:18.168] Looking up IOC IP: 01.31.12.18</div></div></div>
+<div class="widget-content collapsed"><div class="log-entries"><div class="log-entry">[20:41:09.820] Analyzing links...</div>
+<div class="log-entry">[20:41:09.820] Analyzing sender...</div>
+<div class="log-entry">[20:41:09.820] Scanning urgency patterns...</div>
+<div class="log-entry">[20:41:09.820] Checking attachments...</div>
+<div class="log-entry">[20:41:09.820] Analyzing language...</div>
+<div class="log-entry">[20:41:09.820] Looking up IP: 60.36.166.34</div>
+<div class="log-entry">[20:41:09.888] Sender local time: 2026-02-01 05:18:16 (JST)</div>
+<div class="log-entry">[20:41:09.888] Checking domain age: sea.plala.or.jp</div>
+<div class="log-entry">[20:41:10.162] Querying MXToolbox (SPF/DKIM/DMARC): sea.plala.or.jp</div>
+<div class="log-entry">[20:41:13.042] Resolving 2002 → 0.0.7.210</div>
+<div class="log-entry">[20:41:13.269] Resolving msa13.plala.or.jp → 60.36.166.13</div>
+<div class="log-entry">[20:41:13.333] Calculating threat score...</div>
+<div class="log-entry">[20:41:13.333] Sanitizing email body...</div>
+<div class="log-entry">[20:41:13.333] Highlighting body...</div>
+<div class="log-entry">[20:41:13.333] Querying Gemini (gemini-2.5-flash)...</div>
+<div class="log-entry">[20:41:22.652] ✓ Gemini assessment received</div>
+<div class="log-entry">[20:41:22.652] ⚠ Gemini says PHISHING — threat score bumped by +50 to 53</div>
+<div class="log-entry">[20:41:22.652] Consolidating IOCs...</div>
+<div class="log-entry">[20:41:22.652] Found 5 IOC indicators</div>
+<div class="log-entry">[20:41:22.652] Looking up IOC IP: 01.31.12.18</div></div></div>
 </div>
 
 </div>
-<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:21:18 UTC</div>
+<div class="footer">GENERATED BY pefa PHISHING ANALYZER · 2026-02-07 20:41:22 UTC</div>
 <script>
 (function() {
     // === Print button ===
@@ -1211,7 +1209,7 @@ Phone: +256 743324632
 (function(){
     var iframe = document.querySelector('.body-section iframe');
     if (!iframe) return;
-    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (98% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-fee scam (419 scam)</span></div></div>';
+    var llmRef = '<div class="popup-llm"><div class="popup-llm-label">LLM ASSESSMENT (gemini-2.5-flash)</div><div class="popup-detail">Verdict: <span class="popup-llm-verdict popup-llm-verdict-red">PHISHING</span> (100% confidence)</div><div class="popup-detail">Technique: <span class="popup-llm-technique">Advance-fee fraud (419 scam), Brand impersonation, Social Engineering</span></div></div>';
     function setup() {
         var doc = iframe.contentDocument || iframe.contentWindow.document;
         if (!doc || !doc.body) return;

@@ -1,0 +1,84 @@
+Delivered-To: <REMOVED>
+Received: by 2002:ac8:5d52:0:b0:506:3cdf:dddf with SMTP id g18csp81783qtx;
+        Fri, 6 Feb 2026 03:45:42 -0800 (PST)
+X-Forwarded-Encrypted: i=2; AJvYcCWOJdeMO9POGjdmKY7nx5ndNyQPjeBu6XPbI2BvAclqj8FKycNzUUsFbVIjFLl0dHL7h65MpDpzkFQ=@gmail.com
+X-Received: by 2002:a05:6a00:408f:b0:81f:4999:ae46 with SMTP id d2e1a72fcca58-8244170cf78mr2134973b3a.48.1770378342397;
+        Fri, 06 Feb 2026 03:45:42 -0800 (PST)
+ARC-Seal: i=1; a=rsa-sha256; t=1770378342; cv=none;
+        d=google.com; s=arc-20240605;
+        b=PPLhS3zKhmT9oDHG6+qYw8UGKNbQXCTfWllP1JVFm8gCHvcATlRRkLav9p0LI7aZSJ
+         o2pNfXYasPgLmVBdeUYjXVnihxV++mdndgCgEihvsq1WazR96hyG5OEys9my1/A7JAHL
+         NPDR8R4lwRoiYH5Aqv8zlWfjVKV71vVId+ja+TuUcI5e47mlyi8PmDbmiUllu6PZLePU
+         81MtG5QD8NtCbLo1hVR1ZRlfcGHBFzGL8xMKFDkYJX7l05kTLxzVLthWhNp3iP8HYK8G
+         OGEHdzY3FqfNjKSlUfvVGLD5j8ZFZYqymsDY9XunmYsFEuzidSwRwFrvB4+KvIza+2Ak
+         Y6CA==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=google.com; s=arc-20240605;
+        h=sensitivity:content-transfer-encoding:mime-version:subject
+         :message-id:reply-to:from:date:dkim-signature;
+        bh=yTr4RzWCoUnRXRT1/+MWDW/+EkVz/VsVm+rjmLOFdg0=;
+        fh=47DEQpj8HBSa+/TImW+5JCeuQeRkm5NMpJWZG3hSuFU=;
+        b=INgFlc9/xVWwZtUcKobLM1MU0Yuq+Vdj23PVymCUErO5/zqvql9/WCPWbnbG16b7AK
+         JuB4H4V5YRkWjYZvQMN+19vQn7q6L3Hz47H6VU2nQG7K77uuHRqUr5doD3nXIVjEfzxW
+         f7+07cYkhi9GCVI56i6TP2ihULxiVaRWdZtjV7czUOtZ9R4kwZpOU6zpPmLwD+gKCNvs
+         tfS9yCnJz8umWvHpgG/tIoxi05YMomopCW4wlRIAHdE44sK/piolDxNs/9mibmMR/VAU
+         fGCVPiUQ5ctoXoXenm4vrv5+X0Ji614CD4I6w9pPnP7gEREDZ4BxeT+b9JW8yL2VnNdP
+         NUag==;
+        dara=google.com
+ARC-Authentication-Results: i=1; mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=ejrg9N0O;
+       spf=pass (google.com: domain of fyuichi@gray.plala.or.jp designates 60.36.166.33 as permitted sender) smtp.mailfrom=fyuichi@gray.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Return-Path: <fyuichi@gray.plala.or.jp>
+Received: from msc111.plala.or.jp (msc111.plala.or.jp. [60.36.166.33])
+        by mx.google.com with ESMTPS id d2e1a72fcca58-8244189ed67si3574358b3a.217.2026.02.06.03.45.35
+        (version=TLS1_2 cipher=ECDHE-RSA-AES128-GCM-SHA256 bits=128/128);
+        Fri, 06 Feb 2026 03:45:42 -0800 (PST)
+Received-SPF: pass (google.com: domain of fyuichi@gray.plala.or.jp designates 60.36.166.33 as permitted sender) client-ip=60.36.166.33;
+Authentication-Results: mx.google.com;
+       dkim=pass header.i=@plala.or.jp header.s=p20240201 header.b=ejrg9N0O;
+       spf=pass (google.com: domain of fyuichi@gray.plala.or.jp designates 60.36.166.33 as permitted sender) smtp.mailfrom=fyuichi@gray.plala.or.jp;
+       dmarc=pass (p=REJECT sp=REJECT dis=NONE) header.from=plala.or.jp
+Received: from mdkim-o07.ake-mailbk.plala.or.jp ([172.23.12.56])
+          by msc111.plala.or.jp with ESMTP
+          id <20260206114534.OQXU3944.msc111.plala.or.jp@mdkim-o07.ake-mailbk.plala.or.jp>;
+          Fri, 6 Feb 2026 20:45:34 +0900
+DKIM-Signature: v=1; a=rsa-sha256; c=relaxed/relaxed;
+  d=plala.or.jp; q=dns/txt; s=p20240201; t=1770378334;
+  x=1801914334;
+  h=date:from:reply-to:message-id:subject:mime-version:
+   content-transfer-encoding;
+  bh=yTr4RzWCoUnRXRT1/+MWDW/+EkVz/VsVm+rjmLOFdg0=;
+  b=ejrg9N0Ob+gpoFkrt9cIAg/TprzMT0+i0R6m+5dezDjx07kLzhzn4Au6
+   6qbMPLPMyDmpHtBr3eaiagTOm9qKVDuT0TRxLf8+VmSnFLBVIpLfdOiKt
+   71RAFEthC1d1PNIY5IZQUMrSO9nyB3juh4lk3mL1UAFqnhRDj4/xNNdK2
+   hCGgKQ2ptIbdGkDh0VQIRRfqKEsZ1wOekYBejiNiYKGqhBuEtwLR8C4Iq
+   q8f7io7iD7hcJeQ4kqcxxj/OyzNbwC2ENAdfcDAHUlacvRl/8mwXbQD/Y
+   be1VJrZm7YLkgGF25pT+GNCereHLICvw15cfkIfp/NQ7FJB6rOjFbU5gg
+   w==;
+X-CSE-ConnectionGUID: usKkOu9BS5mxyNAXcNre0g==
+X-CSE-MsgGUID: eab4JsM7SuS9/t54EbTiHw==
+Received: from msa13.ake-mailbk.plala.or.jp (HELO msa13.plala.or.jp) ([172.23.12.93])
+  by mdkim-o.ake-mailbk.plala.or.jp with ESMTP; 06 Feb 2026 20:45:34 +0900
+Received: from mwebp12 ([172.23.13.132]) by msa13.plala.or.jp with ESMTP
+          id <20260206114534.DPUW29664.msa13.plala.or.jp@mwebp12>;
+          Fri, 6 Feb 2026 20:45:34 +0900
+Date: Fri, 6 Feb 2026 20:45:34 +0900
+From: Douglas Tulino <fyuichi@gray.plala.or.jp>
+Reply-To: uspscustomercare771@gmail.com
+Message-ID: <20260206204534.NDRDK.2056.root@mwebp12>
+Subject: Text or Call +1 225 463 0148
+MIME-Version: 1.0
+Content-Type: text/plain; charset=iso-2022-jp
+Content-Transfer-Encoding: 7bit
+X-Priority: 3 (Normal)
+Sensitivity: Normal
+X-VirusScan: Outbound; mvir-ac13; Fri, 6 Feb 2026 20:45:34 +0900
+
+GOOD NEWS,
+I Douglas Tulino, The Deputy Director of United States Postal Service, Postal service company (USPS), We have been waiting for you to contact us for your parcel that has been registered with us By IMF for shipment to your residential address. We thought that the sender gave you our contact details. It may interest you to know that a letter is also added to your parcel.
+
+However, we cannot quote the content to you via text message for privacy reasons. We understand that the content of your parcel itself is a money order worth $3,000,000.00 US Dollars), $3,000,000.00 US Dollars for each envelope, all in (3) three envelopes which are totally worth a sum of ($9,000,000.00). Text me urgently with your address, full name and email address including your phone number to: and also send email to below email; { uspscustomercare771@gmail.com } to enable us to proceed with the shipment of your parcel to your residential address.
+
+Yours Faithfully,
+Douglas Tulino,
+The Deputy Director of the United States Postal Service.

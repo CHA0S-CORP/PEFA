@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pefa"
-version = "1.0.0"
+version = "1.0.2"
 description = "Phishing Email Forensic Analyzer — generates cyber-infographic PNGs and interactive HTML reports"
 readme = "README.md"
 license = "MIT"

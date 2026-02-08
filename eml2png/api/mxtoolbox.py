@@ -1,6 +1,7 @@
 """MXToolbox SPF/DKIM/DMARC validation client."""
 
 import os
+import re
 
 from ..deps import req_lib
 from .base import BaseAPIClient
@@ -9,6 +10,9 @@ from .base import BaseAPIClient
 class MXToolboxClient(BaseAPIClient):
     @staticmethod
     def lookup(domain: str) -> dict:
+        if not re.match(r'^[a-zA-Z0-9.-]+$', domain):
+            return {"error": "invalid domain"}
+
         api_key = os.environ.get("MXTOOLBOX_API_KEY", "")
         if not api_key or not req_lib:
             return {"error": "no API key or requests not installed"}

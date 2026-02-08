@@ -11,7 +11,7 @@ class UrgencyWidget(Widget):
     nav_group = "email"
 
     def render(self, analysis: dict, parsed: dict) -> str:
-        urgency = analysis["urgency"]
+        urgency = analysis.get("urgency", {"total_count": 0, "counter": {}, "matches": [], "density": 0})
         if urgency["total_count"] == 0:
             return ""
 

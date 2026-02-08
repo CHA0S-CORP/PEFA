@@ -37,15 +37,15 @@ class GeminiWidget(Widget):
                 if not in_list:
                     result_lines.append('<ul class="gemini-list">')
                     in_list = True
-                result_lines.append(f"<li>{stripped[2:]}</li>")
+                result_lines.append(f"<li>{escape(stripped[2:])}</li>")
             else:
                 if in_list:
                     result_lines.append("</ul>")
                     in_list = False
                 if stripped.startswith("# "):
-                    result_lines.append(f'<div class="gemini-h1">{stripped[2:]}</div>')
+                    result_lines.append(f'<div class="gemini-h1">{escape(stripped[2:])}</div>')
                 elif stripped.startswith("## "):
-                    result_lines.append(f'<div class="gemini-h2">{stripped[3:]}</div>')
+                    result_lines.append(f'<div class="gemini-h2">{escape(stripped[3:])}</div>')
                 elif stripped:
                     result_lines.append(f"<p>{stripped}</p>")
         if in_list:

@@ -34,6 +34,9 @@ Be specific and reference actual data from the analysis. Do not hedge unnecessar
 
 {context}"""
 
+        if not re.match(r'^[a-zA-Z0-9._-]+$', model):
+            return {"error": "invalid model name"}
+
         try:
             url = f"https://generativelanguage.googleapis.com/v1beta/models/{model}:generateContent"
             payload = {
@@ -65,8 +68,8 @@ Be specific and reference actual data from the analysis. Do not hedge unnecessar
 
             return {"error": "no response from model"}
 
-        except Exception as e:
-            return {"error": str(e)}
+        except Exception:
+            return {"error": "Gemini API request failed"}
 
     @staticmethod
     def parse_verdict(gemini_result: dict) -> str:

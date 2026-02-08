@@ -15,6 +15,8 @@ class WhoisClient:
             creation = w.creation_date
             if isinstance(creation, list):
                 creation = creation[0]
+            if not isinstance(creation, datetime):
+                return {"domain": domain, "age_days": None, "creation_date": None, "error": "unparseable creation date"}
             if creation:
                 age_days = (datetime.now() - creation).days
                 return {

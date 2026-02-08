@@ -64,7 +64,8 @@ class LinkAnalyzer(BaseAnalyzer):
                 flags.append(("URL SHORTENER", "warning"))
                 findings.append(f"Shortened URL via {domain}")
 
-            if re.match(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}", domain):
+            ip_match = re.match(r"\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$", domain)
+            if ip_match and all(0 <= int(o) <= 255 for o in domain.split(".")):
                 flags.append(("IP-BASED URL", "critical"))
                 findings.append(f"Direct IP address URL: {domain}")
 

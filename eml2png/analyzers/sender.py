@@ -8,7 +8,18 @@ from .base import BaseAnalyzer
 
 class SenderAnalyzer(BaseAnalyzer):
     def analyze(self, parsed: dict) -> dict:
-        headers = parsed["headers"]
+        headers = parsed.get("headers", {})
+        if not headers:
+            return {
+                "from_display": "",
+                "from_email": "",
+                "from_domain": "",
+                "return_path": "",
+                "rp_domain": "",
+                "reply_to": "",
+                "flags": [],
+                "findings": [],
+            }
         findings = []
         flags = []
 

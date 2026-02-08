@@ -56,7 +56,7 @@ def parse_eml(eml_path: str) -> dict:
                 payload = part.get_payload(decode=True) or b""
                 attachments.append({
                     "name": fname,
-                    "type": ct,
+                    "content_type": ct,
                     "size": len(payload),
                     "md5": hashlib.md5(payload).hexdigest() if payload else "",
                     "sha256": hashlib.sha256(payload).hexdigest() if payload else "",

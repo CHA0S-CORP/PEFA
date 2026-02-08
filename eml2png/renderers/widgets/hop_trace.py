@@ -26,7 +26,7 @@ class HopTraceWidget(Widget):
             ip_tag = f'<span class="hop-ip">{ioc_ip_html(ip, geo=hop_geo)}</span>' if ip else ""
             items += f"""
         <div class="hop-item">
-            <div class="hop-num">{h['index']}</div>
+            <div class="hop-num">{h.get('index', '?')}</div>
             <div class="hop-line"></div>
             <div class="hop-detail">
                 <span class="hop-from">{fr}</span><span class="hop-arrow">→</span><span class="hop-to">{by}</span>{ip_tag}

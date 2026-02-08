@@ -53,7 +53,7 @@ def main():
         if not eml_files:
             sys.exit(f"No .eml files in {input_path}")
 
-        out_dir = Path(args.output) if args.output else input_path / "reports"
+        out_dir = Path(args.output).resolve() if args.output else (input_path / "reports").resolve()
         out_dir.mkdir(parents=True, exist_ok=True)
 
         require_playwright()

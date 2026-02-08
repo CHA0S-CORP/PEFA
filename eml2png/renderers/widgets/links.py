@@ -12,7 +12,7 @@ class LinkAnalysisWidget(Widget):
     nav_group = "email"
 
     def render(self, analysis: dict, parsed: dict) -> str:
-        links_data = analysis["links"]
+        links_data = analysis.get("links", {"links": [], "findings": []})
         links = links_data.get("links", [])
         if not links:
             return ""

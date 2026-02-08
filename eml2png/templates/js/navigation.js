@@ -16,7 +16,7 @@
     const sectionIds = Array.from(dots).map(d => d.dataset.section).filter(id => document.getElementById(id));
     const navObs = new IntersectionObserver((entries) => {
         entries.forEach(e => {
-            const dot = document.querySelector('.nav-dot[data-section="' + e.target.id + '"]');
+            const dot = document.querySelector(`.nav-dot[data-section="${CSS.escape(e.target.id)}"]`);
             if (dot) {
                 if (e.isIntersecting) dot.classList.add('active');
                 else dot.classList.remove('active');

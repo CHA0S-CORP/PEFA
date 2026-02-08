@@ -12,7 +12,7 @@ class AttachmentWidget(Widget):
     nav_group = "email"
 
     def render(self, analysis: dict, parsed: dict) -> str:
-        att_data = analysis["attachments"]
+        att_data = analysis.get("attachments", {"attachments": [], "findings": []})
         atts = att_data.get("attachments", [])
         if not atts:
             return ""

@@ -25,7 +25,7 @@ class UrgencyAnalyzer(BaseAnalyzer):
         return any(w.strip(".,;:!?") in NEGATION_TOKENS for w in preceding)
 
     def analyze(self, parsed: dict) -> dict:
-        text = extract_plain_text(parsed).lower()
+        text = (extract_plain_text(parsed) or "").lower()
         matches = []
         positions = []
 
@@ -40,7 +40,6 @@ class UrgencyAnalyzer(BaseAnalyzer):
         for pattern in GENERIC_GREETINGS:
             if re.search(pattern, text, re.I):
                 generic_greeting = True
-                matches.append("generic greeting")
                 break
 
         density = len(matches) / max(len(text.split()), 1) * 100

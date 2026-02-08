@@ -87,13 +87,17 @@
         el.appendChild(btn);
     }
     function fallbackCopy(text) {
-        const ta = document.createElement('textarea');
-        ta.value = text;
-        ta.style.cssText = 'position:fixed;left:-9999px';
-        document.body.appendChild(ta);
-        ta.select();
-        document.execCommand('copy');
-        ta.remove();
+        try {
+            const ta = document.createElement('textarea');
+            ta.value = text;
+            ta.style.cssText = 'position:fixed;left:-9999px';
+            document.body.appendChild(ta);
+            ta.select();
+            document.execCommand('copy');
+            ta.remove();
+        } catch (err) {
+            console.error('Fallback clipboard copy failed:', err);
+        }
     }
     // IOC spans
     document.querySelectorAll('.ioc-wrap').forEach(el => {

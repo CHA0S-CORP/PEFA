@@ -1,6 +1,6 @@
 [build-system]
 requires = ["setuptools>=68.0", "wheel"]
-build-backend = "setuptools.backends._legacy:_Backend"
+build-backend = "setuptools.build_meta"
 
 [project]
 name = "eml2png"
@@ -17,3 +17,6 @@ dependencies = [
 
 [project.scripts]
 eml2png = "eml2png.cli:main"
+
+[tool.setuptools.package-data]
+eml2png = ["templates/css/*.css", "templates/js/*.js"]

@@ -16,6 +16,7 @@ class BaseAPIClient(ABC):
             return {"error": "requests not installed"}
         try:
             r = req_lib.get(url, headers=headers or {}, timeout=timeout)
+            r.raise_for_status()
             return r.json()
         except Exception as e:
             return {"error": str(e)}
@@ -26,6 +27,7 @@ class BaseAPIClient(ABC):
             return {"error": "requests not installed"}
         try:
             r = req_lib.post(url, headers=headers or {}, json=json_data, timeout=timeout)
+            r.raise_for_status()
             return r.json()
         except Exception as e:
             return {"error": str(e)}

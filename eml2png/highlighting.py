@@ -1,5 +1,6 @@
 """Email body highlighting — injects visual indicators for urgency keywords and suspicious links."""
 
+import html
 import re
 from urllib.parse import urlparse
 
@@ -80,6 +81,7 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
     (function(){
         var popup = document.getElementById('phish-popup-el');
         if (!popup) return;
+        function esc(s) { var d = document.createElement('div'); d.appendChild(document.createTextNode(s)); return d.innerHTML; }
         function showPopup(e, html) {
             popup.innerHTML = html;
             popup.style.display = 'block';
@@ -97,7 +99,7 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
             el.addEventListener('mouseenter', function(e) {
                 var label = el.getAttribute('data-threat') || el.getAttribute('title') || '';
                 showPopup(e, '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#fbbf24;margin-bottom:4px;">SOCIAL ENGINEERING</div>'
-                    + '<div style="color:#94a3b8;">Pattern: <span style="color:#fbbf24;">' + label + '</span></div>'
+                    + '<div style="color:#94a3b8;">Pattern: <span style="color:#fbbf24;">' + esc(label) + '</span></div>'
                     + '<div style="color:#64748b;font-size:10px;margin-top:3px;">Urgency/pressure language used in phishing</div>');
             });
             el.addEventListener('mouseleave', hidePopup);
@@ -107,8 +109,8 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
                 var flags = el.getAttribute('data-flags') || 'SUSPICIOUS';
                 var href = el.getAttribute('data-real-href') || el.getAttribute('href') || '';
                 showPopup(e, '<div style="font-size:9px;font-weight:700;letter-spacing:1.5px;color:#f87171;margin-bottom:4px;">SUSPICIOUS LINK</div>'
-                    + '<div style="color:#94a3b8;">Flags: <span style="color:#f87171;">' + flags + '</span></div>'
-                    + (href ? '<div style="color:#64748b;font-size:10px;margin-top:3px;word-break:break-all;">Destination: ' + href.substring(0,120) + '</div>' : ''));
+                    + '<div style="color:#94a3b8;">Flags: <span style="color:#f87171;">' + esc(flags) + '</span></div>'
+                    + (href ? '<div style="color:#64748b;font-size:10px;margin-top:3px;word-break:break-all;">Destination: ' + esc(href.substring(0,120)) + '</div>' : ''));
             });
             el.addEventListener('mouseleave', hidePopup);
         });
@@ -119,9 +121,10 @@ def highlight_body(html_body: str, urgency_positions: list, link_analysis: dict)
     modified = style_inject + html_body
 
     for pattern, label, *_ in URGENCY_PATTERNS:
+        safe_label = html.escape(label, quote=True)
         modified = re.sub(
             f"(>)([^<]*?)({pattern})([^<]*?)(<)",
-            lambda m: f'{m.group(1)}{m.group(2)}<span class="phish-hl-urgency" data-threat="{label}" title="\u26a0 {label}">{m.group(3)}</span>{m.group(4)}{m.group(5)}',
+            lambda m: f'{m.group(1)}{m.group(2)}<span class="phish-hl-urgency" data-threat="{safe_label}" title="\u26a0 {safe_label}">{m.group(3)}</span>{m.group(4)}{m.group(5)}',
             modified,
             flags=re.I,
         )

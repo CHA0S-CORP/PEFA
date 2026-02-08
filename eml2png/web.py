@@ -115,8 +115,19 @@ body {
     font-size: 12px;
     color: #00f0ff88;
     margin-top: 16px;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
 }
-.loading.active { display: block; }
+.loading.active { display: flex; }
+.spinner {
+    width: 20px; height: 20px;
+    border: 2px solid #00f0ff22;
+    border-top-color: #00f0ff;
+    border-radius: 50%;
+    animation: spin 0.8s linear infinite;
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 .error {
     display: none;
     font-family: 'JetBrains Mono', monospace;
@@ -141,7 +152,7 @@ body {
         <input type="file" name="file" id="file-input" accept=".eml" hidden>
         <button type="submit" class="btn" id="submit-btn" disabled>ANALYZE</button>
     </form>
-    <div class="loading" id="loading">&#9656; Analyzing email&hellip; this may take a moment</div>
+    <div class="loading" id="loading"><div class="spinner"></div><span>Analyzing email&hellip; this may take a moment</span></div>
     <div class="error" id="error"></div>
 </div>
 <script>

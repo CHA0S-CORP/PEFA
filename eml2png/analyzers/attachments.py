@@ -28,7 +28,7 @@ class AttachmentAnalyzer(BaseAnalyzer):
     def analyze(self, parsed: dict) -> dict:
         results = []
         for att in parsed["attachments"]:
-            name = att["name"]
+            name = att.get("name") or "unknown"
             flags = []
 
             ext = "." + name.rsplit(".", 1)[-1].lower() if "." in name else ""

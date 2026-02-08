@@ -12,7 +12,9 @@ class SenderWidget(Widget):
     nav_group = "email"
 
     def render(self, analysis: dict, parsed: dict) -> str:
-        sender = analysis["sender"]
+        sender = analysis.get("sender", {})
+        if not sender:
+            return ""
         flags = sender.get("flags", [])
         findings = sender.get("findings", [])
         if not flags and not findings:

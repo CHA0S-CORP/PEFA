@@ -14,12 +14,17 @@ class IPLookupClient(BaseAPIClient):
         ip_re = re.compile(r"\b(\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3})\b")
         for hdr in reversed(received_headers):
             for ip in ip_re.findall(hdr):
+                if any(int(o) > 255 for o in ip.split('.')):
+                    continue
                 if not PRIVATE_IP_RE.match(ip) and ip not in ips:
                     ips.append(ip)
         return ips
 
     @staticmethod
     def lookup(ip: str) -> dict:
+        if not re.match(r'^\d{1,3}\.\d{1,3}\.\d{1,3}\.\d{1,3}$', ip) or \
+                any(int(o) > 255 for o in ip.split('.')):
+            return {"error": "invalid IP"}
         if not req_lib:
             return {"error": "requests not installed"}
         try:

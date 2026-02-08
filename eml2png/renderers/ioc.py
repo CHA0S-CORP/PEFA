@@ -12,18 +12,18 @@ def vt_url_link(url: str) -> str:
 
 
 def vt_domain_link(domain: str) -> str:
-    vt = f"https://www.virustotal.com/gui/domain/{escape(domain)}"
-    return f'<a href="{vt}" target="_blank" rel="noopener" class="ioc-link vt" title="Look up on VirusTotal">{escape(domain)}<span class="ioc-badge vt-badge">VT</span></a>'
+    vt = f"https://www.virustotal.com/gui/domain/{quote(domain, safe='')}"
+    return f'<a href="{escape(vt)}" target="_blank" rel="noopener" class="ioc-link vt" title="Look up on VirusTotal">{escape(domain)}<span class="ioc-badge vt-badge">VT</span></a>'
 
 
 def vt_ip_link(ip: str) -> str:
-    vt = f"https://www.virustotal.com/gui/ip-address/{escape(ip)}"
-    return f'<a href="{vt}" target="_blank" rel="noopener" class="ioc-link vt" title="Look up on VirusTotal">{escape(ip)}<span class="ioc-badge vt-badge">VT</span></a>'
+    vt = f"https://www.virustotal.com/gui/ip-address/{quote(ip, safe='')}"
+    return f'<a href="{escape(vt)}" target="_blank" rel="noopener" class="ioc-link vt" title="Look up on VirusTotal">{escape(ip)}<span class="ioc-badge vt-badge">VT</span></a>'
 
 
 def urlscan_domain_link(domain: str) -> str:
-    us = f"https://urlscan.io/search/#{escape(domain)}"
-    return f'<a href="{us}" target="_blank" rel="noopener" class="ioc-link us" title="Look up on urlscan.io">{escape(domain)}<span class="ioc-badge us-badge">US</span></a>'
+    us = f"https://urlscan.io/search/#{quote(domain, safe='')}"
+    return f'<a href="{escape(us)}" target="_blank" rel="noopener" class="ioc-link us" title="Look up on urlscan.io">{escape(domain)}<span class="ioc-badge us-badge">US</span></a>'
 
 
 def urlscan_url_link(url: str) -> str:
@@ -43,16 +43,16 @@ def ioc_url_html(url: str) -> str:
 def ioc_email_html(addr: str) -> str:
     domain = addr.split("@")[-1] if "@" in addr else ""
     if domain:
-        vt = f"https://www.virustotal.com/gui/domain/{escape(domain)}"
-        badge = f'<a href="{vt}" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal domain lookup">VT</a>'
+        vt = f"https://www.virustotal.com/gui/domain/{quote(domain, safe='')}"
+        badge = f'<a href="{escape(vt)}" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal domain lookup">VT</a>'
     else:
         badge = ""
     return f'<span class="ioc-wrap">{escape(addr)}{badge}</span>'
 
 
 def ioc_ip_html(ip: str, geo=None) -> str:
-    vt = f"https://www.virustotal.com/gui/ip-address/{escape(ip)}"
-    us = f"https://urlscan.io/search/#{escape(ip)}"
+    vt = f"https://www.virustotal.com/gui/ip-address/{quote(ip, safe='')}"
+    us = f"https://urlscan.io/search/#{quote(ip, safe='')}"
     flag_html = ""
     if geo and isinstance(geo, dict) and "error" not in geo:
         cc = geo.get("countryCode", "")
@@ -66,6 +66,6 @@ def ioc_ip_html(ip: str, geo=None) -> str:
             tip = escape(", ".join(p for p in tip_parts if p))
             flag_html = f'<span class="ip-flag" title="{tip}">{flag}</span>'
     return (f'<span class="ioc-wrap">{escape(ip)}{flag_html}'
-            f'<a href="{vt}" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a>'
-            f'<a href="{us}" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a>'
+            f'<a href="{escape(vt)}" target="_blank" rel="noopener" class="ioc-badge vt-badge" title="VirusTotal">VT</a>'
+            f'<a href="{escape(us)}" target="_blank" rel="noopener" class="ioc-badge us-badge" title="urlscan.io">US</a>'
             f'</span>')

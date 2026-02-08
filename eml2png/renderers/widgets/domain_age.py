@@ -12,7 +12,7 @@ class DomainAgeWidget(Widget):
 
     def render(self, analysis: dict, parsed: dict) -> str:
         domain_info = analysis.get("domain_age") or {}
-        domain = analysis["sender"].get("from_domain", "")
+        domain = analysis.get("sender", {}).get("from_domain", "")
         if not domain_info or "error" in domain_info:
             return ""
 

@@ -11,7 +11,7 @@ class LanguageWidget(Widget):
     nav_group = "email"
 
     def render(self, analysis: dict, parsed: dict) -> str:
-        lang = analysis["language"]
+        lang = analysis.get("language", {"score": None, "findings": []})
         if lang.get("score") is None:
             return ""
 

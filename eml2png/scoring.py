@@ -23,28 +23,32 @@ def calculate_threat_score(auth, sender, links, urgency, attachments, language, 
     factors = []
 
     # Auth failures (max 20)
+    auth_pts = 0
     if auth.get("spf", "").lower() in ("fail", "softfail"):
-        score += 10; factors.append(("SPF failure", 10))
+        auth_pts += 10; factors.append(("SPF failure", 10))
     if auth.get("dkim", "").lower() == "fail":
-        score += 5; factors.append(("DKIM failure", 5))
+        auth_pts += 5; factors.append(("DKIM failure", 5))
     if auth.get("dmarc", "").lower() == "fail":
-        score += 5; factors.append(("DMARC failure", 5))
+        auth_pts += 5; factors.append(("DMARC failure", 5))
     if not auth.get("spf") and not auth.get("dkim") and not auth.get("dmarc"):
-        score += 8; factors.append(("No authentication", 8))
+        auth_pts += 8; factors.append(("No authentication", 8))
+    score += min(auth_pts, 20)
 
     # Sender (max 20)
+    sender_pts = 0
     for flag, _ in sender.get("flags", []):
         if "SPOOFING" in flag or "IMPERSONATION" in flag:
-            score += 12; factors.append((flag, 12)); break
+            sender_pts += 12; factors.append((flag, 12)); break
     for flag, _ in sender.get("flags", []):
         if "HOMOGLYPH" in flag:
-            score += 12; factors.append((flag, 12)); break
+            sender_pts += 12; factors.append((flag, 12)); break
     for flag, _ in sender.get("flags", []):
         if "REPLY-TO MISMATCH" in flag:
-            score += 8; factors.append((flag, 8)); break
+            sender_pts += 8; factors.append((flag, 8)); break
     for flag, _ in sender.get("flags", []):
         if "RETURN-PATH MISMATCH" in flag:
-            score += 4; factors.append((flag, 4)); break
+            sender_pts += 4; factors.append((flag, 4)); break
+    score += min(sender_pts, 20)
 
     # Links (max 25) — weighted per flag type, deduplicated
     seen_flags = set()
@@ -60,16 +64,18 @@ def calculate_threat_score(auth, sender, links, urgency, attachments, language, 
         score += link_pts; factors.append((f"Link flags: {', '.join(sorted(seen_flags))}", link_pts))
 
     # Urgency (max 15)
+    urgency_pts = 0
     u_count = urgency.get("unique_count", 0)
     if u_count >= 5:
-        score += 15; factors.append(("Heavy urgency language", 15))
+        urgency_pts += 15; factors.append(("Heavy urgency language", 15))
     elif u_count >= 3:
-        score += 10; factors.append(("Moderate urgency language", 10))
+        urgency_pts += 10; factors.append(("Moderate urgency language", 10))
     elif u_count >= 1:
-        score += 5; factors.append(("Some urgency language", 5))
+        urgency_pts += 5; factors.append(("Some urgency language", 5))
 
     if urgency.get("generic_greeting"):
-        score += 3; factors.append(("Generic greeting", 3))
+        urgency_pts += 3; factors.append(("Generic greeting", 3))
+    score += min(urgency_pts, 15)
 
     # Attachments (max 10)
     att_crits = sum(1 for a in attachments.get("attachments", []) for f, s in a.get("flags", []) if s == "critical")
@@ -83,10 +89,12 @@ def calculate_threat_score(auth, sender, links, urgency, attachments, language, 
         score += 5; factors.append(("Poor language quality", 5))
 
     # Domain age (max 10)
+    domain_age_pts = 0
     if domain_age_days is not None and domain_age_days < 30:
-        score += 10; factors.append((f"Domain age: {domain_age_days} days", 10))
+        domain_age_pts += 10; factors.append((f"Domain age: {domain_age_days} days", 10))
     elif domain_age_days is not None and domain_age_days < 90:
-        score += 5; factors.append((f"Domain age: {domain_age_days} days", 5))
+        domain_age_pts += 5; factors.append((f"Domain age: {domain_age_days} days", 5))
+    score += min(domain_age_pts, 10)
 
     # Negative scoring for benign indicators
     spf_pass = auth.get("spf", "").lower() == "pass"

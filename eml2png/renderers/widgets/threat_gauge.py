@@ -11,7 +11,9 @@ class ThreatGaugeWidget(Widget):
     nav_group = "assessment"
 
     def render(self, analysis: dict, parsed: dict) -> str:
-        threat = analysis["threat"]
+        threat = analysis.get("threat", {})
+        if not threat or "score" not in threat:
+            return ""
         score = threat["score"]
         level = threat["level"]
         if score >= 70: color, glow = "#ef4444", "rgba(239,68,68,0.3)"
@@ -21,7 +23,7 @@ class ThreatGaugeWidget(Widget):
         else: color, glow = "#34d399", "rgba(52,211,153,0.2)"
 
         factor_rows = ""
-        for desc, pts in threat["factors"]:
+        for desc, pts in threat.get("factors", []):
             sign = "+" if pts >= 0 else ""
             factor_rows += f'<div class="factor-row"><span class="factor-desc">{escape(desc)}</span><span class="factor-pts">{sign}{pts}</span></div>'
 

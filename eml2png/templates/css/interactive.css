@@ -128,9 +128,33 @@
     .gauge-score { font-size:30px; }
 }
 
+/* Print button */
+.print-btn {
+    font-family: var(--mono);
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 1.5px;
+    color: var(--accent);
+    background: rgba(34,211,238,0.08);
+    border: 1px solid rgba(34,211,238,0.25);
+    border-radius: 5px;
+    padding: 6px 14px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.print-btn:hover {
+    background: rgba(34,211,238,0.18);
+    border-color: var(--accent);
+    box-shadow: 0 0 10px rgba(34,211,238,0.15);
+}
+
 /* Print */
 @media print {
-    .section-nav { display:none; }
+    .section-nav, .print-btn { display:none !important; }
     body::before { display:none; }
-    .widget { break-inside:avoid; box-shadow:none; }
+    .widget { break-inside:avoid; box-shadow:none; border-color:#ccc; }
+    .widget-content.collapsed { max-height:none !important; opacity:1 !important; }
+    body { background:#fff; color:#111; }
+    .topbar { background:#fff; border-bottom:1px solid #ccc; }
+    .container { max-width:100%; }
 }

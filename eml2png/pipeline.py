@@ -2,6 +2,7 @@
 
 import os
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 from .analyzers import (
@@ -20,48 +21,60 @@ from .renderers.page import PageRenderer
 from .scoring import calculate_threat_score
 
 
-def _safe_analyze(analyzer, parsed, label, default):
+def _safe_analyze(analyzer, parsed, label, default, log_fn=None):
     """Run an analyzer with error handling, returning default on failure."""
     try:
         return analyzer.analyze(parsed)
     except Exception as e:
-        print(f"  \u26a0 {label} failed: {e}")
+        msg = f"\u26a0 {label} failed: {e}"
+        if log_fn:
+            log_fn(msg)
+        else:
+            print(f"  {msg}")
         return default
 
 
 def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
                  gemini_model: str = "gemini-2.5-flash") -> dict:
     """Run all analysis modules and API lookups."""
-    print("  Analyzing links...")
-    links = _safe_analyze(LinkAnalyzer(), parsed, "Link analysis",
-                          {"links": [], "findings": []})
+    logs = []
 
-    print("  Analyzing sender...")
+    def _log(msg):
+        ts = datetime.now().strftime("%H:%M:%S.%f")[:-3]
+        entry = f"[{ts}] {msg}"
+        print(f"  {msg}")
+        logs.append(entry)
+
+    _log("Analyzing links...")
+    links = _safe_analyze(LinkAnalyzer(), parsed, "Link analysis",
+                          {"links": [], "findings": []}, log_fn=_log)
+
+    _log("Analyzing sender...")
     sender = _safe_analyze(SenderAnalyzer(), parsed, "Sender analysis",
                            {"from_display": "", "from_email": "", "from_domain": "",
                             "return_path": "", "rp_domain": "", "reply_to": "",
-                            "flags": [], "findings": []})
+                            "flags": [], "findings": []}, log_fn=_log)
 
-    print("  Scanning urgency patterns...")
+    _log("Scanning urgency patterns...")
     urgency = _safe_analyze(UrgencyAnalyzer(), parsed, "Urgency analysis",
                             {"matches": [], "positions": [], "unique_count": 0,
                              "total_count": 0, "density": 0, "generic_greeting": False,
-                             "counter": {}})
+                             "counter": {}}, log_fn=_log)
 
-    print("  Checking attachments...")
+    _log("Checking attachments...")
     att = _safe_analyze(AttachmentAnalyzer(), parsed, "Attachment analysis",
-                        {"attachments": []})
+                        {"attachments": []}, log_fn=_log)
 
-    print("  Analyzing language...")
+    _log("Analyzing language...")
     lang = _safe_analyze(LanguageAnalyzer(), parsed, "Language analysis",
-                         {"score": None, "findings": [], "issues": 0})
+                         {"score": None, "findings": [], "issues": 0}, log_fn=_log)
 
     # IP
     ips = IPLookupClient.extract_ips(parsed["received"])
     source_ip = ips[0] if ips else ""
     ip_data = None
     if source_ip and do_api:
-        print(f"  Looking up IP: {source_ip}")
+        _log(f"Looking up IP: {source_ip}")
         ip_data = IPLookupClient.lookup(source_ip)
     elif source_ip:
         ip_data = {"error": "API calls skipped"}
@@ -70,7 +83,7 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
     domain_age = {}
     from_domain = sender.get("from_domain", "")
     if from_domain and do_api:
-        print(f"  Checking domain age: {from_domain}")
+        _log(f"Checking domain age: {from_domain}")
         domain_age = WhoisClient.lookup(from_domain)
 
     domain_age_days = domain_age.get("age_days") if "error" not in domain_age else None
@@ -80,13 +93,13 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
     suspicious_links = [l for l in links.get("links", []) if l.get("flags")]
     if suspicious_links and do_api and os.environ.get("URLSCAN_API_KEY"):
         first_sus = suspicious_links[0]["href"]
-        print(f"  Querying urlscan.io: {first_sus[:60]}...")
+        _log(f"Querying urlscan.io: {first_sus[:60]}...")
         urlscan = URLScanClient.lookup(first_sus)
 
     # MXToolbox
     mx_data = {}
     if from_domain and do_api and os.environ.get("MXTOOLBOX_API_KEY"):
-        print(f"  Querying MXToolbox (SPF/DKIM/DMARC): {from_domain}")
+        _log(f"Querying MXToolbox (SPF/DKIM/DMARC): {from_domain}")
         mx_data = MXToolboxClient.lookup(from_domain)
 
         if "error" not in mx_data:
@@ -119,23 +132,23 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
             if hip == source_ip and ip_data and "error" not in ip_data:
                 ip_geo_map[hip] = ip_data
             else:
-                print(f"  Looking up hop IP: {hip}")
+                _log(f"Looking up hop IP: {hip}")
                 ip_geo_map[hip] = IPLookupClient.lookup(hip)
 
     # Threat score
-    print("  Calculating threat score...")
+    _log("Calculating threat score...")
     threat = calculate_threat_score(
         parsed["auth"], sender, links, urgency, att, lang, ip_data, domain_age_days
     )
 
     # Highlighted body
-    print("  Highlighting body...")
+    _log("Highlighting body...")
     highlighted = highlight_body(parsed["html_body"], urgency.get("positions", []), links)
 
     # Gemini AI assessment
     gemini_result = {}
     if do_gemini:
-        print(f"  Querying Gemini ({gemini_model})...")
+        _log(f"Querying Gemini ({gemini_model})...")
         context = GeminiClient.build_context(parsed, {
             "sender": sender, "links": links, "urgency": urgency,
             "attachments": att, "language": lang, "threat": threat,
@@ -143,9 +156,9 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
         })
         gemini_result = GeminiClient.query(context, model=gemini_model)
         if "error" in gemini_result:
-            print(f"  \u26a0 Gemini error: {gemini_result['error']}")
+            _log(f"\u26a0 Gemini error: {gemini_result['error']}")
         else:
-            print("  \u2713 Gemini assessment received")
+            _log("\u2713 Gemini assessment received")
             verdict = GeminiClient.parse_verdict(gemini_result)
             if verdict == "phishing":
                 bump = 50
@@ -157,7 +170,7 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
                 elif s >= 25: threat["level"] = "MEDIUM"
                 elif s >= 10: threat["level"] = "LOW"
                 else: threat["level"] = "CLEAN"
-                print(f"  \u26a0 Gemini says PHISHING \u2014 threat score bumped by +{bump} to {threat['score']}")
+                _log(f"\u26a0 Gemini says PHISHING \u2014 threat score bumped by +{bump} to {threat['score']}")
             elif verdict == "suspicious":
                 bump = 25
                 threat["score"] = min(100, threat["score"] + bump)
@@ -168,7 +181,7 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
                 elif s >= 25: threat["level"] = "MEDIUM"
                 elif s >= 10: threat["level"] = "LOW"
                 else: threat["level"] = "CLEAN"
-                print(f"  \u26a0 Gemini says SUSPICIOUS \u2014 threat score bumped by +{bump} to {threat['score']}")
+                _log(f"\u26a0 Gemini says SUSPICIOUS \u2014 threat score bumped by +{bump} to {threat['score']}")
 
     return {
         "links": links,
@@ -186,6 +199,7 @@ def run_analysis(parsed: dict, do_api: bool = True, do_gemini: bool = False,
         "threat": threat,
         "highlighted_body": highlighted,
         "gemini": gemini_result,
+        "logs": logs,
     }
 
 

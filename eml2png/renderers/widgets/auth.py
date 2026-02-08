@@ -23,7 +23,9 @@ class AuthWidget(Widget):
     nav_group = "email"
 
     def render(self, analysis: dict, parsed: dict) -> str:
-        auth = parsed["auth"]
+        auth = parsed.get("auth", {})
+        if not auth:
+            return ""
         return f"""
     <div class="widget auth-widget" id="nav-auth">
         <div class="widget-header"><span class="widget-icon">◈</span> EMAIL AUTHENTICATION</div>

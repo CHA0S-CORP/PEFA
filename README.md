@@ -100,6 +100,117 @@ Or run as a module:
 python3 -m pefa input.eml
 ```
 
+## 📖 Usage Examples
+
+### Analyze a single email
+
+```bash
+pefa suspicious-email.eml
+```
+
+This produces `suspicious-email.png` in the current directory — a full-page infographic with threat score, sender analysis, link flags, authentication results, and the rendered email body.
+
+### Generate both PNG and interactive HTML
+
+```bash
+pefa suspicious-email.eml --html
+```
+
+Outputs two files: `suspicious-email.png` and `suspicious-email.html`. The HTML report includes collapsible sections, scroll-spy navigation, an animated threat gauge, copy-to-clipboard for IOCs, and print/download buttons.
+
+### Save output to a specific location
+
+```bash
+pefa suspicious-email.eml -o ./reports/case-42.png
+pefa suspicious-email.eml -o ./reports/case-42.png --html
+```
+
+The `-o` flag sets the output path. When combined with `--html`, the HTML file is placed alongside the PNG.
+
+### Batch process a folder of emails
+
+```bash
+pefa ./inbox/ -o ./reports/
+```
+
+Analyzes every `.eml` file in `./inbox/` and writes reports to `./reports/`. A single Playwright browser instance is reused across all files for faster processing. If `-o` is omitted, reports go to `./inbox/reports/`.
+
+### Include AI-powered assessment
+
+```bash
+export GEMINI_API_KEY="your-key-here"
+pefa suspicious-email.eml --gemini
+```
+
+Adds a Gemini AI section to the report with a verdict (phishing/legitimate/suspicious), confidence score, attack type classification, and recommended actions. The AI assessment can also influence the overall threat score (+25 or +50 points).
+
+To use a different Gemini model:
+
+```bash
+pefa suspicious-email.eml --gemini --gemini-model gemini-2.5-pro
+```
+
+### Run fully offline (no API calls)
+
+```bash
+pefa suspicious-email.eml --no-api
+```
+
+Skips all external lookups (IP geolocation, WHOIS, urlscan, VirusTotal, AbuseIPDB, AlienVault, MXToolbox). The analysis still runs SPF/DKIM/DMARC checks from headers, link analysis, urgency detection, and attachment scanning — all locally.
+
+### Customize image dimensions
+
+```bash
+pefa suspicious-email.eml --width 1400 --scale 2
+```
+
+`--width` sets the viewport width in pixels (default: 1000). `--scale` sets the device scale factor (default: 1.5) — higher values produce sharper images at larger file sizes.
+
+### Launch the web UI
+
+```bash
+pefa --web
+```
+
+Opens a browser-based drag-and-drop interface at `http://localhost:8080`. Upload `.eml` files and view interactive HTML reports directly — no Playwright needed on the client side.
+
+```bash
+pefa --web --port 9090
+pefa --web --no-api
+pefa --web --gemini
+```
+
+The web UI respects `--no-api` and `--gemini` flags.
+
+### Combine multiple flags
+
+```bash
+# Full analysis with AI, HTML output, and high-res image
+pefa suspicious-email.eml --html --gemini --width 1200 --scale 2
+
+# Batch process offline with HTML reports
+pefa ./inbox/ -o ./reports/ --html --no-api
+
+# Run the sample emails included in the repo
+pefa samples/ -o examples/ --html
+```
+
+### Use with threat intel API keys
+
+Set any combination of API keys to enrich reports with external intelligence:
+
+```bash
+export GEMINI_API_KEY="..."       # AI assessment
+export URLSCAN_API_KEY="..."      # Domain reputation
+export VIRUSTOTAL_API_KEY="..."   # IOC reputation
+export ABUSEIPDB_API_KEY="..."    # IP abuse reports
+export MXTOOLBOX_API_KEY="..."    # Deep email auth validation
+
+pefa suspicious-email.eml --html --gemini
+```
+
+Each integration activates independently — you don't need all keys. Missing keys are silently skipped.
+
 ## ⚙️ CLI Reference
 
 ```

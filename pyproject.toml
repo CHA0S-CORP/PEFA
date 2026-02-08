@@ -12,6 +12,7 @@ dependencies = [
     "requests",
     "python-whois",
     "playwright",
+    "legacy-cgi",
 ]
 
 [project.scripts]

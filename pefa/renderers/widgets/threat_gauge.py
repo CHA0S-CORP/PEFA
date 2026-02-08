@@ -38,12 +38,12 @@ class ThreatGaugeWidget(Widget):
                         <circle cx="60" cy="60" r="52" fill="none" stroke="#1e293b" stroke-width="8"/>
                         <circle cx="60" cy="60" r="52" fill="none" stroke="{color}"
                             stroke-width="8" stroke-linecap="round"
-                            stroke-dasharray="0 326.7" data-target-dash="{target_dash}"
+                            stroke-dasharray="{target_dash} 326.7" data-target-dash="{target_dash}"
                             transform="rotate(-90 60 60)"
                             style="filter: drop-shadow(0 0 6px {glow});"/>
                     </svg>
                     <div class="gauge-text">
-                        <div class="gauge-score" style="color:{color}" data-target="{score}">0</div>
+                        <div class="gauge-score" style="color:{color}" data-target="{score}">{score}</div>
                         <div class="gauge-label">{level}</div>
                     </div>
                     <div class="gauge-glow" style="background:radial-gradient(circle, {glow} 0%, transparent 70%);"></div>

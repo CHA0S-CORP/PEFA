@@ -6,7 +6,37 @@ build-backend = "setuptools.build_meta"
 name = "pefa"
 version = "1.0.0"
 description = "Phishing Email Forensic Analyzer — generates cyber-infographic PNGs and interactive HTML reports"
+readme = "README.md"
+license = "MIT"
 requires-python = ">=3.10"
+authors = [
+    { name = "Max Watermolen", email = "maxw@maxwelldps.com" },
+]
+keywords = [
+    "phishing",
+    "email",
+    "forensics",
+    "eml",
+    "cybersecurity",
+    "threat-analysis",
+    "infographic",
+]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Information Technology",
+    "Intended Audience :: System Administrators",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.10",
+    "Programming Language :: Python :: 3.11",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Topic :: Security",
+    "Topic :: Communications :: Email",
+    "Typing :: Typed",
+]
 dependencies = [
     "beautifulsoup4",
     "requests",
@@ -15,6 +45,11 @@ dependencies = [
     "legacy-cgi",
     "nh3",
 ]
+
+[project.urls]
+Homepage = "https://github.com/CHA0S-CORP/PEFA"
+Repository = "https://github.com/CHA0S-CORP/PEFA"
+Issues = "https://github.com/CHA0S-CORP/PEFA/issues"
 
 [project.scripts]
 pefa = "pefa.cli:main"

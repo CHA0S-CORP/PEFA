@@ -10,7 +10,7 @@ readme = "README.md"
 license = "MIT"
 requires-python = ">=3.10"
 authors = [
-    { name = "Max Watermolen", email = "maxw@maxwelldps.com" },
+    { name = "Max Watermolen", email = "maxw@chaos.com.co" },
 ]
 keywords = [
     "phishing",
